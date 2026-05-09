@@ -7,7 +7,7 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "09:00"
-      timezone: "Europe/Istanbul"
+      timezone: "Asia/Karachi"
     groups:
       actions-minor-patch:
         patterns:
