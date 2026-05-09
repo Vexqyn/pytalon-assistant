@@ -1,7 +1,7 @@
 # HEADER COMMENT
 
 """
-Koda — Your Python Tutor Companion (formely known as Python Teaching Assistant)
+Pytalon — Your Python Tutor Companion (formely known as Python Teaching Assistant)
 Created by: M Qasim Farooqi
 Role: BS IT Student | Python Developer · AI Prompt Strategist · Digital Creator & Game Systems Analyst | I build, analyze & create
 Version: 1.0.3
@@ -13,7 +13,7 @@ Purpose: Learn Python basics through interactive teaching with 12 comprehensive 
 # ========== SECTION 1: INTRO & SETUP ==========
 
 # Assistant introducing himself:
-name = "Koda"
+name = "Pytalon"
 version = "1.0.3"
 category = "Preview"
 Description = "A Tutor Companion Assistant developed to guide you with Python programming and learning."
