@@ -28,6 +28,19 @@ It helps more learners discover this project.
 
 ---
 
+## 🔒 Something Is Coming — June 8
+
+> "I've been quiet for a reason.
+>
+> Something is coming to Pytalon in June — and I'm not ready to talk about it yet.
+> The image below? That's all you're getting for now.
+>
+> **June 8, mark it."**
+
+<img width="715" height="104" alt="1779276122841" src="https://github.com/user-attachments/assets/e3b0cd67-039d-43ed-afb1-6d20b4d9a205" />
+
+---
+
 ## 🔄 Preview Cycle Notice (Important)
 
 🚧 **This is the Preview Cycle version.**
