@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="Pytalon Annoucement" src="https://github.com/user-attachments/assets/1a3e416c-1a5f-4d53-badf-c3a1edbd2be2" />
+https://github.com/user-attachments/assets/746058f7-8b1f-4ac9-93a9-b554ef10fb59
 
 ![Python](https://img.shields.io/badge/Python-3.14.4-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -6,8 +6,7 @@
 ![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
 
-
-# Pytalon Preview v1.0.3 🤖🐍
+# Pytalon Preview v1.0.4 🤖🐍
 
 ## 🌟 Overview
 
@@ -24,20 +23,7 @@ It is perfect for learners who want a friendly and interactive introduction to P
 If this assistant helped you learn Python, please consider giving it a star!
 It helps more learners discover this project.
 
-[![Star on GitHub](https://img.shields.io/github/stars/acubura/pytalon-assistant?style=flat&logo=github&logoColor=white&label=Stars&color=blue)](https://github.com/acubura/pytalon-assistant/stargazers)
-
----
-
-## 🔒 Something Is Coming — June 8
-
-> I've been quiet for a reason.
->
-> Something is coming to Pytalon in June — and I'm not ready to talk about it yet.
-> The image below? That's all you're getting for now.
->
-> **June 8, mark it.**
-
-<img width="715" height="104" alt="1779276122841" src="https://github.com/user-attachments/assets/e3b0cd67-039d-43ed-afb1-6d20b4d9a205" />
+[![Star on GitHub](https://img.shields.io/github/stars/acubura/pytalon-assistant?style=flat&logo=github&logoColor=white&label=Stars&color=blue)](https://github.com/Vexqyn/pytalon-assistant)
 
 ---
 
@@ -61,82 +47,133 @@ Your feedback helps improve stability and the learning experience.
 
 - ✅ **Interactive Learning Flow** — The assistant communicates like a real tutor
 - ✅ **Smart Input Validation** — Understands flexible responses like `yes`, `y`, `skip`, `exit`, and modern slang
+- ✅ **Conversational Intent Detection** — Recognizes greetings, farewells, questions, topic requests, and more
+- ✅ **Session Memory** — Remembers what you've learned and your questions during the session
 - ✅ **Advanced Question Content Validation** — Accepts only proper, complete Python-related questions
 - ✅ **Beginner-Friendly Explanations** — Complex ideas explained in simple language
 - ✅ **Real-Life Analogies** — Programming concepts made easier to understand
 - ✅ **Step-by-Step Topic Guidance** — Learn one concept at a time
 - ✅ **Optional Examples for Each Topic** — Reinforce learning with real code
-- ✅ **12 Comprehensive Topics** — Covers all essential Python basics for beginners
-- ✅ **Practice Sections for All 12 Topics** — Hands-on interactive exercises for every single topic
-- ✅ **Dedicated Strings & Conditional Statements Learning Module** — Includes deep string concepts + full conditional logic + practice mode
-- ✅ **Improved Code Readability** — Clean, well-organized code structure with clear section markers for easier maintenance
+- ✅ **13 Comprehensive Topics** — Covers all essential Python basics for beginners, including **Lists**
+- ✅ **Practice Sections for All 13 Topics** — Hands-on interactive exercises for every single topic
+- ✅ **Dedicated Strings, Conditionals & Lists Modules** — Deep dives with sub‑topic menus
+- ✅ **Modular Code Architecture** — Clean, well‑organized codebase split into logical modules for easier maintenance
 - ✅ **Fully Console-Based** — No external libraries required
 
 ---
 
-## 🆕 What's New in v1.0.3
+## 🆕 What's New in v1.0.4
 
-### 📚 1. Expanded Curriculum (Total: 12 Topics)
+### 📚 1. New Topic: **Lists in Python** (Topic 13)
 
-We've expanded the curriculum to cover even more essential Python fundamentals!
-- **Data Types in Python:** Learn about `int`, `float`, `str`, `bool`, `list`, `tuple`, and `dict`.
-- **Conditional Statements (Complete Module):** A full deep dive into decision-making in Python, including `if`, `else`, `elif`, nested conditionals, and logical operators.
+A complete deep‑dive module on Python lists, one of the most versatile data structures.  
+Includes 8 sub‑topics with examples and practice:
 
-### 🧪 2. Practice Sections for ALL 12 Topics
+- List basics & creation
+- Indexing and slicing
+- List methods (`append`, `extend`, `insert`, `remove`, `pop`, etc.)
+- List operations (concatenation, repetition, membership)
+- Looping through lists
+- List comprehension (bonus)
+- Common errors & best practices
 
-Interactive practice is now available for **every single topic** in the menu. Previously, some topics (except Strings) lacked this feature. Now, every learner gets hands-on experience to reinforce what they've just learned.
+### 🧠 2. Conversational Intent Detection
 
-### 🗣️ 3. Database Update: Smart Input Validation
+Pytalon now **understands what you mean**, not just keywords!  
+The new `detect_conversation_intent()` system recognises:
 
-The assistant now understands modern, casual slang and conversational responses!
-- **New additions include:** `fr!`, `ngl!`, `tbh!`, `lock in bro!`, `nuh uh!`, `bruh!`, `dipping out`, and many more.
-- This makes the conversation feel much more natural and less robotic.
+- Greetings, farewells, gratitude
+- Confusion and repeat requests
+- Topic requests (e.g., “teach me variables”)
+- Practice requests (“let me practice”)
+- Yes/No/Exit answers
+- General Python questions
 
-### 📖 4. Code Readability & Organization Improvements
+<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/0431ce2f-537b-4ebc-94a3-f132149167db" />
+<img width="861" height="168" alt="Pytalon Feature" src="https://github.com/user-attachments/assets/57a582ea-16d8-4d46-9d37-4ee859ebc003" />
 
-The codebase has been significantly restructured for clarity and maintainability:
+This makes conversations feel natural and reduces frustrating “I don’t understand” moments.
 
-- **Professional Header:** Added a comprehensive header comment with creator info, version, and purpose.
-- **6 Clear Section Markers:** The code is now logically divided into distinct sections (Intro & Setup, Input Validation, Helper Functions, Main Program & User Questions, Topics 1-6, Topics 7-12, and Ask to Learn Another Topic).
-- **Consistent Formatting:** All validation functions follow a clean, uniform pattern.
+### 🗣️ 3. Massive Database Upgrade
 
-> 🔎 **Code Readability Note:**  
-> Readability improvements are being done step-by-step and carefully to avoid breaking existing functionality. During this gradual refactoring process, minor bugs may appear and structural adjustments may temporarily affect behavior. Stability is continuously being monitored.  
->   
-> **If you encounter any issues — especially critical bugs — please report them immediately.**  
-> This project values clean, readable, and maintainable code — but improvements will be implemented responsibly and progressively.
+The response recognition database has been **dramatically expanded** with:
+
+- Hundreds of new yes/no/exit phrases
+- Modern Gen‑Z and millennial slang (`fr!`, `ngl!`, `lock in bro`, `bet`, `say less`, etc.)
+- Common typos (`yeha`, `nopee`, `okei`)
+- International variations (`ja`, `si`, `oui`, `nein`, `non`)
+- Multi‑word negation detection to avoid false positives
+
+### 🔧 4. Smart Validators with Fuzzy Matching
+
+The validation engine now uses `difflib` and a custom `smart_validators()` function that:
+
+- Compares strings by word overlap, order, and similarity
+- Adjusts scores based on negation cues
+- Handles partial matches, typos, and rephrased answers
+
+This means you can answer naturally and Pytalon will still understand you.
+
+### 🏗️ 5. Major Code Refactorization
+
+The entire codebase has been restructured into **modular files** for better maintainability:
+
+- `config.py` – All response constants and patterns
+- `conversation_context.py` – Session state and history tracking
+- `intro.py` – Introduction and conversational opening
+- `topics_basic.py` – Teaching functions for topics 1–6
+- `validators.py` – All input validation logic
+- `utils.py` – Shared utilities (practice runner, smart detection)
+- `learning.py` – Main program flow
+
+This makes the code easier to read, extend, and debug.
+
+### 📝 6. Enhanced Practice System
+
+The `run_practice_session()` function now includes:
+
+- **Attempt limits** (3 tries) with helpful feedback
+- **Custom validation functions** per topic (e.g., checking for proper function syntax)
+- **Better error messages** telling you exactly what’s missing
+- **Option to skip** after multiple failed attempts
+
+### 🧩 7. Conversation Context Tracking
+
+A new `ConversationContext` class remembers:
+
+- Full conversation history
+- Topics you’ve already learned
+- Your first and last question
+- Current session state (`greeting`, `menu`, `topic`, `practice`, `done`)
+
+This allows smarter follow‑up responses and avoids re‑teaching the same thing unless you ask for a review.
+
+<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/9bfab2bc-b787-4383-9888-7f9ba63cefd6" />
 
 ---
 
 ## ✅ Bug Status & Reporting
 
-### 🐛 Current Bug Status: **No Critical Bugs Found!** 🎉
-The current `v1.0.3` codebase has been scanned and validated. All syntax, indentation, and logic checks have passed.
+### 🐛 Current Bug Status: **Major Issues Fixed!** 🎉
 
-However, as this is a **Preview Cycle** version with ongoing active development, hidden bugs may still surface during specific user interactions.
+The following critical bugs have been resolved in v1.0.4:
 
-### 📢 Kind Request
+| Bug | Description | Fix |
+|-----|-------------|-----|
+| **Missing conversational style** | Pytalon couldn't understand natural chat (greetings, follow‑ups, uncertainty). | Implemented full intent detection system with scoring. |
+| **Practice section failures** | Some topics (e.g., Functions) had strict checks that rejected correct code. | Rewrote practice runner with flexible validation and custom per‑topic checks. |
+| **False negatives on yes/no** | Negation words like “no” inside longer phrases were misinterpreted. | Added dedicated negation detection and score adjustment. |
+| **Topic matching too strict** | “Python” would incorrectly match “Strings in Python” instead of general help. | Improved smart detection with topic‑specific keyword weighting. |
+| **Empty/unrecognised input crashes** | Empty input or gibberish would loop forever or crash. | Added graceful handlers with helpful prompts. |
+| **Memory loss** | Pytalon forgot previous questions and learned topics. | Introduced `ConversationContext` for full session memory. |
 
-If you encounter:
-
-- Unexpected crashes
-- Incorrect topic navigation
-- Validation issues (accepting wrong input or rejecting correct input)
-- Or any other odd behavior
-
-**Please report the bug immediately.**  
-Your detailed reports help us ensure the assistant is stable, reliable, and helpful for all learners.
-
-## 🚨 **Important Note for Everyone**
-
-- A **major UX bug** — alongside our most critical fix yet — is coming in the next major preview. **Stay tuned!**
-- We just discovered an error in our clone commands and **fixed it immediately**. We sincerely apologize for the inconvenience.
+No other critical bugs are known at this time. However, as this is a **Preview Cycle** version, hidden bugs may still appear. Please report anything unusual.
 
 ---
 
 ## 📘 Topics Covered
 
-The assistant teaches the following **12** beginner Python topics:
+The assistant teaches **13** beginner Python topics:
 
 1. **Hello World** – Your first Python program
 2. **Functions** – Reusable blocks of code
@@ -150,13 +187,15 @@ The assistant teaches the following **12** beginner Python topics:
 10. **Strings in Python (Complete Module)** – A full deep dive into text handling
 11. **Data Types in Python** – Understanding int, float, list, tuple, dict, and more
 12. **Conditional Statements (Complete Module)** – Mastering `if`, `elif`, and `else` logic
+13. **Lists in Python (Complete Module)** – Creating, modifying, and using lists
 
-### 🔤 Strings & Conditionals Modules Include:
+### 🔤 Strings, Conditionals & Lists Modules Include:
 
-These two topics are **mini-courses** inside the assistant:
+These three topics are **mini‑courses** inside the assistant:
 
-- **Strings:** Creation, indexing, slicing, operations, methods, formatting (f-strings), and common errors.
-- **Conditionals:** `if` basics, `if-else` paths, `elif` chains, nested decisions, combining conditions with `and`/`or`/`not`, and best practices.
+- **Strings:** Creation, indexing, slicing, operations, methods, formatting (f-strings), common errors.
+- **Conditionals:** `if` basics, `if-else` paths, `elif` chains, nested decisions, combining conditions with `and`/`or`/`not`, best practices.
+- **Lists:** Creation, indexing, slicing, methods (`append`, `remove`, `pop`, etc.), concatenation, repetition, membership, looping, list comprehension, common errors.
 
 ---
 
@@ -180,49 +219,38 @@ cd pytalon-assistant
 python learning.py
 ```
 
+**For Linux/macOS users:** If `python` doesn't work, use `python3 learning.py` instead.
+
+**No extra installations needed** - Pytalon uses only Python's standard library! 🐍
+
 ---
 
 ## ⚙️ Requirements
-- Python 3.14.4
+- Python 3.14.5
 - No external libraries needed — Uses 100% Python Standard Library.
 
-> 🟢 Why Python 3.14.4?
+> 🟢 Why Python 3.14.5?
 > Python 3.14.4 offers better performance, improved security, and modern language improvements. Using the latest version ensures long-term project stability and compatibility.
 
----
-
 ## 🧠 How It Works
-- The assistant introduces itself.
-
-- It asks if you have a specific Python question (with smart validation).
-
-- It presents a menu of 12 Python topics.
-
+- The assistant introduces itself conversationally.
+- It listens for greetings, questions, or topic requests.
+- It presents a menu of 13 Python topics (or lets you ask directly).
 - You choose what to learn (e.g., type 3 for Variables).
-
-- The assistant explains the topic step-by-step with analogies.
-
+- The assistant explains the topic step‑by‑step with analogies.
 - You can choose to see code examples or skip them.
-
 - You can choose to practice the concept interactively.
-
 - You can continue learning another topic or exit anytime.
 
-## Flexible Commands:
-
-- The assistant understands yes / y / teach me / fr! to proceed,
-and no / skip / nuh uh! to move on.
-
----
+### Flexible Commands:
+- The assistant understands `yes` / `y` / `teach me` / `fr!` / `lock in bro` to proceed,  
+  and `no` / `skip` / `nuh uh!` / `nah fam` to move on.
 
 ## 🧩 Who Is This For?
 - 👶 Absolute beginners with zero coding experience
-
 - 🎓 School and college students learning Python basics
-
 - 👨‍🏫 Teachers who want a simple, interactive Python demo tool
-
-- 💻 Self-learners who prefer guided conversation over textbooks
+- 💻 Self‑learners who prefer guided conversation over textbooks
 
 ## 🤝 Contributing
 Contributions are welcome! You don't have to be an expert to help.
@@ -230,15 +258,10 @@ Contributions are welcome! You don't have to be an expert to help.
 Ways to contribute:
 
 - 🧠 Improve beginner-friendly explanations
-
 - ✏️ Fix grammar or clarity issues
-
 - ➕ Add new beginner topics or advanced modules
-
 - 🧪 Add more practice exercises
-
 - 🐛 Report bugs (Critical for Preview Cycle stability!)
-
 - 💡 Suggest new learning features
 
 Feel free to open an Issue or submit a Pull Request.
@@ -247,9 +270,10 @@ Feel free to open an Issue or submit a Pull Request.
 - This project is licensed under the MIT License.
 
 ## 🌈 Final Note
-- Learning programming should feel exciting, not overwhelming.
+Learning programming should feel exciting, not overwhelming.
 
-- This assistant was built to make your first steps in Python
+This assistant was built to make your first steps in Python
 friendly, interactive, and enjoyable.
 
-Happy Coding! 🐍✨
+**Happy Coding! 🐍✨**
+
