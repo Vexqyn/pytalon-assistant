@@ -231,7 +231,7 @@ python learning.py
 - No external libraries needed — Uses 100% Python Standard Library.
 
 > 🟢 Why Python 3.14.5?
-> Python 3.14.4 offers better performance, improved security, and modern language improvements. Using the latest version ensures long-term project stability and compatibility.
+> Python 3.14.5 offers better performance, improved security, and modern language improvements. Using the latest version ensures long-term project stability and compatibility.
 
 ## 🧠 How It Works
 - The assistant introduces itself conversationally.
