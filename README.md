@@ -90,7 +90,8 @@ The new `detect_conversation_intent()` system recognises:
 - General Python questions
 
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/0431ce2f-537b-4ebc-94a3-f132149167db" />
-<img width="861" height="168" alt="Pytalon Feature" src="https://github.com/user-attachments/assets/57a582ea-16d8-4d46-9d37-4ee859ebc003" />
+
+<img width="822" height="140" alt="Pytalon Feature" src="https://github.com/user-attachments/assets/27a2f1a2-bbc8-432c-8c98-064daff07b36" />
 
 This makes conversations feel natural and reduces frustrating “I don’t understand” moments.
 
@@ -161,7 +162,7 @@ The following critical bugs have been resolved in v1.0.4:
 | Bug | Description | Fix |
 |-----|-------------|-----|
 | **Missing conversational style** | Pytalon couldn't understand natural chat (greetings, follow‑ups, uncertainty). | Implemented full intent detection system with scoring. |
-| **Practice section failures** | Some topics (e.g., Functions) had strict checks that rejected correct code. | Rewrote practice runner with flexible validation and custom per‑topic checks. |
+| **Practice section failures** | The Practice Section lacks actual practice—it only shows examples, with no exercises for you to try. | Developed the actual practice session |
 | **False negatives on yes/no** | Negation words like “no” inside longer phrases were misinterpreted. | Added dedicated negation detection and score adjustment. |
 | **Topic matching too strict** | “Python” would incorrectly match “Strings in Python” instead of general help. | Improved smart detection with topic‑specific keyword weighting. |
 | **Empty/unrecognised input crashes** | Empty input or gibberish would loop forever or crash. | Added graceful handlers with helpful prompts. |
