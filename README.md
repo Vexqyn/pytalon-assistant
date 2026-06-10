@@ -22,7 +22,8 @@ This is a **full leap forward**.
 
 Pytalon now tracks **everything** happening in your session — your questions, your progress, where you are in your learning journey.
 
-**And that's just the beginning.**  
+**And that's just the beginning.**
+
 Persistent Memory and Permanent Memory are already on the roadmap — so Pytalon won't just remember your session.  
 **It'll remember *you*.**
 
