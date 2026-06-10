@@ -8,6 +8,64 @@ https://github.com/user-attachments/assets/746058f7-8b1f-4ac9-93a9-b554ef10fb59
 
 # Pytalon Preview v1.0.4 🤖🐍
 
+# 🔥 June 10, 2026 — The Reveal is Live
+
+The wait is over. Today, I'm pulling back the curtain on what's been in the works for Pytalon.
+
+This is **not** a small update.  
+This is **not** a patch.  
+This is a **full leap forward**.
+
+---
+
+## 🧠 Pytalon Memory
+
+Pytalon now tracks **everything** happening in your session — your questions, your progress, where you are in your learning journey.
+
+**And that's just the beginning.**  
+Persistent Memory and Permanent Memory are already on the roadmap — so Pytalon won't just remember your session.  
+**It'll remember *you*.**
+
+---
+
+## 💬 Conversational Learning
+
+Pytalon doesn't just teach — it **listens**.
+
+- Say *"I'm confused"* → it adapts instantly.
+- Say *"teach me variables"* → it jumps straight in.
+- Say nothing useful → it guides you back on track.
+
+Powered by **smart intent detection** with **negation handling** — so it knows the difference between:
+
+> *"teach me functions"* ✅  
+> *"don't teach me functions"* ❌
+
+---
+
+## 🚀 The Big Announcement
+
+**Pytalon 2.0 is coming this June.**
+
+> Today (June 10) is **not** the release.  
+> Today is the **reveal**.
+
+The features are **real**.  
+The vision is **set**.  
+And June is **finally here**.
+
+---
+
+## 🎯 What's Next?
+
+- Pytalon Preview v1.0.4 is **live now**
+- Final polishing before Pytalon 2.0
+- Persistent Memory rolling out post-launch
+
+**The next era of Python learning is almost here.**
+
+— M. Qasim Farooqi (@acubura)
+
 ## 🌟 Overview
 
 Pytalon is an interactive, beginner-friendly console program designed to teach Python fundamentals in a simple, guided, and engaging way.
