@@ -7,7 +7,7 @@ from utils import show_topic_menu
 
 # ----- Constants -----
 NAME = "Pytalon"
-VERSION = "1.0.4"
+VERSION = "1.0.5"
 CATEGORY = "Preview"
 DESCRIPTION = "A Tutor Companion Assistant developed to guide you with Python programming and learning."
 
@@ -33,7 +33,7 @@ TOPIC_NAME_TO_NUMBER = {v: k for k, v in TOPICS.items()}
 
 def print_introduction():
     """Print Pytalon's introduction message."""
-    print(f"{NAME}, version {VERSION}, category, {CATEGORY}. \n{DESCRIPTION}")
+    print(f"{NAME}, version {VERSION}, category: {CATEGORY}. \n{DESCRIPTION}")
 
 
 def get_initial_topic_choice(context):
