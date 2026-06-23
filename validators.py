@@ -74,7 +74,9 @@ def get_global_valid_input(prompt):
             phrase in raw_input for phrase in MULTI_WORD_NEGATIONS
         )
 
-        if best_yes >= THRESHOLD and best_no >= THRESHOLD and best_yes == best_no and not user_negated:
+        if best_yes >= THRESHOLD and best_no >= THRESHOLD and best_yes == best_no:
+            if user_negated:
+                return 'no'
             return 'yes'
         if best_yes >= THRESHOLD and best_yes > best_no and best_yes > best_exit:
             if user_negated:
@@ -85,7 +87,7 @@ def get_global_valid_input(prompt):
         if best_exit >= THRESHOLD and best_exit > best_yes and best_exit > best_no:
             return 'exit'
  
-        print("🤔 I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
+        print("? I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
 
 # ---- Specialized validation for menu choice input -------
 def get_global_menu_choice(prompt, min_val=1, max_val=12):
@@ -100,13 +102,13 @@ def get_global_menu_choice(prompt, min_val=1, max_val=12):
             return 'exit'
         
         if not choice:
-            print(f"📝 Just type a number from {min_val} to {max_val} to pick a topic, or 'exit' to leave!")
+            print(f"[INFO] Just type a number from {min_val} to {max_val} to pick a topic, or 'exit' to leave!")
             continue
 
         if choice.isdigit() and min_val <= int(choice) <= max_val:
             return choice
 
-        print(f"📝 That's not a topic number! Pick {min_val}-{max_val}, or type 'exit'.")
+        print(f"[INFO] That's not a topic number! Pick {min_val}-{max_val}, or type 'exit'.")
 
 # ---- Specialized validation for yes/no/exit input on questions, with smart_validators and negation handling -------
 def get_global_user_question_valid_input(prompt):
@@ -153,7 +155,7 @@ def get_global_user_question_valid_input(prompt):
         if best_exit >= THRESHOLD:
             return 'exit'
  
-        print("🤔 I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
+        print("? I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
 
 # ---- Specialized validation for yes/no input on examples, with smart_validators and negation handling -------
 def get_global_examples_valid_input(prompt):
@@ -194,7 +196,9 @@ def get_global_examples_valid_input(prompt):
             if user_negated:
                 return 'no'
             return 'yes'
-        if best_yes >= THRESHOLD and best_no >= THRESHOLD and best_yes == best_no and not user_negated:
+        if best_yes >= THRESHOLD and best_no >= THRESHOLD and best_yes == best_no:
+            if user_negated:
+                return 'no'
             return 'yes'
         if best_no >= THRESHOLD:
             if user_negated or best_no > best_yes:
