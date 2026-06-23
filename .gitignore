@@ -3,10 +3,11 @@ __pycache__/
 *.py[codz]
 *$py.class
 
-# Pytalon specific pycache (CPython 3.14)
+# Pytalon specific pycache (CPython 3.14.6)
 __pycache__/config.cpython-314.pyc
 __pycache__/conversation_context.cpython-314.pyc
 __pycache__/intro.cpython-314.pyc
+__pycache__/learning.cpython-314.pyc
 __pycache__/menu_utils.cpython-314.pyc
 __pycache__/topics_basic.cpython-314.pyc
 __pycache__/utils.cpython-314.pyc
