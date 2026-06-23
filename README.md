@@ -59,7 +59,7 @@ And June is **finally here**.
 
 ## 🎯 What's Next?
 
-- Pytalon Preview v1.0.4 is **live now**
+- Pytalon Preview v1.0.5 is **live now**
 - Final polishing before Pytalon 2.0
 - Persistent Memory rolling out post-launch
 
@@ -114,7 +114,7 @@ Your feedback helps improve stability and the learning experience.
 - ✅ **Step-by-Step Topic Guidance** — Learn one concept at a time
 - ✅ **Optional Examples for Each Topic** — Reinforce learning with real code
 - ✅ **13 Comprehensive Topics** — Covers all essential Python basics for beginners, including **Lists**
-- ✅ **Practice Sections for All 13 Topics** — Hands-on interactive exercises for every single topic
+- ✅ **Practice Sections** for All 13 Topics — Hands-on interactive exercises for every **single topic**
 - ✅ **Dedicated Strings, Conditionals & Lists Modules** — Deep dives with sub‑topic menus
 - ✅ **Modular Code Architecture** — Clean, well‑organized codebase split into logical modules for easier maintenance
 - ✅ **Fully Console-Based** — No external libraries required
