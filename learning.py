@@ -2,7 +2,7 @@
 PYTALON - Your Python Tutor Companion
 Created by: M Qasim Farooqi
 Role: BS IT Student | Python Developer · AI Prompt Strategist · Digital Creator & Game Systems Analyst | I build, analyze & create
-Version: 1.0.4
+Version: 1.0.5
 Category: Preview
 Purpose: Learn Python basics through interactive teaching with 13 comprehensive topics
 """
