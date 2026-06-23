@@ -1,12 +1,12 @@
-https://github.com/user-attachments/assets/746058f7-8b1f-4ac9-93a9-b554ef10fb59
+<img width="1920" height="1080" alt="Pytalon Assistant News" src="https://github.com/user-attachments/assets/96e0ef4e-4aeb-4be4-ac10-90d2529c8917" />
 
-![Python](https://img.shields.io/badge/Python-3.14.4-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+![Python](https://img.shields.io/badge/Python-3.14.6-blue)
+![Version](https://img.shields.io/badge/Version-v1.0.5-purple)
 ![Status](https://img.shields.io/badge/Status-Preview%20Cycle-orange)
 ![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
 
-# Pytalon Preview v1.0.4 🤖🐍
+# Pytalon Preview v1.0.5 🤖🐍
 
 # 🔥 June 10, 2026 — The Reveal is Live
 
@@ -231,6 +231,21 @@ No other critical bugs are known at this time. However, as this is a **Preview C
 
 ---
 
+### 🐛 Bug Fixes in **Preview v1.0.5**
+
+The following bugs have been resolved in v1.0.5:
+
+| Bug | Description | Fix |
+|-----|-------------|-----|
+| **Negation handling flaw** | When both 'yes' and 'no' scored equally and the user included negation (e.g., "not sure"), Pytalon would loop and ask again instead of returning `'no'`. | Fixed logic in `get_global_valid_input()` and `get_global_examples_valid_input()` to handle equal scores with negation. |
+| **Intro formatting** | The introduction displayed `category, Preview` instead of `category: Preview`. | Fixed colon placement in `intro.py`. |
+| **Menu prompt mismatch** | The topic menu prompt said `(1-12/exit)` but there are 13 topics. | Menu now dynamically displays the correct topic count `(1-13/exit)`. |
+| **Negation detection gaps** | Common negations like `'not sure'`, `'not really'`, `'maybe not'` weren't being detected. | Expanded `NEGATION_WORDS` with 21 new phrases for better coverage. |
+
+No other bugs are known at this time. Consider this the final preview before the upcoming Pytalon Assistant 2.0. If any bugs are detected, they will be addressed through pre-releases as quickly as possible.
+
+---
+
 ## 📘 Topics Covered
 
 The assistant teaches **13** beginner Python topics:
@@ -286,11 +301,13 @@ python learning.py
 ---
 
 ## ⚙️ Requirements
-- Python 3.14.5
+- Python 3.14.6 or higher
 - No external libraries needed — Uses 100% Python Standard Library.
 
-> 🟢 Why Python 3.14.5?
-> Python 3.14.5 offers better performance, improved security, and modern language improvements. Using the latest version ensures long-term project stability and compatibility.
+> 🟢 Why Python 3.14.6?
+> Python 3.14.6 offers better performance, improved security, and modern language improvements. Using the latest version ensures long-term project stability and compatibility.
+
+---
 
 ## 🧠 How It Works
 - The assistant introduces itself conversationally.
@@ -336,4 +353,3 @@ This assistant was built to make your first steps in Python
 friendly, interactive, and enjoyable.
 
 **Happy Coding! 🐍✨**
-
