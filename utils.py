@@ -227,7 +227,7 @@ def show_topic_menu(topics, prompt="Which topic would you like to start with?"):
         print(f"   {num}. {topic}")
 
     choice = get_global_menu_choice(
-        f"\n🔹 {prompt} (1-12/exit): ",
+        f"\n🔹 {prompt} (1-13/exit): ",
         1,
         len(topics)
     )
