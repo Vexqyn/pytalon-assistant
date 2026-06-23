@@ -511,11 +511,21 @@ QUESTION_PATTERNS = [
 
 # Expanded negation words for better detection in user input, especially for yes/no validation
 NEGATION_WORDS = {
+    # Existing
     'no', 'not', "don't", 'dont', 'nope', 'nah', 'naw', 'never', 
     'none', 'nobody', 'nothing', 'nowhere', 'neither', 'nor',
     'cannot', "can't", 'could not', "couldn't", 'would not', "wouldn't",
     'should not', "shouldn't", 'is not', "isn't", 'are not', "aren't",
-    'was not', "wasn't", 'were not', "weren't", 'hard pass', 'big pass'
+    'was not', "wasn't", 'were not', "weren't", 'hard pass', 'big pass',
+    
+    # ---- Add these for better coverage ----
+    'not sure', 'not really', 'not interested', 'not feeling it',
+    'not at all', 'not now', 'not right now', 'not at the moment',
+    'not exactly', 'not particularly', 'not quite', 'not necessary',
+    'not in the mood', 'not vibing with it', 'not on my watch',
+    'maybe not', 'probably not', 'definitely not',
+    'not sure yet', "i don't think so", 'i dont think so',
+    'no way', 'no thanks', 'no need', 'no worries',
 }
 
 FILLER_WORDS = {
