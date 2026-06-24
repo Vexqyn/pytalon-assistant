@@ -38,16 +38,21 @@ def print_global_separator():
 
 
 # CODE PRACTICE SYSTEM Helper Functions
-
+ 
 # ===== Step 1: Get multiline code input from the user =====
 def get_multiline_code_input():
     """
     Gets multiple lines of Python code from the user.
     User types code line by line, then types 'DONE' to finish.
     
-    Returns:
-        String containing all the code lines joined together
+    - String containing all the code lines joined together
+    - Validates stdin is available before attempting input
     """
+    # ----check if stdin is available or not ----
+    if sys.stdin.closed:
+        print("⚠️ Input stream closed. Restarting practice session...")
+        return ""
+    
     print("\n📝 ENTER YOUR PYTHON CODE (type 'DONE' on a new line when finished):")
     print_global_separator()
     
@@ -61,8 +66,8 @@ def get_multiline_code_input():
     
     # Join all lines with newline characters
     return "\n".join(code_lines)
-
-
+ 
+ 
 # ===== Step 2: Execute code and check for expected/forbidden keywords =====
 def execute_and_check_code(code, expected_keywords=None, forbidden_keywords=None):
     """
@@ -88,8 +93,27 @@ def execute_and_check_code(code, expected_keywords=None, forbidden_keywords=None
     output = ""
     
     try:
+        # ---- BLOCK INFINITE LOOPS ----
+        # Detect infinite loops before execution
+        if 'while True' in code or 'while 1' in code:
+            success = False
+            error_message = "⚠️ Infinite loops (while True / while 1) are not allowed in practice"
+            return success, output, error_message
+
+        # ---- Namespace with exit/quit blocked ----
+        # This prevents users from calling exit() or quit() in their code
+        def _blocked_exit(*args, **kwargs):
+            raise Exception("exit() is not allowed in practice exercises")
+        
+        def _blocked_quit(*args, **kwargs):
+            raise Exception("quit() is not allowed in practice exercises")
+        
+        namespace = {
+            'exit': _blocked_exit,
+            'quit': _blocked_quit,
+        }
+        
         # ---- EXECUTE: Run the code in isolated namespace ----
-        namespace = {}
         exec(code, namespace)
         output = captured_output.getvalue()
         
@@ -116,20 +140,24 @@ def execute_and_check_code(code, expected_keywords=None, forbidden_keywords=None
             if found_forbidden:
                 success = False
                 error_message = f"Please don't use: {', '.join(found_forbidden)}"
-                
+ 
     except SyntaxError as e:
         success = False
         error_message = f"Syntax Error: {str(e)}"
+    except SystemExit:
+        success = False
+        error_message = "⚠️ Code attempted to exit. Please don't use exit() in practice."
     except Exception as e:
         success = False
         error_message = f"Error: {str(e)}"
     finally:
-        # ---- CLEANUP: Restore normal output ----
+        # ---- CLEANUP: Restore normal output and close StringIO ----
         sys.stdout = old_stdout
+        # ---- Explicitly close the StringIO to prevent I/O state corruption ----
+        captured_output.close()
     
     return success, output, error_message
-
-
+ 
 # ===== Step 3: Main practice session flow =====
 def run_practice_session(topic_name, instructions, expected_keywords, example_code, custom_check_function=None):
     """
@@ -161,30 +189,30 @@ def run_practice_session(topic_name, instructions, expected_keywords, example_co
     print(f"{example_code}")
     
     print(f"\n🔑 Required elements: {', '.join(expected_keywords)}")
-
+ 
     # ----  SUB STEP 2: Main practice loop with attempt limit ----
     attempts = 0
     MAX_ATTEMPTS = 3
-
+ 
     while True:
         # Get user's code attempt
         user_code = get_multiline_code_input()
-
+ 
         # Check for empty submission
         if not user_code.strip():
             print("⚠️  Please enter some Python code!")
             continue
-
+ 
         # Execute the code and check for basic requirements
         success, output, error_message = execute_and_check_code(
             user_code,
             expected_keywords=expected_keywords
         )
-
+ 
         # Run custom validation if provided (for topic-specific checks)
         if success and custom_check_function:
             success, error_message = custom_check_function(user_code, output)
-
+ 
     # ---- SUB STEP 3: Show results ----
         if success:
             print_global_separator()
@@ -211,7 +239,6 @@ def run_practice_session(topic_name, instructions, expected_keywords, example_co
             else:
                 print(f"\n🔄 Attempt {attempts}/{MAX_ATTEMPTS}. Please try again!")
                 print_global_separator()
-
         
 # ========= MENU DISPLAY FUNCTION ==========
 def show_topic_menu(topics, prompt="Which topic would you like to start with?"):
