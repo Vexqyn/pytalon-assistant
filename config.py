@@ -5,7 +5,7 @@
 YES_RESPONSES = [
     # Simple yes
     'yes', 'y', 'yeah', 'yep', 'yup', 'sure', 'okay', 'ok', 'alright', 'of course',
-    'absolutely', 'definitely', 'for sure', 'indeed', 'correct', 'no way! Let\'s learn it', 
+    'absolutely', 'definitely', 'for sure', 'indeed', 'correct',
     # Ready / let's go
     "let's go", 'lets go', "let's do it", 'lets do it', "let's learn", 'lets learn',
     "let's start", 'lets start', "let's begin", 'lets begin', 'go ahead', 'proceed',
@@ -81,13 +81,6 @@ NO_RESPONSES = [
     'no way! i dont want to learn', 'not on my watch today! no learning today',
     "i'll pass", 'i am fine dont want to learn today',
     'i am not going to continue further',
-    # More natural variations
-    'nah man!', 'nah man don\'t want to see it', 'nah man! don\'t want to see it',
-    'no way man!', 'no way man', 'no way!', 'nah!', 'nope!',
-    'nah man no thanks', 'no way i don\'t want to', 'not interested man',
-    'nah dont want to', 'nah don\'t want to see it', 'no thanks man',
-    'i dont want to see examples', "i don't want to see it",
-    'skip practice', 'no practice', 'dont want to practice',
     # Soft negatives
     'not particularly', 'not exactly', 'hardly', 'barely', 'not quite',
     # Casual/Texting
@@ -134,7 +127,7 @@ EXIT_RESPONSES = [
     'wrap it up', 'wrapping up', 'im wrapping up',
     # Casual exits
     'im bouncing out', 'bounce out', 'im heading out', 'heading out', 'later', 
-    'maybe later', 'im gonna head out', 'gonna head out', 'im clocking out', 'clocking out',
+    'im gonna head out', 'gonna head out', 'im clocking out', 'clocking out',
     # Non-native / Simple
     'exit now', 'quit now', 'stop now', 'end now', 'close program', 'shut down',
     # Exhaustion signals
@@ -144,13 +137,13 @@ EXIT_RESPONSES = [
     'gtg', 'g2g', 'gotta go', 'got to go', 'have to go', 'must go',
     'afk', 'brb',
     # Typos
-    'exti', 'quti', 'leve', 'goobye', 'byee', 'byeeee',
+    'exti', 'quti', 'leve', 'goobye', 'byee', 'byeeee', 'exist', 
 ]
 
 YES_EXAMPLES_RESPONSES = [
     # Simple yes
     'yes', 'y', 'yeah', 'yep', 'yup', 'sure', 'ok', 'okay', 'of course',
-    'absolutely', 'definitely', 'for sure', 'go ahead', 'do it', 'no way! Let\'s learn it', 
+    'absolutely', 'definitely', 'for sure', 'go ahead', 'do it',
     # Show me
     'show me', 'show me examples', 'show examples', 'show me the examples',
     'show me some examples', 'show me more', 'show it', 'show the breakdown',
@@ -242,7 +235,7 @@ NO_EXAMPLES_RESPONSES = [
 YES_QUESTION_RESPONSES = [
     # Simple yes
     'yes', 'y', 'yeah', 'yep', 'yup', 'sure', 'of course', 'absolutely',
-    'definitely', 'for sure', 'no way! Let\'s learn it', 
+    'definitely', 'for sure',
     # I have a question
     'i have a question', 'i want to ask a question', 'i have a quick question',
     'i got a question', 'got a question', 'i have something to ask',
@@ -369,7 +362,7 @@ GRATITUDE_PATTERNS = [
 
 CONFUSION_PATTERNS = [
     'i don\'t understand', 'not clear', 'confused', 
-    'explain me this man', 'explain again', 'i\'m lost',
+    'what do you mean', 'explain again', 'i\'m lost',
     'can you repeat', 'say that again', 'huh', 'what',
     'i didn\'t get it', 'didn\'t understand', 'unclear',
     'i\'m not following', 'i don\'t get it'
@@ -380,7 +373,8 @@ UNCERTAIN_RESPONSES = [
     'maybe', 'perhaps', 'possibly', 'could be', 'not sure',
     'i dont know', 'i dunno', 'dunno', 'uncertain', 'undecided',
     'leaning yes', 'leaning no', '50 50', 'fifty fifty',
-    'kinda', 'sorta', 'sort of', 'kind of',
+    'kinda', 'sorta', 'sort of', 'kind of',  'maybe later',
+    'not sure yet'
 ]
 
 # Repeat request patterns
@@ -396,12 +390,7 @@ CLARIFICATION_PATTERNS = [
     'what do you mean by', 'define', 'define please',
     'meaning of', 'definition of', 'what is meant by',
     'in other words', 'simpler terms', 'layman terms',
-    'breakdown of', 'elaborate', 'expand on', 'who are you', 
-    'what are you', 'what is your name','what do you do', 'what is your purpose',
-    'tell me about yourself', 'introduce yourself', 'what can you do', 'your name',
-    'what are you called', 'what should i call you', 'what you meant',
-    'what you mean', 'what you mean by', 'what do you mean', 
-    'what does that mean', 'meaning of this'
+    'breakdown of', 'elaborate', 'expand on',
 ]
 
 TOPIC_KEYWORDS = {
@@ -443,15 +432,11 @@ TOPIC_KEYWORDS = {
     ],
     'Data types in Python': [
         'data types', 'data type', 'datatypes', 'integer', 'float', 'boolean',
-        'tuple', 'dictionary', 'data type in python'
+        'list', 'tuple', 'dictionary', 'data type in python'
     ],
     'Conditional statements': [
         'conditional statements', 'conditional statement', 'conditionals',
         'if else', 'elif', 'condition', 'decision', 'branch', 'choose', 'if statement'
-    ],
-    'Lists in Python': [
-        'list', 'lists', 'array', 'collection', 'append', 'remove', 'pop',
-        'indexing', 'slicing', 'list methods', 'list comprehension', 'python lists'
     ],
 }
 
@@ -466,7 +451,7 @@ TOPIC_REQUEST_PATTERNS = [
     'i wanna learn', 'im tryna learn', 'lemme learn', 'let me learn',
     'hook me up with', 'drop some knowledge on', 'school me on',
     'break it down for me', 'spill the tea on', 'fill me in on',
-    'help me learn', 'can you help me', 'i needed help', 'help me lern', 'help me larn',
+    'help me learn', 'can you help me', 'i needed help'
 ]
 
 PRACTICE_REQUEST_PATTERNS = [
@@ -484,23 +469,15 @@ HELP_PATTERNS = [
 # Threshold for Smart Detection in Conservation Intent Detection - can be adjusted based on testing and user feedback for better accuracy
 TOPIC_MATCH_THRESHOLD = 0.65
 
+
 BEGINNER_PATTERNS = [
     r'\bbeginner\b', r'\bnewbie\b', r'\bnovice\b',
-    
-    # "i want/need to learn/study" — with typo variants for learn
-    r'\bi\s+(want|wanted|would like|need)\s+to\s+(learn|lern|larn|laern|leanr|leran|study|studdy|studie)\b',
-    r'\bteach me\b', r'\bcan you teach\b', r'\bteach\b',
-    
-    # "learn python" — with typo variants for both learn and python
-    r'\b(learn|lern|larn|laern)\s+python\b',
-    r'\b(learn|lern|larn|laern)\s+(pythn|pytho|phyton|pyton|pythoon)\b',
-    
-    r'\bpython beginner\b',
+    r'\bi\s+(want|wanted|would like|need)\s+to\s+(learn|lean|study)\b',
+    r'\bteach me\b', r'\bcan you teach\b',
+    r'\blearn python\b', r'\bpython beginner\b',
     r'\bgetting started\b',
-    r'\bhelp me (learn|lern|larn|laern)\b',
-    r'\bcan you help me\b',
-    r'\b(i\s+)?need(ed)?\s+help\b',
-    r'\bhelp me (with|to)\b',
+    r'\bhelp me learn\b', r'\bcan you help me\b',
+    r'\b(i\s+)?need(ed)?\s+help\b', r'\bhelp me (with|to)\b',
 ]
 
 QUESTION_PATTERNS = [
@@ -535,10 +512,3 @@ FILLER_WORDS = {
         'just', 'like', 'bro', 'man', 'fam', 'yo', 'hey', 'hi', 
         'hello', 'please', 'thanks', 'thank you', 'appreciate it',
 }
-
-SOCIAL_INTENTS = {'greeting', 'gratitude'}
-    
-SUBSTANTIVE_INTENTS = {
-        'help_request', 'topic_request', 'practice_request',
-        'general_question', 'confusion', 'clarification',
-    }
