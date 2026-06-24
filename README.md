@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="Pytalon Assistant News" src="https://github.com/user-attachments/assets/96e0ef4e-4aeb-4be4-ac10-90d2529c8917" />
+<img width="1920" height="1080" alt="Pytalon Assistant Pre-Release" src="https://github.com/user-attachments/assets/497a7750-7a62-4374-b1e0-c109633e907b" />
 
 ![Python](https://img.shields.io/badge/Python-3.14.6-blue)
 ![Version](https://img.shields.io/badge/Version-v1.0.5-purple)
@@ -6,7 +6,7 @@
 ![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
 
-# Pytalon Preview v1.0.5 🤖🐍
+# Pytalon Preview v1.0.5 Pre-Release 1 🤖🐍
 
 # 🔥 June 10, 2026 — The Reveal is Live
 
@@ -59,7 +59,7 @@ And June is **finally here**.
 
 ## 🎯 What's Next?
 
-- Pytalon Preview v1.0.5 is **live now**
+- Pytalon Preview v1.0.5 Pre-Release 1 is **live now**
 - Final polishing before Pytalon 2.0
 - Persistent Memory rolling out post-launch
 
@@ -243,6 +243,21 @@ The following bugs have been resolved in v1.0.5:
 | **Negation detection gaps** | Common negations like `'not sure'`, `'not really'`, `'maybe not'` weren't being detected. | Expanded `NEGATION_WORDS` with 21 new phrases for better coverage. |
 
 No other bugs are known at this time. Consider this the final preview before the upcoming Pytalon Assistant 2.0. If any bugs are detected, they will be addressed through pre-releases as quickly as possible.
+
+---
+
+### 🐛 Bug Fixes in **Preview v1.0.5 Pre-Release 1**
+
+The following bugs have been resolved in v1.0.5 Pre-Release 1:
+
+| Bug | Description | Fix |
+|-----|-------------|-----|
+| **Infinite loop freeze** | Entering `while True: pass` in practice mode would freeze the entire CLI. | Added pre-execution check to block `while True` and `while 1` patterns before execution. |
+| **`exit()` kills Pytalon** | Typing `exit()` in practice mode would terminate the entire Pytalon process. | Blocked `exit()` and `quit()` in practice namespace with custom functions; added `except SystemExit` handler. |
+| **Ctrl+C crash** | Pressing `Ctrl+C` anywhere would crash with a Python traceback. | Wrapped main execution loop in `try/except KeyboardInterrupt` for graceful exit. |
+| **Intent detection false positives** | `"maybe later"` was incorrectly treated as an exit command. | Moved `"maybe later"` from `EXIT_RESPONSES` to `UNCERTAIN_RESPONSES`; added `'exist'` as recognized typo. |
+
+No other bugs are known at this time. Consider this the final preview before the upcoming Pytalon Assistant 2.0. If any bugs are detected, it will be addressed through pre-releases as quickly as possible.
 
 ---
 
