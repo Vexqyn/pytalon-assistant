@@ -63,6 +63,8 @@ And June is **finally here**.
 - Final polishing before Pytalon 2.0
 - Persistent Memory rolling out post-launch
 
+>**Note: If everything goes according to plan, we are aiming to drop the full release this week or next week. However, if any new bugs surface, I won't hesitate to push out another pre-release to ensure quality >remains top-tier.**
+
 **The next era of Python learning is almost here.**
 
 — M. Qasim Farooqi (@acubura)
