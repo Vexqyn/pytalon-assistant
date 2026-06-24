@@ -74,7 +74,7 @@ def execute_and_check_code(code, expected_keywords=None, forbidden_keywords=None
     Safely executes the user's Python code and checks for required elements.
     
     Parameters:
-        code:             The Python code string to execute
+        code: The Python code string to execute
         expected_keywords: List of keywords that MUST be in the code
         forbidden_keywords: List of keywords that must NOT be in the code
     
