@@ -8,7 +8,7 @@ from utils import show_topic_menu
 # ----- Constants -----
 NAME = "Pytalon"
 VERSION = "1.0.5"
-CATEGORY = "Preview"
+CATEGORY = "Preview Pre-Release 1"
 DESCRIPTION = "A Tutor Companion Assistant developed to guide you with Python programming and learning."
 
 TOPICS = {
@@ -67,7 +67,7 @@ def get_initial_topic_choice(context):
         
         if intent['intent'] == 'farewell':
             print("\n👋 Goodbye! Come back whenever you need me.")
-            exit()
+            return 'exit'
         
         elif intent['intent'] == 'greeting':
             print("\n🤖 Hey! Great to see you! Ready to learn some Python? Let's dive in!")
@@ -105,7 +105,7 @@ def get_initial_topic_choice(context):
                 print("   • Or type 'show topics' to browse the list")
             elif answer == 'exit':
                 print("\n👋 Goodbye! Come back whenever you need me.")
-                exit()
+                return 'exit'
             continue
         
         elif intent['intent'] == 'gratitude':
@@ -147,7 +147,7 @@ def get_initial_topic_choice(context):
     # Otherwise show menu
     topic_choice = show_topic_menu(TOPICS, "Which topic would you like to start with?")
     if topic_choice == 'exit':
-        print("\n👋 Ok, goodbye! Come back whenever you need me")
+        print("\n👋 Ok, goodbye! Come back whenever you need me")  # ← Keep this
         exit()
     
     return topic_choice
