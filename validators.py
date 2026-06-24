@@ -11,8 +11,7 @@ from config import (
     CONFUSION_PATTERNS, TOPIC_KEYWORDS, TOPIC_REQUEST_PATTERNS,
     PRACTICE_REQUEST_PATTERNS, HELP_PATTERNS, TOPIC_MATCH_THRESHOLD,
     BEGINNER_PATTERNS, QUESTION_PATTERNS, NEGATION_WORDS,
-    UNCERTAIN_RESPONSES, REPEAT_REQUEST_PATTERNS, CLARIFICATION_PATTERNS,
-    SOCIAL_INTENTS, SUBSTANTIVE_INTENTS
+    UNCERTAIN_RESPONSES, REPEAT_REQUEST_PATTERNS, CLARIFICATION_PATTERNS
 )
 
 from utils import smart_detection, smart_validators, _extract_keywords
@@ -78,19 +77,22 @@ def get_global_valid_input(prompt):
             if user_negated:
                 return 'no'
             return 'yes'
+        
         if best_yes >= THRESHOLD and best_yes > best_no and best_yes > best_exit:
             if user_negated:
                 return 'no'
             return 'yes'
+        
         if best_no >= THRESHOLD and best_no > best_exit and best_no > best_yes:
             return 'no'
+        
         if best_exit >= THRESHOLD and best_exit > best_yes and best_exit > best_no:
             return 'exit'
  
-        print("? I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
+        print("🤔 I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
 
 # ---- Specialized validation for menu choice input -------
-def get_global_menu_choice(prompt, min_val=1, max_val=12):
+def get_global_menu_choice(prompt, min_val=1, max_val=13):
     """
     Gets validated menu choice (number within range or 'exit').
     Returns: choice number as string, or 'exit'
@@ -102,13 +104,13 @@ def get_global_menu_choice(prompt, min_val=1, max_val=12):
             return 'exit'
         
         if not choice:
-            print(f"[INFO] Just type a number from {min_val} to {max_val} to pick a topic, or 'exit' to leave!")
+            print(f"📝 Just type a number from {min_val} to {max_val} to pick a topic, or 'exit' to leave!")
             continue
 
         if choice.isdigit() and min_val <= int(choice) <= max_val:
             return choice
 
-        print(f"[INFO] That's not a topic number! Pick {min_val}-{max_val}, or type 'exit'.")
+        print(f"📝 That's not a topic number! Pick {min_val}-{max_val}, or type 'exit'.")
 
 # ---- Specialized validation for yes/no/exit input on questions, with smart_validators and negation handling -------
 def get_global_user_question_valid_input(prompt):
@@ -155,7 +157,7 @@ def get_global_user_question_valid_input(prompt):
         if best_exit >= THRESHOLD:
             return 'exit'
  
-        print("? I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
+        print("🤔 I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
 
 # ---- Specialized validation for yes/no input on examples, with smart_validators and negation handling -------
 def get_global_examples_valid_input(prompt):
@@ -196,9 +198,7 @@ def get_global_examples_valid_input(prompt):
             if user_negated:
                 return 'no'
             return 'yes'
-        if best_yes >= THRESHOLD and best_no >= THRESHOLD and best_yes == best_no:
-            if user_negated:
-                return 'no'
+        if best_yes >= THRESHOLD and best_no >= THRESHOLD and best_yes == best_no and not user_negated:
             return 'yes'
         if best_no >= THRESHOLD:
             if user_negated or best_no > best_yes:
@@ -416,24 +416,23 @@ def detect_conversation_intent(user_input):
 
     # Scorer 14: Clarification request (define, explain more, etc.)
     if any(phrase in user_input_lower for phrase in CLARIFICATION_PATTERNS):
-        record('clarification', 0.85)
+        record('clarification', 0.8)
 
     # ---- Boost help_request when multiple help signals co-fire ----
     if help_from_beginner and help_from_patterns and 'help_request' in scores:
         scores['help_request']['confidence'] = 0.95
 
     # ---- Compound intent: prefer substantive intent over social opener ----
+    SOCIAL_INTENTS = {'greeting', 'gratitude'}
+    SUBSTANTIVE_INTENTS = {
+        'help_request', 'topic_request', 'practice_request',
+        'general_question', 'confusion', 'clarification',
+    }
     social_fired = SOCIAL_INTENTS & scores.keys()
     substantive_fired = SUBSTANTIVE_INTENTS & scores.keys()
-
     if social_fired and substantive_fired:
         for social in social_fired:
             del scores[social]
-
-    # ---- Compound intent: prefer clarification over confusion ----
-    if 'confusion' in scores and 'clarification' in scores:
-        if scores['clarification']['confidence'] >= scores['confusion']['confidence']:
-            del scores['confusion']
 
     # ---- Pick the winner ----
     if scores:
