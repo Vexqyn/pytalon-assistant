@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="Pytalon Assistant Pre-Release" src="https://github.com/user-attachments/assets/497a7750-7a62-4374-b1e0-c109633e907b" />
+<img width="1920" height="1080" alt="Pytalon Assistant Pre-Release 2" src="https://github.com/user-attachments/assets/da662463-99b6-45e0-ac07-5fba64958749" />
 
 ![Python](https://img.shields.io/badge/Python-3.14.6-blue)
 ![Version](https://img.shields.io/badge/Version-v1.0.5--pre.1-purple)
@@ -6,7 +6,7 @@
 ![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
 
-# Pytalon Preview v1.0.5 Pre-Release 1 🤖🐍
+# Pytalon Preview v1.0.5 Pre-Release 2 🤖🐍
 
 # 🔥 June 10, 2026 — The Reveal is Live
 
@@ -46,7 +46,7 @@ Powered by **smart intent detection** with **negation handling** — so it knows
 
 ## 🚀 The Big Announcement
 
-**Pytalon 2.0 is coming this June.**
+**Pytalon 2.0 is coming this June 30.**
 
 > Today (June 10) is **not** the release.  
 > Today is the **reveal**.
@@ -59,11 +59,11 @@ And June is **finally here**.
 
 ## 🎯 What's Next?
 
-- Pytalon Preview v1.0.5 Pre-Release 1 is **live now**
+- Pytalon Preview v1.0.5 Pre-Release 2 is **live now**
 - Final polishing before Pytalon 2.0
 - Persistent Memory rolling out post-launch
 
->**Note: If everything goes according to plan, I are aiming to drop the full release this week or next week. However, if any new bugs surface, I won't hesitate to push out another pre-release to ensure quality >remains top-tier.**
+> **Note:** If everything goes according to plan, I am aiming to drop the full release on **June 30**. However, if any new bugs surface, I won't hesitate to push out another pre-release to ensure quality remains top-tier.
 
 **The next era of Python learning is almost here.**
 
@@ -260,6 +260,27 @@ The following bugs have been resolved in v1.0.5 Pre-Release 1:
 | **Intent detection false positives** | `"maybe later"` was incorrectly treated as an exit command. | Moved `"maybe later"` from `EXIT_RESPONSES` to `UNCERTAIN_RESPONSES`; added `'exist'` as recognized typo. |
 
 No other bugs are known at this time. Consider this the final preview before the upcoming Pytalon Assistant 2.0. If any bugs are detected, it will be addressed through pre-releases as quickly as possible.
+
+---
+
+### 🐛 Bug Fixes in **Preview v1.0.5 Pre-Release 2**
+
+The following bugs have been resolved in v1.0.5 Pre-Release 2:
+
+| Bug | Description | Fix |
+|-----|-------------|-----|
+| **`exit()` kills Pytalon abruptly** | Direct `exit()` calls in intro and main loop terminated the interpreter without proper cleanup. | Replaced `exit()` with `sys.exit(0)` for clean termination in all environments. |
+| **EOFError crashes on piped input** | No protection when input stream ends unexpectedly (Ctrl+D, piped input, Docker). | Added `except (KeyboardInterrupt, EOFError)` handler in main loop and `try/except EOFError` in practice input. |
+| **Resource cleanup failure** | Infinite loop detection returned early before restoring stdout and closing StringIO. | Moved infinite loop check before stdout redirection to prevent resource leaks. |
+| **Bypassable infinite loop detection** | Only detected `while True` and `while 1`, missing other variants. | Expanded detection to 8 common infinite loop patterns (`while(True)`, `while 1==1`, etc.). |
+
+**This is the final preview release.** All known issues have been addressed, and Pytalon is now more stable than ever.
+
+**Pytalon Assistant 2.0** is scheduled for release on **June 30** — just around the corner! 🎉
+
+If you encounter any unexpected behavior between now and then, please report it. Every issue filed helps us make the 2.0 launch even stronger.
+
+**The wait is almost over.** 🐍✨
 
 ---
 
