@@ -4,11 +4,12 @@
 from conversation_context import ConversationContext
 from validators import detect_conversation_intent
 from utils import show_topic_menu
+import sys
 
 # ----- Constants -----
 NAME = "Pytalon"
 VERSION = "1.0.5"
-CATEGORY = "Preview Pre-Release 1"
+CATEGORY = "Preview Pre-Release 2"
 DESCRIPTION = "A Tutor Companion Assistant developed to guide you with Python programming and learning."
 
 TOPICS = {
@@ -147,7 +148,7 @@ def get_initial_topic_choice(context):
     # Otherwise show menu
     topic_choice = show_topic_menu(TOPICS, "Which topic would you like to start with?")
     if topic_choice == 'exit':
-        print("\n👋 Ok, goodbye! Come back whenever you need me")  # ← Keep this
-        exit()
+        print("\n👋 Ok, goodbye! Come back whenever you need me")
+        sys.exit(0)
     
     return topic_choice
