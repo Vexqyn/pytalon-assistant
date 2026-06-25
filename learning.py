@@ -2,8 +2,8 @@
 PYTALON - Your Python Tutor Companion
 Created by: M Qasim Farooqi
 Role: BS IT Student | Python Developer · AI Prompt Strategist · Digital Creator & Game Systems Analyst | I build, analyze & create
-Version: 1.0.5 Pre-Release 1
-Category: Preview
+Version: 1.0.5
+Category: Preview Pre-Release 2
 Purpose: Learn Python basics through interactive teaching with 13 comprehensive topics
 """
 
@@ -20,6 +20,7 @@ from validators import (
     handle_empty_input,
 )
 from conversation_context import ConversationContext
+from intro import sys
 
 # ----- Session Setup -----
 context = ConversationContext()
@@ -1951,6 +1952,6 @@ try:
     print("Keep practicing to enhance your skills. 🥷")
     print_global_separator()
 
-except KeyboardInterrupt:
-    print("\n👋 Sorry, the program get interrupted, it's not your fault restart again the assistant, Goodbye!")
-    exit()
+except (KeyboardInterrupt, EOFError):
+    print("\n👋 Sorry, the program got interrupted or ended, it's not your fault restart again the assistant, Goodbye!")
+    sys.exit(0)
