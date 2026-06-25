@@ -1,7 +1,7 @@
 <img width="1920" height="1080" alt="Pytalon Assistant Pre-Release 2" src="https://github.com/user-attachments/assets/da662463-99b6-45e0-ac07-5fba64958749" />
 
 ![Python](https://img.shields.io/badge/Python-3.14.6-blue)
-![Version](https://img.shields.io/badge/Version-v1.0.5--pre.1-purple)
+![Version](https://img.shields.io/badge/Version-v1.0.5--pre.2-purple)
 ![Status](https://img.shields.io/badge/Status-Preview%20Cycle-orange)
 ![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
