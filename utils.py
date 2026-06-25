@@ -50,19 +50,23 @@ def get_multiline_code_input():
     """
     # ----check if stdin is available or not ----
     if sys.stdin.closed:
-        print("⚠️ Input stream closed. Restarting practice session...")
+        print("⚠️ Input stream is closed. Restarting practice session...")
         return ""
     
     print("\n📝 ENTER YOUR PYTHON CODE (type 'DONE' on a new line when finished):")
     print_global_separator()
     
     code_lines = []
-    while True:
-        line = input()
-        # Check if user wants to stop entering code
-        if line.strip().upper() == 'DONE':
-            break
-        code_lines.append(line)
+    try:
+        while True:
+            line = input()
+            # Check if user wants to stop entering code
+            if line.strip().upper() == 'DONE':
+                break
+            code_lines.append(line)
+    except EOFError:
+        print("\n⚠️ It's not your fault input ended unexpectedly, using entered code...")
+        # Return whatever was entered so far
     
     # Join all lines with newline characters
     return "\n".join(code_lines)
@@ -84,22 +88,42 @@ def execute_and_check_code(code, expected_keywords=None, forbidden_keywords=None
         - output: What the code printed (if anything)
         - error_message: Description of any problems found
     """
-    # ---- SETUP: Capture printed output ----
-    old_stdout = sys.stdout
-    sys.stdout = captured_output = io.StringIO()
-    
     success = True
     error_message = ""
     output = ""
     
+    # ---- BLOCK INFINITE LOOPS (before stdout redirect) ----
+    # Check for common infinite loop patterns (best-effort detection)
+    # Note: Variable-based loops may still bypass this check
+    infinite_loop_patterns = [
+        'while True',
+        'while 1',
+        'while(True)',
+        'while(1)',
+        'while (True)',
+        'while (1)',
+        'while 1==1',
+        'while 1 == 1',
+    ]
+    
+    code_lower = code.lower()
+    detected_pattern = None
+    
+    for pattern in infinite_loop_patterns:
+        if pattern.lower() in code_lower:
+            detected_pattern = pattern
+            break
+    
+    if detected_pattern:
+        success = False
+        error_message = f"⚠️ Infinite loops are not allowed in practice mode (detected: {detected_pattern})"
+        return success, output, error_message
+    
+    # ---- SETUP: Capture printed output ----
+    old_stdout = sys.stdout
+    sys.stdout = captured_output = io.StringIO()
+    
     try:
-        # ---- BLOCK INFINITE LOOPS ----
-        # Detect infinite loops before execution
-        if 'while True' in code or 'while 1' in code:
-            success = False
-            error_message = "⚠️ Infinite loops (while True / while 1) are not allowed in practice"
-            return success, output, error_message
-
         # ---- Namespace with exit/quit blocked ----
         # This prevents users from calling exit() or quit() in their code
         def _blocked_exit(*args, **kwargs):
