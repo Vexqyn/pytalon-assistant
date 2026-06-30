@@ -12,7 +12,7 @@ https://github.com/user-attachments/assets/15bd0611-02c0-4cbc-b4f3-0b621f5085a6
 
 **Pytalon 2.0** is here. 🎉
 
-After months of development, five preview releases, and **18 bug fixes**, Pytalon has evolved from a simple teaching script into a **full conversational Python tutor**.
+After months of development, and doing preview releases, and **18 bug fixes**, Pytalon has evolved from a simple teaching script into a **full conversational Python tutor**.
 
 This is the **stable, polished, and complete** version of Pytalon — ready for learners, teachers, and anyone who wants to master Python basics through interactive, guided learning.
 
