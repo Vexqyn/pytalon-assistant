@@ -1,0 +1,37 @@
+# .github/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Karachi"
+    groups:
+      actions-minor-patch:
+        patterns:
+          - "*"
+        # This new 'exclude-patterns' is the key change.
+        # It tells the group to ignore these dependencies entirely, for all update types.
+        exclude-patterns:
+          - "actions/checkout"
+          - "actions/dependency-review-action"
+          - "actions/setup-python"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      - dependency-name: "actions/checkout"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "actions/dependency-review-action"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "actions/setup-python"
+        update-types: ["version-update:semver-major"]
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore"
+      include: "scope"

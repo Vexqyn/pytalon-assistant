@@ -1,0 +1,154 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# Pytalon specific pycache (CPython 3.14.6)
+__pycache__/config.cpython-314.pyc
+__pycache__/conversation_context.cpython-314.pyc
+__pycache__/intro.cpython-314.pyc
+__pycache__/learning.cpython-314.pyc
+__pycache__/menu_utils.cpython-314.pyc
+__pycache__/topics_basic.cpython-314.pyc
+__pycache__/utils.cpython-314.pyc
+__pycache__/validators.cpython-314.pyc
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  These files are written by a python script from a template
+#  PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+# .python-version
+
+# Environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#.idea/
+
+# Abstra
+.abstra/
+
+# Visual Studio Code
+# .vscode/ is intentionally tracked — contains project settings (e.g. python.REPL.enableREPLSmartSend)
+
+# Ruff stuff:
+.ruff_cache/
+
+# Cursor
+.cursorignore
+.cursorindexingignore
+
+# Marimo
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+
+# ==========================================
+# Pytalon Assistant - Project Specific Ignores
+# ==========================================
+
+# User-generated practice code (if any)
+student_practice.py
+temp_practice*.py
+user_code*.py
+
+# Session or progress data (if added in future)
+.session/
+.pytalon_history
+.pytalon_progress.json
+
+# Logs from the assistant (if you enable logging)
+pytalon.log
+pytalon_debug.log
+*.log
+
+# Any local configuration files created by users
+*.local.py
+config.local.json

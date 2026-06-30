@@ -1,0 +1,33 @@
+name: Bandit
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  schedule:
+    - cron: '43 20 * * 4'
+
+permissions:
+  contents: read
+
+jobs:
+  bandit:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bandit Scan
+        uses: shundor/python-bandit-scan@ab1d87dfccc5a0ffab88be3aaac6ffe35c10d6cd
+        with:
+          exit_zero: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          level: MEDIUM
+          confidence: MEDIUM
+          path: .
+          excluded_paths: tests/,test/,.venv/,__pycache__,.eggs
