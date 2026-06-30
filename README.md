@@ -254,7 +254,7 @@ python learning.py
 
 **No extra installations needed** - Pytalon uses only Python's standard library! 🐍
 
---
+---
 
 ## ⚙️ Requirements
 
