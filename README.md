@@ -6,6 +6,27 @@ https://github.com/user-attachments/assets/15bd0611-02c0-4cbc-b4f3-0b621f5085a6
 ![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
 
+# Time to take a Break 🛑
+
+**Status: Slowing down for a moment.**
+
+I'm officially stepping back from active development on Pytalon to recharge and reset. 
+
+**Why the pause?**
+As a solo founder and engineer, I find myself hitting a wall where I'm coding just to code. To build the next phase of Pytalon effectively, I need space to plan—especially for the **persistent memory** feature that's coming next. I want to implement it strategically, not hastily.
+
+**Personal focus:**
+Additionally, I need to prioritize my academic studies and take this chance to restructure my personal workflow. Balancing school and a solo startup is demanding, and I want to set myself up for long-term success rather than short-term burnout.
+
+**What to expect:**
+- No active coding commits for a bit.
+- More documentation and architectural planning.
+- A refreshed roadmap once I return.
+
+I'll be back. Thanks for the support! 🚀
+
+<img width="1920" height="1080" alt="Pytalon - Break" src="https://github.com/user-attachments/assets/264bb4a3-79be-4336-b44e-048304489ee7" />
+
 # 🐍 Pytalon 2.0 — Major Stable Release
 
 *"A great tutor doesn't just know the material — they keep showing up with more to teach."*
