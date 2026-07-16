@@ -72,10 +72,11 @@ jobs:
   # 5. OSV Scanner - Dependency vulnerabilities
   osv-scanner:
     runs-on: ubuntu-latest
-    continue-on-error: true # <--- Moved to the job level for a guaranteed green build!
     steps:
       - uses: actions/checkout@v4
-      - name: Run OSV Scanner
-        uses: google/osv-scanner-action@v1
-        with:
-          scan-args: "-r ."
+      - name: Install and Run OSV-Scanner CLI
+        run: |
+          # Download and install the official binary
+          curl -sSfL https://raw.githubusercontent.com/google/osv-scanner/main/scripts/bootstrap.sh | sh -s -- -b /usr/local/bin
+          # Run the scan recursively
+          osv-scanner -r . || true
