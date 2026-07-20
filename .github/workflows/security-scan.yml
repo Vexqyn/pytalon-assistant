@@ -21,7 +21,7 @@ jobs:
             python:3.12-slim \
             sh -c "pip install bandit && bandit -r . -ll -f json -o bandit-report.json || true"
       - name: Upload Bandit results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bandit-report
           path: bandit-report.json
