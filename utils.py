@@ -3,8 +3,7 @@
 import io
 import sys
 import difflib
-import re
-from config import FILLER_WORDS, NEGATION_WORDS
+from config import FILLER_WORDS, NEGATION_WORDS, COMMON_SHORT_WORDS, COMMAND_PREFIXES
 
 # ========== NEGATION HANDLING ==========
 
@@ -13,7 +12,9 @@ _MULTI_NEGATIONS = {p for p in NEGATION_WORDS if " " in p}
 
 # ------- Helper function to detect negation cues in text -------
 def _text_has_negation(text):
+
     """True if text contains an explicit negation cue."""
+
     lowered = text.lower()
     words = set(lowered.split())
     if words & _SINGLE_NEGATIONS:
@@ -21,8 +22,11 @@ def _text_has_negation(text):
     return any(phrase in lowered for phrase in _MULTI_NEGATIONS)
 
 # ------- Helper function to adjust similarity score based on negation cues -------
+
 def _apply_negation_cap(score, user_text, reference_text):
+
     """Lower score when the reference is negative but the user did not negate."""
+
     if _text_has_negation(reference_text) and not _text_has_negation(user_text):
         return min(score, 0.5)
     return score
@@ -253,11 +257,15 @@ def run_practice_session(topic_name, instructions, expected_keywords, example_co
             print_global_separator()
             print(f"❌ Not quite right! {error_message}")
             if attempts >= MAX_ATTEMPTS:
-                retry = input("\n🔹 You've tried several times. Try again? (yes/no): ").strip().lower()
-                if retry in ['yes', 'y']:
+                from validators import get_global_valid_input
+                retry = get_global_valid_input("\n🔹 You've tried several times. Try again? (yes/no): ")
+                if retry == 'yes':
                     attempts = 0
                     continue
-                else:
+                elif retry == 'exit':
+                    print("👋 Exiting practice session. See you next time!")
+                    break
+                else:  # retry == 'no'
                     print("✅ Skipping practice. You can always come back later!")
                     break
             else:
@@ -316,6 +324,7 @@ def smart_detection(s1, s2):
         return 1.0
     if words1 and words1.issubset(words2):
         return 1.0
+
     # ----------------------------------------------------------------
 
     # Full‑string comparison
@@ -368,20 +377,23 @@ def smart_validators(s1, s2, w1, w2):
     w1 = w1.lower().strip()
     w2 = w2.lower().strip()
     
-    # Require at least 2 overlapping keywords in both the main strings and the keyword sets for a strong match
-    s1_clean = set(_extract_keywords(s1).split())
-    s2_clean = set(_extract_keywords(s2).split())
-    w1_words = set(w1.split())
-    w2_words = set(w2.split())
-    min_overlap = 1
+    # Extract keywords and filter out common short words to prevent false positives
+    s1_clean = {w for w in _extract_keywords(s1).split() if w not in COMMON_SHORT_WORDS}
+    s2_clean = {w for w in _extract_keywords(s2).split() if w not in COMMON_SHORT_WORDS}
+    w1_words = {w for w in w1.split() if w not in COMMON_SHORT_WORDS}
+    w2_words = {w for w in w2.split() if w not in COMMON_SHORT_WORDS}
+    min_overlap = 2 
 
     overlap1 = len(s1_clean & s2_clean)
     overlap2 = len(w1_words & w2_words)
     overlap3 = len(s1_clean & w2_words)
     overlap4 = len(w1_words & s2_clean)
 
+    # Strong match requires min_overlap=2 in both main strings AND keyword sets
     if (overlap1 >= min_overlap or overlap2 >= min_overlap) and (overlap3 >= min_overlap or overlap4 >= min_overlap):
         return _apply_negation_cap(1.0, s1, s2)
+    
+    # Weaker match with at least 1 overlap in each (but not common short words)
     if (overlap1 >= 1 or overlap2 >= 1) and (overlap3 >= 1 or overlap4 >= 1):
         return _apply_negation_cap(0.5, s1, s2)
     # ----------------------------------------------------------------
@@ -431,11 +443,74 @@ def smart_validators(s1, s2, w1, w2):
 def _extract_keywords(text):
     """
     Extracts the most intent-carrying words from a string.
-    Strips common filler words so smart_validators gets meaningful w1/w2.
+    Strips common filler words and punctuation so smart_validators 
+    gets meaningful w1/w2.
+    
     Returns a string of the remaining words joined by spaces.
     """
-
-    cleaned = re.sub(r"[^\w\s']", '', text.lower().strip())
+    # Convert to lowercase and strip whitespace
+    text = text.lower().strip()
+    
+    # Remove common punctuation by keeping only alphanumeric, spaces, and apostrophes
+    # This handles contractions like "don't", "I'm", etc.
+    cleaned_chars = []
+    for char in text:
+        if char.isalnum() or char.isspace() or char == "'":
+            cleaned_chars.append(char)
+        else:
+            # Replace punctuation with space to separate words
+            cleaned_chars.append(' ')
+    
+    cleaned = ''.join(cleaned_chars)
+    
+    # Split into words and filter out filler words
     words = cleaned.split()
     keywords = [w for w in words if w not in FILLER_WORDS]
+    
     return ' '.join(keywords) if keywords else cleaned
+
+# ========== HELPER: Remove command-style prefixes from user input ==========
+def remove_command_prefix(text):
+    """
+    Remove command-style prefixes from user input.
+    Handles cases like: /lists, !functions, #variables, \\loops, etc.
+    
+    This function checks if the first character is a command prefix
+    and removes it along with any following whitespace.
+    
+    Uses COMMAND_PREFIXES from config.py for maintainability.
+    Custom implementation without using lstrip() or strip().
+    
+    Args:
+        text: The input text to clean
+        
+    Returns:
+        Text with leading command prefix removed if present
+    """
+    # Handle empty or single-character input
+    if not text or len(text) <= 1:
+        return text
+    
+    # Check if first character is a command prefix
+    first_char = text[0]
+    is_command_prefix = False
+    
+    for prefix in COMMAND_PREFIXES:
+        if first_char == prefix:
+            is_command_prefix = True
+            break
+    
+    # If not a command prefix, return original text
+    if not is_command_prefix:
+        return text
+    
+    # Remove the prefix character
+    cleaned = text[1:]
+    
+    # Remove leading whitespace manually (custom implementation)
+    start_index = 0
+    while start_index < len(cleaned) and cleaned[start_index] == ' ':
+        start_index += 1
+    
+    # Return the text with prefix and leading spaces removed
+    return cleaned[start_index:] if start_index < len(cleaned) else cleaned
