@@ -28,6 +28,8 @@ YES_RESPONSES = [
     "fr! let's do it!", 'ngl! i am excited to learn this topic',
     'tbh! i want to learn this topic', 'yeah! teach me man',
     "of course! lets learn this new topic", 'lock in bro! i want to learn',
+    'yeah! show me more', 'ok! i want to learn more', 'yup! teach me this topic',
+    'yeah man!', 'yeah bro!', 'ok bro!', 'ok man!', 'yup bro!', 'yup man!',
     # Millennial casual
     'sounds good', 'sounds great', 'works for me', 'im down', "i'm down",
     'i am down', 'totally', 'totes', '100', '100 percent',
@@ -96,9 +98,9 @@ NO_RESPONSES = [
 
 EXIT_RESPONSES = [
     # Direct exit commands
-    'exit', 'e', 'quit', 'bye', 'goodbye', 'leave', 'end', 'stop',
+    'exit', 'e', 'quit', 'leave', 'end', 'stop',
     'done', 'finish', 'finished', 'close', 'shut it down',
-    # Enough
+    # Done / enough
     "that's enough", 'enough', 'enough for today', 'enough for now',
     'thats enough', 'thats enough for today',
     # Dipping out slang
@@ -107,10 +109,6 @@ EXIT_RESPONSES = [
     "i'm outta here", 'peace', 'peace out', 'peace bro',
     'im ghost', "i'm ghost", 'bouncing', 'im bouncing',
     "i'm gonna bounce, so bye for now", 'gonna bounce', 'im gonna bounce',
-    # Bye variations
-    'bye bye', 'byeee', 'cya', 'ciao', 'ttyl', 'ttyl bro',
-    'talk later', 'catch you later', 'catch ya later', 'see ya', 'see you',
-    'see you later', 'see ya later', 'aight bye', 'alright bye',
     # Quitting / stopping
     'i want to exit', 'i want to quit', 'i want to stop', 'i want to leave',
     'exit the session', 'end the session', 'quit the session',
@@ -169,6 +167,12 @@ YES_EXAMPLES_RESPONSES = [
     'fr! i want to see examples', 'ngl! i am excited to see examples',
     'tbh! i want to see examples', 'yeah! show me more examples',
     'ok! i want to see more examples', 'yup! show me some examples!',
+    # Casual affirmations (mirror of YES_RESPONSES so they work here too)
+    'yeah man!', 'yeah man', 'yeah bro!', 'yeah bro', 'ok bro!', 'ok man!',
+    'yup bro!', 'yup bro', 'yup man!', 'yup man',
+    'sure thing', 'sure man', 'sure bro', 'hell yeah', 'heck yes',
+    'oh yeah', 'oh yes', 'yesss', 'yessir', 'yes sir',
+    'yeah!', 'yeah', 'yep!', 'yep', 'yup!', 'yup', 'sure!', 'ok!',
     'hit me', 'hit me with it', 'bring it', 'drop it', 'spill it',
     'bet show me', 'bet', 'say less', 'say less show me',
     'lowkey wanna see', 'lowkey want to see', 'highkey wanna see',
@@ -325,16 +329,17 @@ EXIT_QUESTION_RESPONSES = [
     # Frustrated exit
     'im done asking', 'done with questions', 'question phase over',
 ]
-
+# Simple responses for quick yes/no/ok/exit commands
 SIMPLE_RESPONSES = ['yes', 'y', 'no', 'n', 'ok', 'okay', 'exit', 'e', 'quit', 'bye']
 
+# Question words for identifying user queries
 QUESTION_WORDS = [
     'what', 'how', 'why', 'when', 'where', 'who', 'which', 
     'can', 'is', 'are', 'do', 'does', 'should', 'could', 'would', 'will'
 ]
-
+# Python-related terms for topic identification and learning context
 PYTHON_TERMS = [
-    'python', 'function', 'variable', 'hello world', 'relational operator',
+    'python', 'function', 'variable', 'relational operator',
     'assignment operator', 'logical operator', 'type conversion', 'input function',
     'comments', 'strings', 'programming', 'coding', 'data types', 'conditional statements',
     'if statement', 'else statement', 'elif statement', 'nested conditionals', 'Indexing & Slicing',
@@ -345,7 +350,8 @@ PYTHON_TERMS = [
 GREETING_PATTERNS = [
     'hi', 'hello', 'hey', 'good morning', 'good afternoon', 
     'good evening', 'howdy', 'what\'s up', 'sup', 'yo',
-    'heya', 'hi there', 'hello there', 'greetings'
+    'heya', 'hi there', 'hello there', 'greetings', 'hello there',
+    'hey there', 'hiya', 'hiya!', 'hi there!', 'hello there!', 'hey there!',
 ]
 
 FAREWELL_PATTERNS = [
@@ -355,15 +361,16 @@ FAREWELL_PATTERNS = [
 ]
 
 GRATITUDE_PATTERNS = [
-    'thanks', 'thank you', 'thx', 'ty', 'appreciate it',
+    'thanks', 'thank you', 'thx', 'appreciate it',
     'much appreciated', 'thank you so much', 'thanks a lot',
-    'awesome thanks', 'great thanks', 'perfect thanks'
+    'awesome thanks', 'great thanks', 'perfect thanks',
+    'thankyou', 'thankyou!', 'thanks!', 'thx!'
 ]
 
 CONFUSION_PATTERNS = [
-    'i don\'t understand', 'not clear', 'confused', 
-    'what do you mean', 'explain again', 'i\'m lost',
-    'can you repeat', 'say that again', 'huh', 'what',
+    'i don\'t understand', 'not clear', 'confused',
+    'explain again', 'i\'m lost',
+    'can you repeat', 'say that again', 'huh',
     'i didn\'t get it', 'didn\'t understand', 'unclear',
     'i\'m not following', 'i don\'t get it'
 ]
@@ -391,29 +398,49 @@ CLARIFICATION_PATTERNS = [
     'meaning of', 'definition of', 'what is meant by',
     'in other words', 'simpler terms', 'layman terms',
     'breakdown of', 'elaborate', 'expand on',
+    # Identity questions
+    'who are you', 'what are you', 'what\'s your name',
+    'what is your name', 'tell me about yourself',
+    'introduce yourself', 'what can you do',
+    'what\'s your purpose', 'what are you supposed to do',
+    'what do you mean',
 ]
+
+# ----- COMMAND PREFIX CHARACTERS -----
+
+"""
+Special characters that users might type before topic names or commands
+Examples: "/lists", "!functions", "#variables", "\\loops"
+"""
+
+COMMAND_PREFIXES = ['/', '\\', '!', '@', '#', '$', '%', '^', '&', '*']
 
 TOPIC_KEYWORDS = {
     'Hello World': [
-        'hello world', 'first program', 'print statement', 'printing', 'basic output'
+        'hello world', 'hellow world', 'world hellow', 'world hello', 'first program', 'print statement', 
+        'printing', 'basic output', 'world', 'program'
+
     ],
     'Functions': [
-        'function', 'functions', 'def', 'method', 'reusable code', 'modular'
+        'functions', 'function', 'funtions', 'functons', 'def', 'method', 'reusable code', 'modular'
     ],
     'Variables': [
-        'variable', 'variables', 'var', 'storage', 'assign', 'assignment', 'store value'
+        'variables', 'variable', 'varaibles', 'var', 'storage', 'assign', 'assignment', 'store value'
     ],
     'Relational operators': [
-        'relational operator', 'relational operators', 'relational',
+        'relational operators', 'relational operator', 'relational',
         'comparison', 'compare', 'equal to', 'greater than', 'less than', '==', '!=', '>=', '<=', '>', '<'
     ],
     'Assignment operators': [
-        'assignment operator', 'assignment operators', 'assignment',
+        'assignment operators', 'assignment operator', 'assignment',
         '+=', '-=', '*=', '/=', '%=', '//=', '**=', 'shortcut operators'
     ],
     'Logical operators': [
-        'logical operator', 'logical operators', 'logical',
-        'and or not', 'boolean logic', 'true false'
+        'logical operators', 'logical operator', 'logical',
+        'and operator', 'or operator', 'not operator',
+        'boolean logic', 'true false', 'boolean operators',
+        'and or', 'and or not', 'logical and', 'logical or', 'logical not',
+        'and or operators', 'boolean and', 'boolean or', 'boolean not'
     ],
     'Type conversion': [
         'type conversion', 'type conversions', 'convert', 'conversion',
@@ -424,20 +451,29 @@ TOPIC_KEYWORDS = {
         'get input', 'read input'
     ],
     'Comments in Python': [
-        'comments', 'comment', '#', 'documentation', 'explain code', 'notes'
+        'comments in python', 'comments', 'comment', '#', 'documentation', 'explain code', 'notes'
     ],
     'Strings in Python': [
-        'strings', 'string', 'text', 'character', 'words', 'sentence',
-        'concatenate', 'slicing', 'string operations', 'string formatting'
+        'strings in python', 'strings', 'string', 'python strings',
+        'text', 'character', 'words', 'sentence',
+        'concatenate', 'slicing', 'string operations', 'string formatting',
+        'string methods', 'str type'
     ],
     'Data types in Python': [
-        'data types', 'data type', 'datatypes', 'integer', 'float', 'boolean',
-        'list', 'tuple', 'dictionary', 'data type in python'
+        'data types in python', 'data types', 'data type', 'datatypes', 'integer', 'float', 'boolean',
+        'tuple', 'dictionary', 'data type in python', 'int', 'bool', 'dict',
+        'int type', 'float type', 'bool type'
     ],
     'Conditional statements': [
         'conditional statements', 'conditional statement', 'conditionals',
-        'if else', 'elif', 'condition', 'decision', 'branch', 'choose', 'if statement'
+        'if else', 'elif', 'condition', 'decision', 'branch', 'choose', 'if statement',
+        'if', 'else', 'elif statement', 'conditonal', 'conditional'
     ],
+    'Lists in Python': [
+        'lists in python', 'lists', 'list', 'array', 'arrays', 'list in python',
+        'python lists', 'append', 'list operations', 'list methods',
+        'indexing', 'slicing', 'listts', 'lsts'
+    ]
 }
 
 TOPIC_REQUEST_PATTERNS = [
@@ -457,23 +493,28 @@ TOPIC_REQUEST_PATTERNS = [
 PRACTICE_REQUEST_PATTERNS = [
     'let me practice', 'want to practice', 'give me exercises',
     'test me', 'quiz me', 'challenge me', 'try it myself',
-    'let me try', 'i want to code', 'coding practice', 'hands on'
+    'let me try', 'i want to code', 'coding practice', 'hands on',
+    'wnt to practice', 'i wnt to practice', 'want to pratice'
 ]
 
 HELP_PATTERNS = [
     'help', 'what can you do', 'how does this work', 
     'what should i do', 'options', 'menu', 'what\'s available',
-    'what topics', 'show topics', 'list topics'
+    'what topics', 'show topics', 'list topics',
+    # Extended variations for better recognition
+    'show me topics', 'show me the topics', 'list all topics',
+    'what topics do you have', 'what can you teach', 
+    'what topics are available', 'display topics',
+    'see all topics', 'see the topics', 'view topics'
 ]
 
 # Threshold for Smart Detection in Conservation Intent Detection - can be adjusted based on testing and user feedback for better accuracy
-TOPIC_MATCH_THRESHOLD = 0.65
+TOPIC_MATCH_THRESHOLD = 0.55
 
 
 BEGINNER_PATTERNS = [
     r'\bbeginner\b', r'\bnewbie\b', r'\bnovice\b',
     r'\bi\s+(want|wanted|would like|need)\s+to\s+(learn|lean|study)\b',
-    r'\bteach me\b', r'\bcan you teach\b',
     r'\blearn python\b', r'\bpython beginner\b',
     r'\bgetting started\b',
     r'\bhelp me learn\b', r'\bcan you help me\b',
@@ -482,7 +523,7 @@ BEGINNER_PATTERNS = [
 
 QUESTION_PATTERNS = [
     r'\bwhat\b', r'\bhow\b', r'\bwhy\b', r'\bwhen\b',
-    r'\bwhere\b', r'\bwho\b', r'\bwhich\b', r'\bcan\b',
+    r'\bwhere\b', r'\bwho\b', r'\bwhich\b',
     r'\bcould\b', r'\bwould\b', r'\bshould\b', r'\bexplain\b'
 ]
 
@@ -509,6 +550,35 @@ FILLER_WORDS = {
         'i', 'me', 'my', 'the', 'a', 'an', 'is', 'it', 'to', 'do',
         'of', 'in', 'on', 'at', 'be', 'am', 'are', 'was', 'were',
         'this', 'that', 'and', 'or', 'but', 'so', 'for', 'with',
-        'just', 'like', 'bro', 'man', 'fam', 'yo', 'hey', 'hi', 
-        'hello', 'please', 'thanks', 'thank you', 'appreciate it',
+        'just', 'like', 'bro', 'man', 'fam', 'yo', 'hey', 'hi',
 }
+# Common short words that are often used in conversation but may not carry significant meaning for intent detection
+COMMON_SHORT_WORDS = {'the', 'for', 'but', 'of', 'in', 'on', 'at', 'to', 'is', 'it', 'a', 'an', 'as', 'by', 'hello', 'hi', 'hey', 'thanks'}
+
+# Common single words that shouldn't match topics
+COMMON_SINGLE_WORDS = {'hello', 'hi', 'hey', 'thanks', 'thank', 'python'}
+
+# Generic patterns for learning Python
+generic_python_patterns = [
+    'teach me python', 'learn python', 'python tutorial',
+    'start with python', 'python basics', 'python course',
+    'getting started with python', 'python for beginners',
+    'i want to learn python', 'help me learn python'
+]
+
+# Common patterns for asking about the last response or repeating information
+last_response_patterns = [ 
+    'last response', 'last reply', 'last message',
+    'what did you say', 'what was your last',
+    'whats your last', 'your last response', 'your last reply',
+    'your last message', 'repeat what you said', 'say that again'
+]
+# Common patterns for asking about the bot's identity or capabilities
+identity_patterns = [
+    'who are you', 'what are you', 'what\'s your name',
+    'what is your name', 'tell me about yourself',
+    'introduce yourself', 'what can you do',
+    'what\'s your purpose', 'what are you supposed to do',
+    'Who are yu?', 'What are yu?', 'What is your purpose?', 'What can you do?'
+]
+
