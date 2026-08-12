@@ -11,10 +11,11 @@ from config import (
     CONFUSION_PATTERNS, TOPIC_KEYWORDS, TOPIC_REQUEST_PATTERNS,
     PRACTICE_REQUEST_PATTERNS, HELP_PATTERNS, TOPIC_MATCH_THRESHOLD,
     BEGINNER_PATTERNS, QUESTION_PATTERNS, NEGATION_WORDS,
-    UNCERTAIN_RESPONSES, REPEAT_REQUEST_PATTERNS, CLARIFICATION_PATTERNS
+    UNCERTAIN_RESPONSES, REPEAT_REQUEST_PATTERNS, CLARIFICATION_PATTERNS, 
+    COMMON_SINGLE_WORDS, generic_python_patterns
 )
 
-from utils import smart_detection, smart_validators, _extract_keywords
+from utils import smart_detection, smart_validators, _extract_keywords, remove_command_prefix
 
 # ========== VALIDATION FUNCTIONS ==========
 
@@ -61,7 +62,7 @@ def get_global_valid_input(prompt):
         # Extract intent keywords from user input once, reused across all comparisons
         w1 = _extract_keywords(raw_input)
  
-        # Fuzzy match against the full response sets
+        # Max similarity scores for yes/no/exit using smart_validators
         best_yes  = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in YES_SET),  default=0.0)
         best_no   = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in NO_SET),   default=0.0)
         best_exit = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in EXIT_SET), default=0.0)
@@ -138,7 +139,7 @@ def get_global_user_question_valid_input(prompt):
         # Extract intent keywords from user input once, reused across all comparisons
         w1 = _extract_keywords(raw_input)
  
-        # Fuzzy match against the full question response sets
+        # Max similarity scores for yes/no/exit using smart_validators
         best_yes  = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in YES_QUESTION_SET),  default=0.0)
         best_no   = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in NO_QUESTION_SET),   default=0.0)
         best_exit = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in EXIT_QUESTION_SET), default=0.0)
@@ -183,7 +184,7 @@ def get_global_examples_valid_input(prompt):
         # Extract intent keywords from user input once, reused across all comparisons
         w1 = _extract_keywords(raw_input)
  
-        # Fuzzy match against the full examples response sets
+        # Max similarity scores for yes/no using smart_validators
         best_yes = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in YES_EXAMPLES_SET), default=0.0)
         best_no  = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in NO_EXAMPLES_SET),  default=0.0)
  
@@ -237,27 +238,27 @@ def get_global_question_content_input(prompt):
 
 # ===== EMPTY OR UNRECOGNIZED INPUT MANAGEMENT =====
 
+# ---- Handlers for unrecognized or empty input ----
 def handle_unrecognized_input(user_input):
     """Handles input that doesn't match any intent."""
     if not user_input:
         print("   ")
     elif len(user_input) < 10:
-        print("""🤔 That seems a bit short! 
-              Try saying something like 'Hello', 'Can you teach me Python?', or 'What topics do you have?'""")
+        print("That seems a bit short! ☺️")
+        print("Try saying something like 'Hello', 'Can you teach me Python?', or 'What topics do you have?' 🤔")
     elif len(user_input) > 10000:
-        print("""😊 Max. limit is upto 10000 characters.""")
+        print("Max. limit is upto 10000 characters.")
     else:
-        print("""🤔 I'm not sure what you mean! 
-              Try saying 'Hi', asking a Python question, or telling me how I can help!""")
+        print("I'm not sure what you mean! 😅")
+        print("Try saying 'Hi', asking a Python question, or telling me how I can help! ☺️")
 
-
+# ---- Handler for completely empty input ----
 def handle_empty_input(user_input):
     """Handles completely empty input."""
     if not user_input:
         print("   ")
     else:
         print(f"😄 Thanks for your message! {user_input}")
-
 
 # ========== NEW CONVERSATIONAL INTENT DETECTION ==========
 
@@ -291,11 +292,18 @@ def detect_conversation_intent(user_input):
         handle_unrecognized_input(user_input)
         return {'intent': 'unrecognized', 'confidence': 1.0}
 
+    # ---- Clean input for topic matching (remove command-style prefixes) ----
+    user_input_clean = remove_command_prefix(user_input_lower)
+
     # ---- Scores table: each scorer writes into this dict ----
-    # Format: {intent_name: {'confidence': score, ...extra_info}}
+    """
+    Format: {intent_name: {'confidence': score, ...extra_info}} 
+    """
     scores = {}
 
+    # --- Helper function to record scores ----
     def record(intent, confidence, **extra):
+
         # Keeping the highest score for each intent, and scoring any extra info if provided
         if intent not in scores or confidence > scores[intent]['confidence']:
             scores[intent] = {'confidence': confidence, **extra}
@@ -306,12 +314,22 @@ def detect_conversation_intent(user_input):
         best_topic = None
         best_length = 0
 
+        # Strip punctuation for comparison
+        user_text_clean = user_text.rstrip('!?.,').strip()
+
+        # Check for exact topic name match first (highest priority)
+        for topic in TOPIC_KEYWORDS.keys():
+            if user_text_clean.lower() == topic.lower():
+                return 1.0, topic
+
         for topic, keywords in TOPIC_KEYWORDS.items():
             score = smart_detection(user_text, topic.lower())
 
-            # Special Case 1: If user just says "python", it shouldn't match topics that are about Python but not named exactly "Python"
-            if user_text == "python" and "python" in topic.lower() and topic.lower() != "python":
-                score = 0.0
+            # Special case 1: If the user input is a common single word, block it unless it matches the topic exactly
+            if user_text_clean in COMMON_SINGLE_WORDS:
+                # Block the score if it's a single word and doesn't match the topic exactly
+                if len(user_text_clean.split()) == 1 and topic.lower() != user_text_clean:
+                    score = 0.0
 
             if score > best_score or (score == best_score and len(topic) > best_length):
                 best_score = score
@@ -320,6 +338,12 @@ def detect_conversation_intent(user_input):
 
             for keyword in keywords:
                 score = smart_detection(user_text, keyword.lower())
+
+                # Special case 1 (continued): Block keyword scores for common single words too
+                if user_text_clean in COMMON_SINGLE_WORDS:
+                    if len(user_text_clean.split()) == 1 and topic.lower() != user_text_clean:
+                        score = 0.0
+
                 if score > best_score or (score == best_score and len(topic) > best_length):
                     best_score = score
                     best_topic = topic
@@ -338,11 +362,14 @@ def detect_conversation_intent(user_input):
         return 0.0, None
 
     # ---- Scorer 1: Topic request (smart detection) ----
-    topic_phrase = user_input_lower
+    topic_phrase = user_input_clean  # Use cleaned input for topic matching
     for pattern in TOPIC_REQUEST_PATTERNS:
         if pattern in user_input_lower:
             start = user_input_lower.find(pattern) + len(pattern)
             topic_phrase = user_input_lower[start:].strip().rstrip('?.!')
+
+            # Removal any command-style prefixes from the extracted topic phrase
+            topic_phrase = remove_command_prefix(topic_phrase)
             break
 
     topic_score, matched_topic = check_topic_request(topic_phrase)
@@ -394,6 +421,10 @@ def detect_conversation_intent(user_input):
     if help_from_patterns:
         record('help_request', 0.8)
 
+    # ---- Scorer 9.5: Generic Python learning request ----
+    if any(pattern in user_input_lower for pattern in generic_python_patterns):
+        record('help_request', 0.85, is_beginner=True)
+
     # ---- Scorer 10: Yes / No / Exit ----
     if user_input_lower in YES_SET:
         record('yes_no', 0.95, answer='yes')
@@ -422,8 +453,10 @@ def detect_conversation_intent(user_input):
     if help_from_beginner and help_from_patterns and 'help_request' in scores:
         scores['help_request']['confidence'] = 0.95
 
+    # ------------------------------------------------------------------------------------
+
     # ---- Compound intent: prefer substantive intent over social opener ----
-    SOCIAL_INTENTS = {'greeting', 'gratitude'}
+    SOCIAL_INTENTS = {'greeting'}
     SUBSTANTIVE_INTENTS = {
         'help_request', 'topic_request', 'practice_request',
         'general_question', 'confusion', 'clarification',
@@ -432,7 +465,28 @@ def detect_conversation_intent(user_input):
     substantive_fired = SUBSTANTIVE_INTENTS & scores.keys()
     if social_fired and substantive_fired:
         for social in social_fired:
-            del scores[social]
+            # Only remove the social opener if a substantive intent is at least as strong.
+            # Weak fuzzy topic matches (e.g. "hello there" → "hello world" at 0.625)
+            # should NOT override a genuine greeting (0.9).
+            if any(scores[sub]['confidence'] >= scores[social]['confidence'] for sub in substantive_fired):
+                del scores[social]
+
+    # ---- Intent prioritization: prefer conversation intents over topic requests ----
+    CONVERSATION_INTENTS = {'greeting', 'farewell', 'gratitude', 'confusion', 'clarification'}
+    if 'topic_request' in scores and CONVERSATION_INTENTS & scores.keys():
+
+        # If both topic_request and conversation intents fired, prefer conversation
+        for conv_intent in CONVERSATION_INTENTS & scores.keys():
+            if scores[conv_intent]['confidence'] >= scores['topic_request']['confidence']:
+                del scores['topic_request']
+                break
+
+    # ---- Additional prioritization: prefer gratitude/clarification/general_question over topic_request even if lower confidence ----
+    HIGH_PRIORITY_INTENTS = {'gratitude', 'clarification', 'general_question'}
+    if 'topic_request' in scores and HIGH_PRIORITY_INTENTS & scores.keys():
+
+        # Always prefer these intents over topic_request
+        del scores['topic_request']
 
     # ---- Pick the winner ----
     if scores:
