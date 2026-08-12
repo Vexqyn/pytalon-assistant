@@ -2,8 +2,8 @@
 PYTALON - Your Python Tutor Companion
 Created by: M Qasim Farooqi
 Role: BS IT Student | Python Developer · AI Prompt Strategist · Game Systems Analyst | I build, analyze & create. Founder of Vexqyn 
-Version: 2.0
-Category: Major Release (Stable Version)
+Version: 2.1
+Category: Hotfix (Stable Version)
 Purpose: Learn Python basics through interactive teaching with 13 comprehensive topics
 """
 
@@ -38,6 +38,9 @@ print_introduction()
 # ========== CONVERSATIONAL OPENING & FIRST TOPIC SELECTION ==========
 try:
     topic_choice = get_initial_topic_choice(context)
+    if topic_choice == 'exit':
+        # Goodbye message already printed by intro.py's farewell handler
+        sys.exit(0)
 
 # ===== MAIN TEACHING LOOP =====
     while True:
