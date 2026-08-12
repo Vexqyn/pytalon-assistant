@@ -17,10 +17,14 @@ class ConversationContext:
     # ------ HISTORY MANAGEMENT ------
 
     def add_to_history(self, user_input, Pytalon_response):
-        """Adds a user + Pytalon exchange to history."""
+        """Adds a user + Pytalon exchange to history using standardized role/content schema."""
         self.history.append({
-            "user_input": user_input,
-            "Pytalon_response": Pytalon_response
+            "role": "user",
+            "content": user_input
+        })
+        self.history.append({
+            "role": "Pytalon",
+            "content": Pytalon_response
         })
 
     def add_message_to_history(self, role, content):
