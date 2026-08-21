@@ -8,10 +8,16 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
+# Workflow-level permissions (minimal)
+permissions:
+  contents: read
+
 jobs:
   # 1. Bandit - Python security (No pip dependency, using docker)
   bandit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Bandit
@@ -30,8 +36,8 @@ jobs:
   trivy:
     runs-on: ubuntu-latest
     permissions:
-      security-events: write
       contents: read
+      security-events: write
     steps:
       - uses: actions/checkout@v4
       - name: Run Trivy
@@ -50,18 +56,21 @@ jobs:
   # 3. Semgrep - Fixed deprecated action path
   semgrep:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Semgrep Scan
         uses: semgrep/semgrep-action@v1
         with:
           config: p/security-audit
-        # If you don't want Semgrep to block your build on findings:
-        continue-on-error: true 
+        continue-on-error: true
 
   # 4. Actionlint - Workflows linting
   actionlint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: reviewdog/action-actionlint@v1
@@ -72,11 +81,11 @@ jobs:
   # 5. OSV Scanner - Dependency vulnerabilities
   osv-scanner:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Install and Run OSV-Scanner CLI
         run: |
-          # Download and install the official binary
           curl -sSfL https://raw.githubusercontent.com/google/osv-scanner/main/scripts/bootstrap.sh | sh -s -- -b /usr/local/bin
-          # Run the scan recursively
           osv-scanner -r . || true
