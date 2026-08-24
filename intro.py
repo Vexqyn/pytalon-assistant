@@ -1,5 +1,6 @@
 # intro.py
 """Introduction and session setup for Pytalon."""
+
 from config import last_response_patterns, identity_patterns
 from conversation_context import ConversationContext
 from validators import detect_conversation_intent
@@ -8,8 +9,8 @@ import sys
 
 # ----- Constants -----
 NAME = "Pytalon"
-VERSION = "2.1"
-CATEGORY = "Hotfix (Stable Version)"
+VERSION = "2.2"
+CATEGORY = "General Availability (Stable Version)"
 DESCRIPTION = "A Tutor Companion Assistant developed to guide you with Python programming and learning."
 
 TOPICS = {

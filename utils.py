@@ -38,7 +38,7 @@ def _apply_negation_cap(score, user_text, reference_text):
 def print_global_separator():
     """Prints a visual separator line for better readability"""
     global_separator = "\n" + "="*50
-    print(global_separator)
+    print(global_separator, flush=True)
 
 
 # CODE PRACTICE SYSTEM Helper Functions
@@ -54,10 +54,10 @@ def get_multiline_code_input():
     """
     # ----check if stdin is available or not ----
     if sys.stdin.closed:
-        print("⚠️ Input stream is closed. Restarting practice session...")
+        print("⚠️ Input stream is closed. Restarting practice session...", flush=True)
         return ""
     
-    print("\n📝 ENTER YOUR PYTHON CODE (type 'DONE' on a new line when finished):")
+    print("\n📝 ENTER YOUR PYTHON CODE (type 'DONE' on a new line when finished):", flush=True)
     print_global_separator()
     
     code_lines = []
@@ -69,7 +69,7 @@ def get_multiline_code_input():
                 break
             code_lines.append(line)
     except EOFError:
-        print("\n⚠️ It's not your fault input ended unexpectedly, using entered code...")
+        print("\n⚠️ It's not your fault input ended unexpectedly, using entered code...", flush=True)
         # Return whatever was entered so far
     
     # Join all lines with newline characters
@@ -108,6 +108,8 @@ def execute_and_check_code(code, expected_keywords=None, forbidden_keywords=None
         'while (1)',
         'while 1==1',
         'while 1 == 1',
+        'while x',
+        'while (x)',
     ]
     
     code_lower = code.lower()
@@ -207,16 +209,16 @@ def run_practice_session(topic_name, instructions, expected_keywords, example_co
     """
     # ---- SUB STEP 1: Show practice header and instructions ----
     print_global_separator()
-    print(f"🧪 INTERACTIVE PRACTICE: {topic_name}")
+    print(f"🧪 INTERACTIVE PRACTICE: {topic_name}", flush=True)
     print_global_separator()
     
-    print(f"\n📋 TASK:")
-    print(instructions)
+    print(f"\n📋 TASK:", flush=True)
+    print(instructions, flush=True)
     
-    print(f"\n💡 EXAMPLE SOLUTION:")
-    print(f"{example_code}")
+    print(f"\n💡 EXAMPLE SOLUTION:", flush=True)
+    print(f"{example_code}", flush=True)
     
-    print(f"\n🔑 Required elements: {', '.join(expected_keywords)}")
+    print(f"\n🔑 Required elements: {', '.join(expected_keywords)}", flush=True)
  
     # ----  SUB STEP 2: Main practice loop with attempt limit ----
     attempts = 0
@@ -228,7 +230,7 @@ def run_practice_session(topic_name, instructions, expected_keywords, example_co
  
         # Check for empty submission
         if not user_code.strip():
-            print("⚠️  Please enter some Python code!")
+            print("⚠️  Please enter some Python code!", flush=True)
             continue
  
         # Execute the code and check for basic requirements
@@ -244,18 +246,18 @@ def run_practice_session(topic_name, instructions, expected_keywords, example_co
     # ---- SUB STEP 3: Show results ----
         if success:
             print_global_separator()
-            print("✅ PERFECT! Your code is correct!")
+            print("✅ PERFECT! Your code is correct!", flush=True)
             if output:
-                print(f"\n📤 YOUR OUTPUT:")
-                print(output)
-            print(f"\n💡 Code structure and elements are correct!")
-            print("✅ Practice complete! You can continue to the next topic.")
+                print(f"\n📤 YOUR OUTPUT:", flush=True)
+                print(output, flush=True)
+            print(f"\n💡 Code structure and elements are correct!", flush=True)
+            print("✅ Practice complete! You can continue to the next topic.", flush=True)
             print_global_separator()
             break
         else:
             attempts += 1
             print_global_separator()
-            print(f"❌ Not quite right! {error_message}")
+            print(f"❌ Not quite right! {error_message}", flush=True)
             if attempts >= MAX_ATTEMPTS:
                 from validators import get_global_valid_input
                 retry = get_global_valid_input("\n🔹 You've tried several times. Try again? (yes/no): ")
@@ -263,13 +265,13 @@ def run_practice_session(topic_name, instructions, expected_keywords, example_co
                     attempts = 0
                     continue
                 elif retry == 'exit':
-                    print("👋 Exiting practice session. See you next time!")
+                    print("👋 Exiting practice session. See you next time!", flush=True)
                     break
                 else:  # retry == 'no'
-                    print("✅ Skipping practice. You can always come back later!")
+                    print("✅ Skipping practice. You can always come back later!", flush=True)
                     break
             else:
-                print(f"\n🔄 Attempt {attempts}/{MAX_ATTEMPTS}. Please try again!")
+                print(f"\n🔄 Attempt {attempts}/{MAX_ATTEMPTS}. Please try again!", flush=True)
                 print_global_separator()
         
 # ========= MENU DISPLAY FUNCTION ==========
@@ -280,10 +282,10 @@ def show_topic_menu(topics, prompt="Which topic would you like to start with?"):
     from validators import get_global_menu_choice # Imported here to avoid circular dependency
 
     print_global_separator()
-    print("I can teach you Python basics! Here are the topics:")
+    print("I can teach you Python basics! Here are the topics:", flush=True)
     print_global_separator()
     for num, topic in topics.items():
-        print(f"   {num}. {topic}")
+        print(f"   {num}. {topic}", flush=True)
 
     choice = get_global_menu_choice(
         f"\n🔹 {prompt} (1-13/exit): ",
@@ -320,7 +322,7 @@ def smart_detection(s1, s2):
     words2 = set(s2.split())
 
     if words2 and words2.issubset(words1):
-        # All keywords are present in the user’s topic phrase → strong match
+        # All keywords are present in the user's topic phrase → strong match
         return 1.0
     if words1 and words1.issubset(words2):
         return 1.0

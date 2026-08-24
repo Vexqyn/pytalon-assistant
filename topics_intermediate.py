@@ -556,8 +556,7 @@ def teach_strings():
 
         if topic_choice == '8':
             print("\n✅ Exiting strings section...")
-            offer_practice = False
-            return
+            break
 
         # Prevent re-teaching the same sub-topic unless the user explicitly wants a review
         if topic_choice in topics_learned and topic_choice != '7':
