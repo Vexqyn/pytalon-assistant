@@ -1,5 +1,9 @@
 name: Security Scanning
 
+permissions:
+  contents: read
+  security-events: write
+
 on:
   push:
     branches: [ main, develop ]
@@ -56,7 +60,6 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: p/security-audit
-        # If you don't want Semgrep to block your build on findings:
         continue-on-error: true 
 
   # 4. Actionlint - Workflows linting
@@ -76,7 +79,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install and Run OSV-Scanner CLI
         run: |
-          # Download and install the official binary
           curl -sSfL https://raw.githubusercontent.com/google/osv-scanner/main/scripts/bootstrap.sh | sh -s -- -b /usr/local/bin
-          # Run the scan recursively
           osv-scanner -r . || true
