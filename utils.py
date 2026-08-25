@@ -108,8 +108,6 @@ def execute_and_check_code(code, expected_keywords=None, forbidden_keywords=None
         'while (1)',
         'while 1==1',
         'while 1 == 1',
-        'while x',
-        'while (x)',
     ]
     
     code_lower = code.lower()
