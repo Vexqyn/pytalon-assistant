@@ -12,8 +12,7 @@ from config import (
     PRACTICE_REQUEST_PATTERNS, HELP_PATTERNS, TOPIC_MATCH_THRESHOLD,
     BEGINNER_PATTERNS, QUESTION_PATTERNS, NEGATION_WORDS,
     UNCERTAIN_RESPONSES, REPEAT_REQUEST_PATTERNS, CLARIFICATION_PATTERNS,
-    DEFER_PATTERNS,  # ADD THIS
-    COMMON_SINGLE_WORDS, generic_python_patterns
+    DEFER_PATTERNS, COMMON_SINGLE_WORDS, generic_python_patterns
 )
 
 from utils import smart_detection, smart_validators, _extract_keywords, remove_command_prefix
@@ -475,13 +474,14 @@ def detect_conversation_intent(user_input):
         'help_request', 'topic_request', 'practice_request',
         'general_question', 'confusion', 'clarification',
     }
+    
     social_fired = SOCIAL_INTENTS & scores.keys()
     substantive_fired = SUBSTANTIVE_INTENTS & scores.keys()
+
     if social_fired and substantive_fired:
         for social in social_fired:
-            # Only remove the social opener if a substantive intent is at least as strong.
-            # Weak fuzzy topic matches (e.g. "hello there" → "hello world" at 0.625)
-            # should NOT override a genuine greeting (0.9).
+
+            # If any substantive intent has equal or higher confidence than the social intent, remove the social intent
             if any(scores[sub]['confidence'] >= scores[social]['confidence'] for sub in substantive_fired):
                 del scores[social]
 
