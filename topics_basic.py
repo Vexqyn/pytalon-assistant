@@ -3,6 +3,7 @@
 
 from utils import print_global_separator, run_practice_session
 from validators import get_global_valid_input, get_global_examples_valid_input
+from conversation_context import context
 
 # ------ Topic 1: Hello World ------
 def teach_hello_world():
@@ -57,12 +58,14 @@ def teach_hello_world():
     # practice session for Hello World
     practice = get_global_valid_input("\n🔹 Want to practice with Hello World? (yes/no): ")
     if practice == 'yes':
+        context.set_state("practice")
         run_practice_session(
             topic_name="Hello World",
             instructions="Write a Python program that prints 'Hello, World!'",
             expected_keywords=['print', 'Hello'],
             example_code="print('Hello, World!')"
         )
+        context.set_state("topic")
 
     print("Awesome! You've learned how to print text in Python.")
 
@@ -143,6 +146,7 @@ def teach_functions():
             
             return True, ""
 
+        context.set_state("practice")
         run_practice_session(
             topic_name="Functions",
             instructions="Create a function called 'greet' that takes a 'name' parameter and returns a greeting message. Then call it with your name!",
@@ -150,6 +154,7 @@ def teach_functions():
             example_code="def greet(name):\n    return f'Hello, {name}!'\n    \nprint(greet('YourName'))",
             custom_check_function=check_function_practice
         )
+        context.set_state("topic")
 
     print("Awesome! You've learned about functions and how to create and use them.")
 
@@ -223,6 +228,7 @@ def teach_variables():
                 return False, "Use print() to display your variables!"
             return True, ""
 
+        context.set_state("practice")
         run_practice_session(
             topic_name="Variables",
             instructions="Create three variables: 'name' (your name as string), 'age' (your age as number), and 'hobby' (your hobby as string). Then print all of them!",
@@ -230,6 +236,7 @@ def teach_variables():
             example_code="name = 'John'\nage = 20\nhobby = 'Coding'\nprint(f'Name: {name}, Age: {age}, Hobby: {hobby}')",
             custom_check_function=check_variables_practice
         )
+        context.set_state("topic")
 
     print("Great job! You've learned about variables and their types.")
 
@@ -300,6 +307,7 @@ def teach_relational_operators():
                 return False, "Use print() to display the comparison results!"
             return True, ""
 
+        context.set_state("practice")
         run_practice_session(
             topic_name="Relational Operators",
             instructions="Create two number variables (a and b) and use at least 2 different relational operators (==, !=, >, <, >=, <=) to compare them. Print each comparison result!",
@@ -307,6 +315,7 @@ def teach_relational_operators():
             example_code="a = 10\nb = 5\nprint(f'a > b: {a > b}')\nprint(f'a == b: {a == b}')\nprint(f'a >= b: {a >= b}')",
             custom_check_function=check_relational_practice
         )
+        context.set_state("topic")
 
     print("Great! You've learned about relational operators and how to compare values.")
 
@@ -363,6 +372,7 @@ def teach_assignment_operators():
                 return False, "Use print() to show the results!"
             return True, ""
 
+        context.set_state("practice")
         run_practice_session(
             topic_name="Assignment Operators",
             instructions="Create a variable x with an initial value. Then use at least 2 compound assignment operators (+=, -=, *=, /=, etc.) and print x after each operation!",
@@ -370,6 +380,7 @@ def teach_assignment_operators():
             example_code="x = 10\nprint(f'Initial x: {x}')\nx += 5\nprint(f'After x += 5: {x}')\nx *= 2\nprint(f'After x *= 2: {x}')",
             custom_check_function=check_assignment_practice
         )
+        context.set_state("topic")
 
     print("Great! You learned about assignment operators!")
 
@@ -431,6 +442,7 @@ def teach_logical_operators():
                 return False, "Create variables with values!"
             return True, ""
 
+        context.set_state("practice")
         run_practice_session(
             topic_name="Logical Operators",
             instructions="Create two boolean variables (e.g., is_raining, has_umbrella). Use logical operators (and/or/not) to make decisions and print the results!",
@@ -438,6 +450,7 @@ def teach_logical_operators():
             example_code="is_raining = True\nhas_umbrella = False\nprint(f'Should I go out? {not is_raining or has_umbrella}')",
             custom_check_function=check_logical_practice
         )
+        context.set_state("topic")
 
     print("Great! You learned about logical operators!")
 

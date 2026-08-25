@@ -11,7 +11,8 @@ from config import (
     CONFUSION_PATTERNS, TOPIC_KEYWORDS, TOPIC_REQUEST_PATTERNS,
     PRACTICE_REQUEST_PATTERNS, HELP_PATTERNS, TOPIC_MATCH_THRESHOLD,
     BEGINNER_PATTERNS, QUESTION_PATTERNS, NEGATION_WORDS,
-    UNCERTAIN_RESPONSES, REPEAT_REQUEST_PATTERNS, CLARIFICATION_PATTERNS, 
+    UNCERTAIN_RESPONSES, REPEAT_REQUEST_PATTERNS, CLARIFICATION_PATTERNS,
+    DEFER_PATTERNS,  # ADD THIS
     COMMON_SINGLE_WORDS, generic_python_patterns
 )
 
@@ -31,7 +32,9 @@ EXIT_QUESTION_SET = {p.lower() for p in EXIT_QUESTION_RESPONSES}
  
 YES_EXAMPLES_SET = {p.lower() for p in YES_EXAMPLES_RESPONSES}
 NO_EXAMPLES_SET = {p.lower() for p in NO_EXAMPLES_RESPONSES}
- 
+
+DEFER_SET = {p.lower() for p in DEFER_PATTERNS}
+
 # Single-word negation list (for fast lookup)
 SINGLE_WORD_NEGATIONS = {w for w in NEGATION_WORDS if ' ' not in w}
 MULTI_WORD_NEGATIONS = {p for p in NEGATION_WORDS if ' ' in p}
@@ -47,10 +50,10 @@ def get_global_valid_input(prompt):
      - If 'no' or 'exit' is the highest score and above threshold, returns those accordingly.
      - If no clear match, prompts user to try again.
     """
- 
+
     while True:
         raw_input = input(prompt).strip().lower()
- 
+
         # Exact matches (fast path)
         if raw_input in YES_SET:
             return 'yes'
@@ -58,21 +61,28 @@ def get_global_valid_input(prompt):
             return 'no'
         if raw_input in EXIT_SET:
             return 'exit'
- 
+        if raw_input in DEFER_SET:
+            return 'defer'
+
         # Extract intent keywords from user input once, reused across all comparisons
         w1 = _extract_keywords(raw_input)
- 
-        # Max similarity scores for yes/no/exit using smart_validators
+
+        # Max similarity scores for yes/no/exit/defer using smart_validators
         best_yes  = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in YES_SET),  default=0.0)
         best_no   = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in NO_SET),   default=0.0)
         best_exit = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in EXIT_SET), default=0.0)
- 
+        best_defer = max((smart_validators(raw_input, phrase, w1, _extract_keywords(phrase)) for phrase in DEFER_SET), default=0.0)
+
         THRESHOLD = 0.75
 
         words = set(raw_input.split())
         user_negated = any(w in words for w in SINGLE_WORD_NEGATIONS) or any(
             phrase in raw_input for phrase in MULTI_WORD_NEGATIONS
         )
+
+        # Check defer first (highest priority for deferral phrases)
+        if best_defer >= THRESHOLD and best_defer > best_yes and best_defer > best_no and best_defer > best_exit:
+            return 'defer'
 
         if best_yes >= THRESHOLD and best_no >= THRESHOLD and best_yes == best_no:
             if user_negated:
@@ -89,7 +99,7 @@ def get_global_valid_input(prompt):
         
         if best_exit >= THRESHOLD and best_exit > best_yes and best_exit > best_no:
             return 'exit'
- 
+
         print("🤔 I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
 
 # ---- Specialized validation for menu choice input -------
@@ -441,11 +451,15 @@ def detect_conversation_intent(user_input):
     if any(phrase in user_input_lower for phrase in UNCERTAIN_RESPONSES):
         record('uncertain', 0.75)
 
-    # Scorer 13: Repeat request (say again, repeat that, etc.)
+    # Scorer 13: Defer/Pause request (afk, brb, not now, pause, busy, maybe, etc.)
+    if any(phrase in user_input_lower for phrase in DEFER_PATTERNS):
+        record('defer', 0.85)
+
+    # Scorer 14: Repeat request (say again, repeat that, etc.)
     if any(phrase in user_input_lower for phrase in REPEAT_REQUEST_PATTERNS):
         record('repeat_request', 0.85)
 
-    # Scorer 14: Clarification request (define, explain more, etc.)
+    # Scorer 15: Clarification request (define, explain more, etc.)
     if any(phrase in user_input_lower for phrase in CLARIFICATION_PATTERNS):
         record('clarification', 0.8)
 
@@ -472,7 +486,7 @@ def detect_conversation_intent(user_input):
                 del scores[social]
 
     # ---- Intent prioritization: prefer conversation intents over topic requests ----
-    CONVERSATION_INTENTS = {'greeting', 'farewell', 'gratitude', 'confusion', 'clarification'}
+    CONVERSATION_INTENTS = {'greeting', 'farewell', 'gratitude', 'confusion', 'clarification', 'defer'}
     if 'topic_request' in scores and CONVERSATION_INTENTS & scores.keys():
 
         # If both topic_request and conversation intents fired, prefer conversation
@@ -482,7 +496,7 @@ def detect_conversation_intent(user_input):
                 break
 
     # ---- Additional prioritization: prefer gratitude/clarification/general_question over topic_request even if lower confidence ----
-    HIGH_PRIORITY_INTENTS = {'gratitude', 'clarification', 'general_question'}
+    HIGH_PRIORITY_INTENTS = {'gratitude', 'clarification', 'general_question', 'defer'}
     if 'topic_request' in scores and HIGH_PRIORITY_INTENTS & scores.keys():
 
         # Always prefer these intents over topic_request

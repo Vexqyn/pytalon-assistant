@@ -13,11 +13,8 @@ from validators import (
     get_global_valid_input,
     get_global_examples_valid_input,
 )
-from conversation_context import ConversationContext
+from conversation_context import context
 from intro import sys
-
-# ----- Session Setup -----
-context = ConversationContext()
 
 # ========== SECTION 1: INTRO & SETUP ==========
 from intro import (
@@ -43,20 +40,27 @@ try:
 
         # ---- Ask if user wants to learn this topic ----
         learn_topic = get_global_valid_input(
-            f"\n🔹 Would you like me to teach you about {selected_topic}? (yes/no/exit): "
+            f"\n🔹 Would you like me to teach you about {selected_topic}? (yes/no/not now/exit): "
         )
         if learn_topic == 'exit':
             print("\n👋 Goodbye! Come back whenever you need me")
             break
         elif learn_topic == 'no':
             print(f"\n🔹 Okay, skipping {selected_topic}.")
+            context.set_state("menu")
             topic_choice = show_topic_menu(TOPICS, "Which topic would you like instead?")
             if topic_choice == 'exit':
                 print("\n👋 Goodbye!")
                 break
             continue
+        elif learn_topic == 'defer':
+            print("\n🤖 No problem! Take your time — I'll be here when you're ready.")
+            print("   • Type 'continue', 'ready', or \"let's go\" to resume this topic")
+            print("   • Or type 'show topics' to browse other topics")
+            continue
 
         print(f"\n📖 Teaching {selected_topic}...")
+        context.set_state("topic")
 
         # ==================================
         # IMPORT TOPIC MODULES
@@ -72,10 +76,11 @@ try:
         if teach_func:
             teach_func()
 
+        context.set_state("menu")
         # ========== SECTION 7: CONTINUE OR EXIT ==========
         print_global_separator()
         learn_more = get_global_valid_input(
-            "\n🔹 Would you like to learn another topic? (yes/no/exit): "
+            "\n🔹 Would you like to learn another topic? (yes/no/not now/exit): "
         )
 
         if learn_more == 'exit':
@@ -83,6 +88,11 @@ try:
             break
         elif learn_more == 'no':
             break
+        elif learn_more == 'defer':
+            print("\n🤖 No problem! Take your time — I'll be here when you're ready.")
+            print("   • Type 'continue', 'ready', or \"let's go\" to resume")
+            print("   • Or type 'show topics' to browse topics")
+            continue
 
         # Show menu for next topic
         topic_choice = show_topic_menu(TOPICS, "Which topic would you like to learn next?")
@@ -91,6 +101,7 @@ try:
             break
 
     # ========== FINAL MESSAGE ==========
+    context.set_state("done")
     print_global_separator()
     print("Congratulations! You've completed the Python basics tutorial 🐍 You learned what you wanted!")
     print("Keep practicing to enhance your skills. 🥷")

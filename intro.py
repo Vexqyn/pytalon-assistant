@@ -1,7 +1,7 @@
 # intro.py
 """Introduction and session setup for Pytalon."""
 
-from config import last_response_patterns, identity_patterns
+from config import last_response_patterns, identity_patterns, DEFER_PATTERNS
 from conversation_context import ConversationContext
 from validators import detect_conversation_intent
 from utils import show_topic_menu
@@ -43,8 +43,10 @@ def get_initial_topic_choice(context):
     Run the conversational opening loop.
     Returns the user's first topic_choice (string number) or 'exit'.
     """
+    context.set_state("greeting")
     opening_prompt = "\nHi there! 😄 What's on your mind? Ask me anything or pick a topic to start!"
     print(opening_prompt)
+    context.set_state("menu")
     
     retry_count = 0
     MAX_RETRIES = 2
@@ -93,6 +95,7 @@ def get_initial_topic_choice(context):
             if topic_name and topic_name in TOPIC_NAME_TO_NUMBER:
                 print(f"\n🎯 Let's jump straight into {topic_name}!")
                 topic_choice = TOPIC_NAME_TO_NUMBER[topic_name]
+                context.set_state("topic")
             else:
                 print(f"\n🤖 I'm not sure about that topic. Here's what I can teach you:")
             break
@@ -139,6 +142,16 @@ def get_initial_topic_choice(context):
             context.add_message_to_history('Pytalon', uncertain_response)
             continue
         
+        elif intent['intent'] == 'defer':
+            defer_response = (
+                "\n🤖 No problem! Take your time — I'll be here when you're ready.\n"
+                "   • Type 'continue', 'ready', or \"let's go\" to resume\n"
+                "   • Or type 'show topics' to browse again"
+            )
+            print(defer_response)
+            context.add_message_to_history('Pytalon', defer_response)
+            continue
+        
         elif intent['intent'] == 'clarification':
 
             # Check if it's an identity question for more detailed response
@@ -155,8 +168,12 @@ def get_initial_topic_choice(context):
             continue
         
         elif intent['intent'] == 'repeat_request':
-            print("\n🤖 Sure! Here's what I said:")
-            print(opening_prompt.strip())
+            last_response = context.get_pytalon_last_response()
+            if last_response:
+                print("\n🤖 Sure! Here's what I said:")
+                print(last_response)
+            else:
+                print("\n🤖 I haven't said anything yet! Ask me something or pick a topic to start!")
             continue
         
         elif intent['intent'] in ('help_request', 'practice_request'):
@@ -173,12 +190,15 @@ def get_initial_topic_choice(context):
     
     # If topic was directly requested, skip the menu
     if topic_choice:
+        context.set_state("topic")
         return topic_choice
     
     # Otherwise show menu
+    context.set_state("menu")
     topic_choice = show_topic_menu(TOPICS, "Which topic would you like to start with?")
     if topic_choice == 'exit':
         print("\n👋 Ok, goodbye! Come back whenever you need me")
         sys.exit(0)
     
+    context.set_state("topic")
     return topic_choice

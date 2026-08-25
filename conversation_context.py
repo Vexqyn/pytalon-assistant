@@ -117,3 +117,6 @@ class ConversationContext:
             "last_question": self.last_question,
             "first_question": self.first_question
         }
+
+# Module-level context instance for use in topic modules
+context = ConversationContext()
