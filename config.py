@@ -128,7 +128,29 @@ YES_RESPONSES = [
     "yes please I need this",
     "yeah I want to know more",
     "of course I want to see",
-    "yes I'm curious about this"
+    "yes I'm curious about this",
+    "yes let's do it", "yeah let's do it",
+    "ok let's go", "okay let's go", "ok let's do this",
+    "let's begin", "let's start now", "start now",
+    "hit me with it", "lay it on me", "bring it on",
+    "i'm all in", "im all in", "all in", "count me in",
+    "down for it", "down to learn", "down to do this",
+    "game on", "let's roll", "lets roll", "rock and roll",
+    "fire it up", "fire away", "shoot", "go for it",
+    "i'm game", "im game", "i'm down", "im down",
+    "sounds like a plan", "sounds good", "sounds perfect",
+    "perfect", "excellent", "awesome", "amazing",
+    "great idea", "good idea", "brilliant", "love it",
+    "would love to", "would love to learn", "love to learn",
+    "please do", "please teach", "please go ahead",
+    "by all means", "certainly", "definitely yes",
+    "affirmative", "roger that", "copy that", "10-4",
+    "aye aye", "aye aye captain", "sir yes sir",
+    "you got it", "got it", "understood", "crystal clear",
+    "let's get cracking", "let's get to it", "time to learn",
+    "ready when you are", "whenever you're ready",
+    "lead the way", "show me the way", "guide me",
+    "i'm yours", "im yours", "all yours", "at your service"
 ]
 
 
@@ -143,8 +165,7 @@ NO_RESPONSES = [
     'pass', 'skip', 'skip the topic', 'move on', 'move on to next topic',
     'skip it', 'pass on this', 'ima pass', "i'm gonna pass",
 
-    # Not now
-    'not now', 'not right now', 'not at the moment', 'skip for now', 'pass for now',
+    # Not now - moved to DEFER_PATTERNS
     'hmmm! not sure yet', 'not sure yet', 'need to think about it', 'let me think about it',
     'nah! not interested right now', 'nuh uh! not interested right now',
 
@@ -245,7 +266,24 @@ NO_RESPONSES = [
     "nah I'm not feeling this",
     "no I'm done with this topic",
     "nah teach me something different",
-    "no I don't want to learn about this"
+    "no I don't want to learn about this",
+    "nope not happening", "nope nope nope", "no way jose",
+    "no chance", "no dice", "no can do", "no go",
+    "not a chance", "not in a million years", "never",
+    "absolutely not", "definitely not", "certainly not",
+    "no thank you", "no thanks at all", "thanks but no thanks",
+    "i'll pass", "i pass", "passing", "hard pass",
+    "big pass", "mega pass", "ultimate pass",
+    "not my thing", "not for me", "doesn't interest me",
+    "couldn't care less", "don't care", "whatever",
+    "meh", "nah", "nope", "nuh uh", "un uh",
+    "i'm good", "im good", "i am good", "i'm fine", "im fine",
+    "all good", "all set", "good to go", "set for now",
+    "nothing for me", "nothing thanks", "no need",
+    "skip it", "skip this", "moving on", "next please",
+    "not today", "maybe never", "never mind", "forget it",
+    "cancel that", "scratch that", "nevermind",
+    "i'm out", "im out", "i'm done", "im done", "done with this"
 ]
 
 
@@ -296,8 +334,6 @@ EXIT_RESPONSES = [
 
     # Abrupt exits
     'gtg', 'g2g', 'gotta go', 'got to go', 'have to go', 'must go',
-    'afk', 'brb',
-
     # Typos
     'exti', 'quti', 'leve', 'goobye', 'byee', 'byeeee', 'exist',
 
@@ -438,7 +474,7 @@ YES_EXAMPLES_RESPONSES = [
 # ----- NO EXAMPLES RESPONSES  -------
 NO_EXAMPLES_RESPONSES = [
     # Simple no
-    'no', 'n', 'nope', 'nah', 'no thanks', 'not now', 'not really',
+    'no', 'n', 'nope', 'nah', 'no thanks', 'not really',
     'no need', 'no need for examples', 'all good',
 
     # Skip
@@ -613,6 +649,10 @@ GREETING_PATTERNS = [
     'good evening', 'howdy', 'what\'s up', 'sup', 'yo',
     'heya', 'hi there', 'hello there', 'greetings', 'hey there',
     'hiya', 'hiya!', 'hi there!', 'hello there!', 'hey there!',
+    'hai', 'hallou', 'hola', 'bonjour', 'ciao', 'namaste',
+    'howdy partner', 'what\'s happening', 'what\'s cracking', 'what\'s good',
+    'yo yo', 'yo yo yo', 'ey', 'ayy', 'ayyyy', 'ello', 'ello mate',
+    'g\'day', 'howzit', 'how goes it', 'how do you do',
 
     # ===== NATURAL CONVERSATIONAL GREETINGS =====
     "hello, i'm ready to learn",
@@ -644,7 +684,17 @@ GREETING_PATTERNS = [
     "hello i need help with python",
     "hey i'm interested in learning",
     "what's up man",
-    "hi i'm new here"
+    "hi i'm new here",
+    "hey there buddy", "hello friend", "hiya pal", "hey mate",
+    "how's it going", "how are things", "how's life",
+    "good to see you", "nice to see you", "long time no see",
+    "what's new", "what's been up", "how have you been",
+    "hey, ready to learn", "hi, let's get started",
+    "hello, i'm back", "hey again", "hi once more",
+    "good morning sunshine", "morning!", "afternoon!",
+    "evening!", "night owl here", "late night coding",
+    "just started", "new here", "first time",
+    "returning student", "back for more", "ready for lesson"
 ]
 
 FAREWELL_PATTERNS = [
@@ -652,6 +702,16 @@ FAREWELL_PATTERNS = [
     'bye', 'goodbye', 'see you', 'see ya', 'cya',
     'take care', 'catch you later', 'peace out', 'farewell',
     'have a good day', 'good night', 'until next time', 'adios',
+    'bye bye', 'bye-bye', 'byee', 'byeee', 'laters', 'laterz',
+    'ttyl', 'ttfn', 'toodles', 'toodle-oo', 'cheerio', 'cheers',
+    'so long', 'fare thee well', 'godspeed', 'safe travels',
+    'have a good one', 'take it easy', 'stay safe', 'be well',
+    'peace', 'peace out', 'deuces', 'outtie', 'audios', 'adios amigo',
+    'sayonara', 'au revoir', 'auf wiedersehen', 'arrivederci',
+    'catch ya later', 'catch ya on the flip side', 'see you on the other side',
+    'gotta run', 'gotta jet', 'gotta dash', 'gotta split',
+    'off i go', 'heading out', 'rolling out', 'bouncing out',
+    'logging off now', 'signing off', 'clocking out',
 
     # ===== NATURAL CONVERSATIONAL FAREWELLS =====
     "goodbye, thanks for your help",
@@ -683,7 +743,13 @@ FAREWELL_PATTERNS = [
     "bye for now i'll be back",
     "see you around",
     "goodbye thanks for your time",
-    "later bro i'm out"
+    "later bro i'm out",
+    "bye friend", "farewell friend", "goodbye everyone",
+    "thanks for everything, bye", "appreciate it, later",
+    "that's all folks", "show's over", "curtain call",
+    "signing off for now", "logging out", "going offline",
+    "end of session", "session complete", "lesson done",
+    "class dismissed", "school's out", "that's a wrap"
 ]
 
 GRATITUDE_PATTERNS = [
@@ -692,6 +758,12 @@ GRATITUDE_PATTERNS = [
     'much appreciated', 'thank you so much', 'thanks a lot',
     'awesome thanks', 'great thanks', 'perfect thanks',
     'thankyou', 'thankyou!', 'thanks!', 'thx!',
+    'thank u', 'thank u so much', 'ty', 'tyvm', 'tyvm!',
+    'thanks a bunch', 'thanks a million', 'thanks a ton',
+    'many thanks', 'big thanks', 'huge thanks', 'mega thanks',
+    'thank you kindly', 'thanks kindly', 'much obliged',
+    'gracias', 'merci', 'danke', 'arigato', 'gracias amigo',
+    'cheers', 'cheers mate', 'cheers man', 'cheers bro',
 
     # ===== NATURAL CONVERSATIONAL GRATITUDE =====
     "thanks, that was helpful",
@@ -723,7 +795,21 @@ GRATITUDE_PATTERNS = [
     "thanks that was clear",
     "thank you for explaining",
     "i appreciate you",
-    "thanks a lot this helped"
+    "thanks a lot this helped",
+    "thank you so very much", "thanks so very much",
+    "can't thank you enough", "cannot thank you enough",
+    "you're a lifesaver", "you're the best", "you rock",
+    "saved my day", "made my day", "this is gold",
+    "exactly what i needed", "perfect explanation",
+    "crystal clear now", "finally get it", "clicked for me",
+    "lightbulb moment", "aha moment", "eureka",
+    "thanks for the clarity", "thanks for the insight",
+    "learned so much", "so helpful", "super helpful",
+    "incredibly helpful", "amazing help", "fantastic",
+    "you explain so well", "great teacher", "best tutor",
+    "thank you thank you thank you", "thanks thanks thanks",
+    "omg thank you", "omg thanks", "wow thank you",
+    "this helped tremendously", "helped a ton", "helped big time"
 ]
 
 CONFUSION_PATTERNS = [
@@ -733,6 +819,12 @@ CONFUSION_PATTERNS = [
     'can you repeat', 'say that again', 'huh',
     'i didn\'t get it', 'didn\'t understand', 'unclear',
     'i\'m not following', 'i don\'t get it',
+    'what?', 'eh?', 'pardon', 'excuse me', 'come again',
+    'say what', 'huh what', 'what was that', 'what did u say',
+    'i have no idea', 'no clue', 'clueless', 'baffled',
+    'perplexed', 'bewildered', 'stumped', 'puzzled',
+    'mind blank', 'brain freeze', 'mental block',
+    'doesn\'t compute', 'not computing', 'error 404',
 
     # ===== NATURAL CONVERSATIONAL CONFUSION =====
     "i don't understand this",
@@ -764,15 +856,27 @@ CONFUSION_PATTERNS = [
     "i don't understand what you're saying",
     "say that differently please",
     "i'm lost bro",
-    "that was confusing"
+    "that was confusing",
+    "i'm totally lost", "completely lost", "utterly confused",
+    "this makes zero sense", "makes no sense at all",
+    "i have no clue what you mean", "no idea what that means",
+    "can you dumb it down", "explain like i'm five", "eli5",
+    "speak english please", "in plain english", "simple terms",
+    "break it down barney style", "step by step please",
+    "my brain hurts", "head spinning", "mind blown",
+    "that flew over my head", "went right over my head",
+    "missed that completely", "didn't catch any of that",
+    "say it slower", "too fast", "way too complicated",
+    "what language is that", "greek to me", "chinese to me",
+    "alien language", "technobabble", "jargon overload"
 ]
 
 UNCERTAIN_RESPONSES = [
     # Simple uncertain
-    'maybe', 'perhaps', 'possibly', 'could be', 'not sure',
+    'could be', 'not sure',
     'i dont know', 'i dunno', 'dunno', 'uncertain', 'undecided',
     'leaning yes', 'leaning no', '50 50', 'fifty fifty',
-    'kinda', 'sorta', 'sort of', 'kind of', 'maybe later',
+    'kinda', 'sorta', 'sort of', 'kind of',
     'not sure yet',
 
     # ===== NATURAL CONVERSATIONAL UNCERTAINTY =====
@@ -808,12 +912,84 @@ UNCERTAIN_RESPONSES = [
     "i'll think about it"
 ]
 
+# ============================================================
+# DEFER/PAUSE PATTERNS — Temporary deferral, not rejection
+# ============================================================
+
+DEFER_PATTERNS = [
+    # Temporary absence indicators
+    'afk', 'brb', 'ttyl', 'be right back', 'away from keyboard',
+    'back in a bit', 'back soon', 'returning shortly',
+    'brb a sec', 'brb in a min', 'brb in a minute', 'brb shortly',
+    'afk for a bit', 'afk for a minute', 'afk for a sec',
+    'stepping away', 'stepping out', 'away for a moment',
+    'gotta step away', 'need to step away', 'gone for a sec',
+    'be back in a flash', 'be right back', 'back in a flash',
+
+    # Explicit deferral
+    'not now', 'not right now', 'not at the moment', 'in a bit',
+    'some other time', 'later', 'continue later', 'pause for now',
+    'come back later', "i'll continue later", "let's do this later",
+    'maybe later', 'perhaps later', 'possibly later',
+    'not today', 'another time', 'another day', 'next time',
+    'rain check', 'take a rain check', 'raincheck',
+    'later gator', 'catch you later', 'see you later',
+    'come back to this', 'return to this', 'pick this up later',
+    'save for later', 'bookmark this', 'flag for later',
+
+    # Pause/hold requests
+    'pause', 'hold on', 'wait a moment', 'give me a minute',
+    'wait', 'hold up', 'one moment', 'one sec', 'one second',
+    'just a moment', 'just a sec', 'give me a second',
+    'wait a sec', 'wait a minute', 'wait a moment',
+    'hold your horses', 'hold the phone', 'wait wait wait',
+    'slow down', 'slow it down', 'one at a time',
+    'give me a moment to think', 'let me think', 'thinking',
+
+    # Busy/occupied
+    "i'm busy", 'im busy', 'busy right now', "can't now", 'cant now',
+    'swamped', 'occupied', 'tied up', 'hectic right now',
+    'got my hands full', 'hands full', 'up to my ears',
+    'in the middle of something', 'in the middle of work',
+    'working on something', 'doing something', 'occupied atm',
+    'at work right now', 'at work', 'in a meeting', 'in class',
+    'driving', 'cooking', 'eating', 'on the phone', 'on a call',
+    'with family', 'with friends', 'running errands', 'out right now',
+
+    # Uncertainty-as-deferral
+    'maybe', 'perhaps', 'possibly', 'not sure', 'uncertain',
+    'i might', 'i may', 'could be', 'leaning towards later',
+    'probably later', 'most likely later', 'thinking about it',
+    'considering it', 'mulling it over', 'weighing options',
+    'on the fence', 'undecided', 'torn', '50/50',
+    'idk yet', 'i don\'t know yet', 'not decided',
+    'let me decide later', 'decide later', 'figure it out later'
+
+    # Life happens
+    'emergency', 'urgent', 'something came up', 'came up',
+    'got interrupted', 'interruption', 'distracted',
+    'need to go', 'have to go', 'gotta run', 'running late',
+    'late for', 'appointment', 'meeting soon', 'deadline',
+    'family thing', 'family emergency', 'personal matter',
+    'not feeling well', 'feeling sick', 'under the weather',
+    'tired', 'exhausted', 'burnt out', 'brain dead',
+    'need a break', 'mental break', 'recharge', 'reset'
+]
+
 REPEAT_REQUEST_PATTERNS = [
     'say again', 'come again', 'repeat that', 'repeat please',
     'one more time', 'again please', 'can you repeat', 'please repeat',
-    'what did you say', 'i missed that', 'didnt catch that',
-    'last part again', 'from the top', 'explain again',
-    'what did you said', 'what you said', 'what was that you said'
+    'what did you say', 'what\'s you said', 'whats you said', 'what did you said',
+    'i missed that', 'didnt catch that', 'what you said', 'what was that you said',
+    'last part again', 'from the top', 'explain again', 'repeat what you said',
+    'say that again', 'run that by me again', 'go over that again',
+    'what was that', 'what did u say', 'what u said', 'whatcha say',
+    'i didnt hear that', 'didn\'t hear', 'missed it', 'missed that',
+    'one more time please', 'again one more time', 'repeat once more',
+    'can you say that again', 'could you repeat', 'would you repeat',
+    'play it back', 'replay that', 'rewind', 'back up a bit',
+    'what was the last thing', 'last thing you said', 'previous message',
+    'scroll up', 'look up', 'what did u just say'
 ]
 
 CLARIFICATION_PATTERNS = [
@@ -821,6 +997,16 @@ CLARIFICATION_PATTERNS = [
     'meaning of', 'definition of', 'what is meant by',
     'in other words', 'simpler terms', 'layman terms',
     'breakdown of', 'elaborate', 'expand on',
+    'explain', 'explain please', 'explain more', 'explain further',
+    'clarify', 'clarify please', 'clarify that', 'make it clear',
+    'what does that mean', 'what is the meaning', 'what does this mean',
+    'how does that work', 'how do you mean', 'in what way',
+    'can you elaborate', 'can you explain', 'can you clarify',
+    'i need clarification', 'need more info', 'more details please',
+    'give me more info', 'tell me more', 'go deeper', 'dig deeper',
+    'what exactly', 'what precisely', 'specifically what',
+    'give example', 'show example', 'example please', 'for example',
+    'what do you mean exactly', 'what do u mean', 'what u mean',
 
     # Identity questions
     'who are you', 'what are you', 'what\'s your name',
@@ -828,6 +1014,9 @@ CLARIFICATION_PATTERNS = [
     'introduce yourself', 'what can you do',
     'what\'s your purpose', 'what are you supposed to do',
     'what do you mean',
+    'who made you', 'who created you', 'who is your creator',
+    'are you a bot', 'are you ai', 'are you human',
+    'what are your capabilities', 'what can you help with'
 ]
 
 
@@ -998,7 +1187,7 @@ NEGATION_WORDS = {
 
     # Added for better coverage
     'not sure', 'not really', 'not interested', 'not feeling it',
-    'not at all', 'not now', 'not right now', 'not at the moment',
+    'not at all',
     'not exactly', 'not particularly', 'not quite', 'not necessary',
     'not in the mood', 'not vibing with it', 'not on my watch',
     'maybe not', 'probably not', 'definitely not',
