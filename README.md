@@ -1,26 +1,27 @@
-https://github.com/user-attachments/assets/50bce7f3-2e31-4f58-876e-a4498d1a189f
+<img width="1920" height="1080" alt="Pytalon Assistant GA" src="https://github.com/user-attachments/assets/674115d6-ab47-40fb-a93e-a4a316c70ac3" />
 
-![Python](https://img.shields.io/badge/Python-3.14.7-blue)
-![Version](https://img.shields.io/badge/Version-2.1-brightgreen)
-![Status](https://img.shields.io/badge/Status-Hotfix%20Release-success)
+![Python](https://img.shields.io/badge/Python-3.14-blue)
+![Version](https://img.shields.io/badge/Version-2.2-brightgreen)
+![Status](https://img.shields.io/badge/Status-Stable%20Release-success)
 ![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-# 🐍 Pytalon 2.1 — Hotfix Release
+# 🐍 Pytalon 2.2 — Your Python Tutor Companion
 
-*"Teaching is not about filling a bucket, but lighting a fire."*  
-— Adapted from W.B. Yeats
+> *"The best way to learn is to teach."*  
+> — **Pytalon Philosophy**
 
-**Pytalon 2.1** is here — a hotfix release that not only squashes 20 bugs but also introduces polished enhancements to make your learning experience even smoother. This version builds on the solid foundation of 2.0, adding practical features like **command-prefix support**, **last-response recall**, **smarter intent prioritisation**, and a richer conversational database.
+**Pytalon 2.2** is a **Stable Release** that transforms your terminal into an interactive, conversational Python tutor. Built with pure Python — zero dependencies, zero external libraries — it runs anywhere Python runs. This release introduces a **Defer/Pause Intent System**, **full state management**, **massive database expansion**, and **codebase refactoring** for readability and maintainability.
 
-Whether you're a total beginner or revisiting Python basics, Pytalon is your interactive, no‑distraction tutor that runs entirely in your terminal.
+Whether you're a total beginner or revisiting Python basics, Pytalon guides you through 13 comprehensive topics with natural conversation, smart validation, and hands-on practice.
 
 ---
 
-## 🚀 The Journey to 2.1
+## 🚀 The Journey to 2.2
 
-| Version | What Happened |
-|---------|---------------|
+| Version | Milestone |
+|---------|-----------|
 | **v1.0.1 – v1.0.2** | Foundation: 10 topics, basic validation, beginner-friendly explanations |
 | **v1.0.3 Preview** | Added Data Types & Conditional Statements; practice for ALL topics; slang database |
 | **v1.0.4 Preview** | Added Lists; Conversational Intent Detection; Temporary Memory; Smart Validators; Modular Codebase; Enhanced Practice System |
@@ -28,177 +29,235 @@ Whether you're a total beginner or revisiting Python basics, Pytalon is your int
 | **v1.0.5 Pre-Release 1** | 4 critical fixes: infinite loops, `exit()` crash, Ctrl+C crash, "maybe later" false positive |
 | **v1.0.5 Pre-Release 2** | 4 final fixes: clean `exit()` termination, EOFError handling, resource cleanup, expanded loop detection |
 | **🎉 Pytalon 2.0** | Stable Release — all features polished, 18 bugs squashed |
-| **🔧 Pytalon 2.1** | **Hotfix Release** — 20 bugs fixed, 4 new features, database upgrades |
+| **🔧 Pytalon 2.1** | Hotfix Release — 20 bugs fixed, 4 new features, database upgrades |
+| **✨ Pytalon 2.2** | **Stable Release** — 15 bugs fixed, Defer/Pause Intent System, State Management, massive database expansion, codebase refactoring |
 
 ---
 
-## ✨ What's New in Pytalon 2.1
+## ✨ What's New in Pytalon 2.2
 
-### 📚 1. Expanded Curriculum — 13 Topics (unchanged)
+### 🎯 1. Defer/Pause Intent System (Major Feature)
 
-The curriculum covers **everything a beginner needs**:
+Pytalon now understands **temporary deferral** — not rejection. When life happens, Pytalon waits patiently.
 
-| # | Topic |
-|---|-------|
-| 1 | Hello World |
-| 2 | Functions |
-| 3 | Variables |
-| 4 | Relational Operators |
-| 5 | Assignment Operators |
-| 6 | Logical Operators |
-| 7 | Type Conversion |
-| 8 | Input Function |
-| 9 | Comments in Python |
-| 10 | Strings in Python (Complete Module) |
-| 11 | Data Types in Python |
-| 12 | Conditional Statements (Complete Module) |
-| 13 | Lists in Python (Complete Module) |
+| User Says | Intent | Response |
+|-----------|--------|----------|
+| `afk`, `brb`, `ttyl` | `defer` | "No problem! Take your time — I'll be here when you're ready." |
+| `not now`, `later`, `in a bit` | `defer` | Stays on current topic, offers resume options |
+| `maybe`, `perhaps`, `not sure` | `defer` | Friendly acknowledgment, no pressure |
+| `pause`, `hold on`, `wait a moment` | `defer` | Immediate pause acknowledgment |
+| `I'm busy`, `can't now`, `swamped` | `defer` | Understanding response, no topic skip |
+| `emergency`, `something came up` | `defer` | Life-happens understanding |
 
-### 🧠 2. Smarter Conversational Engine
+**52+ defer patterns** covering: temporary absence, explicit deferral, pause/hold requests, busy/occupied, uncertainty-as-deferral, and life events.
 
-- **Command‑Prefix Support** – Type `/lists`, `!functions`, or `#variables` and Pytalon understands immediately.
-- **Last‑Response Recall** – Ask *"What was your last response?"* and Pytalon repeats its previous message.
-- **Enhanced Identity Answers** – When you ask *"Who are you?"*, Pytalon gives a detailed introduction including its version and topics.
-- **Intent Prioritisation** – Greetings, gratitude, and clarification requests are now correctly handled without being mistaken for topic requests. For example, `"thanks"` stays gratitude, and `"hello there"` remains a greeting.
+### 🧭 2. Full State Management Activation
 
-### 🗣️ 3. Massive Response Database (Upgraded)
+The `ConversationContext` state infrastructure is now **fully utilized**:
 
-Hundreds of new entries and refined patterns:
+```
+greeting → menu → topic → practice → menu → done
+```
 
-- **Modern slang**: `fr`, `no cap`, `bet`, `lock in`, `say less`, and many more casual affirmations.
-- **Common typos**: `yeha`, `nopee`, `okei`, and varied misspellings are now recognised.
-- **International responses**: `ja`, `si`, `oui`, `nein`, `non`, and others.
-- **Multi-word negation** to stop false positives (e.g., *"not sure"* → `"no"`).
-- **Command prefixes**: `/, \, !, @, #, $, %, ^, &, *` – they are stripped before topic matching.
-- **Common single-word blocking**: `hello`, `hi`, `thanks`, `python` etc. are not mistaken for topics.
+Every conversation phase tracks state for debugging, analytics, and future features.
 
-### 🔧 4. Smart Validators System (Enhanced)
+### 📚 3. Massive Response Database Expansion
 
-The validation engine now:
+**Hundreds of new natural conversation patterns** across all categories:
 
-- Handles **command‑style prefixes** gracefully.
-- Blocks **common short words** from triggering false topic matches.
-- Prioritises **high‑value intents** (gratitude, clarification, general questions) over topic requests when both are present.
-- Uses a **lowered threshold** (`0.55` instead of `0.65`) for more forgiving topic matching.
+| Category | New Entries | Examples |
+|----------|-------------|----------|
+| **Greetings** | 30+ | `hai`, `hallou`, `howdy partner`, `what's cracking`, `g'day`, `howzit` |
+| **Farewells** | 40+ | `laters`, `ttyl`, `toodles`, `cheerio`, `catch ya later`, `signing off` |
+| **Gratitude** | 50+ | `thank u`, `tyvm`, `gracias`, `merci`, `danke`, `cheers`, `you're a lifesaver` |
+| **Confusion** | 40+ | `what?`, `huh?`, `clueless`, `baffled`, `doesn't compute`, `ELI5`, `explain like I'm five` |
+| **Repeat Requests** | 20+ | `run that by me again`, `go over that again`, `replay that`, `what did u say` |
+| **Clarifications** | 20+ | `explain`, `clarify`, `ELI5`, `dumb it down`, `step by step`, `in plain english` |
+| **Defer/Pause** | 52+ | `stepping away`, `rain check`, `hands full`, `in a meeting`, `driving`, `emergency` |
+| **Yes Responses** | 40+ | `game on`, `let's roll`, `fire it up`, `I'm game`, `count me in`, `10-4`, `aye aye` |
+| **No Responses** | 40+ | `nope not happening`, `hard pass`, `not my thing`, `meh`, `no chance`, `no dice` |
+| **Exit Responses** | 10+ | `logging out now`, `signing off`, `going offline`, `session complete` |
 
-### 🧪 5. Practice System Refinements
+**Total: 300+ new natural conversation patterns** — the most conversational terminal tutor ever.
 
-- The **retry prompt** now uses the full validation system, so you can answer `"nah"`, `"not yet"`, or `"exit"` and it will be understood correctly.
-- Cleaner error messages and better feedback.
+### 🏗️ 4. Codebase Refactoring & Readability
 
-### 🏗️ 6. Modular Code & Database Upgrades
+| Improvement | Details |
+|-------------|---------|
+| **Modular Architecture** | 7 logical modules: `intro.py`, `learning.py`, `topics_basic.py`, `topics_intermediate.py`, `validators.py`, `utils.py`, `conversation_context.py` |
+| **Shared Context Instance** | Single `context` object in `conversation_context.py` imported by all modules — no circular imports, clean singleton pattern |
+| **Consistent Imports** | All modules import `context` from `conversation_context` — unified state management |
+| **State Calls Throughout** | `set_state()` calls in intro, learning loop, and all 13 topic practice sessions |
+| **Clean Function Structure** | Each topic function follows consistent pattern: explain → examples → practice → state management |
+| **Removed Dead Code** | Cleaned unused imports, fixed circular import issues |
+| **Type Hints Ready** | Code structure supports future type annotations |
+| **Documentation Headers** | Every module has clear purpose documentation |
 
-- **New constants** in `config.py`:
-  - `COMMAND_PREFIXES`
-  - `COMMON_SHORT_WORDS`
-  - `COMMON_SINGLE_WORDS`
-  - `generic_python_patterns`
-  - `last_response_patterns`
-  - `identity_patterns`
-- **Updated constants**:
-  - `TOPIC_MATCH_THRESHOLD` lowered to `0.55`
-  - Expanded `GREETING_PATTERNS`, `GRATITUDE_PATTERNS`, `HELP_PATTERNS`, `CLARIFICATION_PATTERNS`
-  - Significantly enlarged `YES_EXAMPLES_RESPONSES` with casual affirmations
-  - Vastly improved `TOPIC_KEYWORDS` for all 13 topics (especially Logical Operators, Strings, Lists, Data Types, Conditionals, and Hello World)
+### 🧠 5. Enhanced Smart Validators
+
+| Feature | Description |
+|---------|-------------|
+| **DEFER_SET NEW FEATURE** | Fast exact-match lookup for defer patterns |
+| **Priority Handling NEW FEATURE** | `defer` intent in `CONVERSATION_INTENTS` and `HIGH_PRIORITY_INTENTS` |
+| **Lowered Threshold Old Feature** | Topic matching at `0.55` for more forgiving recognition |
+| **Negation Awareness Old Feature** | Multi-word negation detection prevents false positives |
+| **Command Prefix Stripping Old Feature** | `/lists`, `!functions`, `#variables` handled transparently |
+
+### 🧪 6. Practice System Polish
+
+- **Defer-aware prompts**: "yes/no/not now/exit" shown to users
+- **State transitions**: `topic` → `practice` → `topic` around every practice session
+- **All 13 topics** have practice sessions with custom validators
+- **3-attempt limit** with friendly retry prompts
 
 ---
 
-## 🐛 Bug Fixes in Pytalon 2.1 (20 Total)
+## 🐛 Bug Fixes in Pytalon 2.2 (15 Total)
 
 | # | Bug | Fix |
 |---|-----|-----|
-| 1 | Missing 'Lists in Python' keywords | Added comprehensive keywords |
-| 2 | Dead code in `smart_validators()` | Verified reachable (no issue) |
-| 3 | `get_pytalon_last_response()` schema mismatch | Aligned to `role`/`content` |
-| 4 | Practice retry prompt bypassed validation | Now uses `get_global_valid_input()` |
-| 5 | Logical operator false positives | Added precise keywords |
-| 6 | `"/List in Python"` not recognised | `remove_command_prefix()` handles it |
-| 7 | `"Teach me Python"` not recognised | Added `generic_python_patterns` |
-| 8 | `"Show me topics"` not recognised | Expanded `HELP_PATTERNS` |
-| 9 | `"Can you teach me strings"` mis‑matched | Enhanced `TOPIC_KEYWORDS` + blocking |
-| 10 | Single `"hello"` detected as topic | Blocked common single words |
-| 11 | `"hello there"` misclassified | Intent prioritisation fixed |
-| 12 | `"thanks"` detected as topic | Removed gratitude from SOCIAL_INTENTS |
-| 13 | `"see you later"` detected as exit | Farewells removed from EXIT_RESPONSES |
-| 14 | `"teach me data types"` detected as gratitude | Removed `'ty'` from GRATITUDE_PATTERNS |
-| 15 | `"What's your last response"` not working | Wired up `get_pytalon_last_response()` |
-| 16 | Double `"Goodbye!"` on exit | Removed duplicate print |
-| 17 | Confusion message didn't show topic menu | Changed `continue` → `break` |
-| 18 | `"Yeah man!"` not recognised at breakdown prompt | Added casual affirmations to `YES_EXAMPLES_RESPONSES` |
-| 19 | Dead `import re` in `utils.py` | Removed unused import |
-| 20 | Various edge‑case false positives | Threshold and keyword improvements |
+| 1 | **"what's you said?" broken** | Added `"what's you said"`, `"whats you said"` to `REPEAT_REQUEST_PATTERNS`; handler uses `context.get_pytalon_last_response()` |
+| 2 | **"not now" skips topic** | `get_global_valid_input()` returns `'defer'`; `learning.py` handles with friendly response |
+| 3 | **"maybe" gives error** | Same fix — `"maybe"` → `defer` in validation, handled in learning loop |
+| 4 | **ImportError: context** | Added module-level `context = ConversationContext()`; all modules import shared instance |
+| 5 | **Case-insensitive matching** | Patterns use `.lower()` comparison — works for `HELLO`, `AfK`, `BrB` |
+| 6 | **False topic triggers** | `"later"` now correctly → `defer` intent, not "Lists" topic |
+| 7 | **Negation handling** | `"don't teach me"` → `no` in `get_global_valid_input()` |
+| 8 | **Last-response recall** | `repeat_request` handler uses `context.get_pytalon_last_response()` correctly |
+| 9 | **Sub-menu exit** | Exit intent works; Strings sub-menu option 8 returns to main flow |
+| 10 | **Terminal flicker** | Pure Python stdlib — no external rendering issues |
+| 11 | **Infinite loop detection** | Removed overly aggressive `while x` / `while (x)` patterns; `while x < 10:` works |
+| 12 | **Duplicate entry** | `"nahh"` → `no` correctly via `get_global_valid_input()` |
+| 13 | **"afk" as exit** | Moved `afk`, `brb`, `ttyl` to `DEFER_PATTERNS` |
+| 14 | **"brb" as exit** | Same fix — now defer intent with friendly response |
+| 15 | **State management unused** | `set_state()` calls throughout: greeting → menu → topic → practice → menu → done |
 
 ---
 
-## 🌟 Key Features (Updated)
+## 🌟 Key Features
 
-- ✅ **Interactive Learning Flow** — The assistant communicates like a real tutor.
-- ✅ **13 Comprehensive Topics** — Covers all essential Python basics for beginners.
-- ✅ **Conversational Learning** — Understands natural language, greetings, confusion, topic/practice/help requests, and now command‑prefixes.
-- ✅ **Temporary Memory Session** — Remembers conversation history, learned topics, questions, and session state.
-- ✅ **Smart Validators System** — Full engine that understands typos, rephrased answers, and knows when you mean "no".
-- ✅ **Massive Response Database** — Hundreds of responses: modern slang, typos, international phrases, and more.
-- ✅ **Enhanced Practice System** — 3 attempts, custom validators, skip option for all 13 topics.
-- ✅ **Modular Code Architecture** — Clean, well-organised codebase split into 7 logical modules.
-- ✅ **Code Readability** — Professional headers, section markers, consistent formatting.
-- ✅ **Advanced Question Validation** — Accepts only proper, complete Python-related questions.
-- ✅ **Beginner-Friendly Explanations** — Complex ideas explained with real-life analogies.
-- ✅ **Optional Examples** — Choose to see code examples or skip them.
-- ✅ **Dedicated Strings, Conditionals & Lists Modules** — Deep dives with sub‑topic menus.
-- ✅ **Fully Console‑Based** — No external libraries required.
-- ✅ **Command‑Prefix Support** — Use `/`, `!`, `#`, etc. for quick topic access.
-- ✅ **Last‑Response Recall** — Ask for repetition of the last message.
+- ✅ **Interactive Learning Flow** — Communicates like a real tutor
+- ✅ **13 Comprehensive Topics** — Covers all essential Python basics
+- ✅ **Conversational Learning** — Natural language, greetings, confusion, defer, topic/practice/help requests
+- ✅ **Defer/Pause Intent System** — Understands "not now", "afk", "busy", "maybe" as temporary pauses
+- ✅ **Full State Management** — Tracks greeting → menu → topic → practice → menu → done
+- ✅ **Temporary Memory Session** — Remembers conversation history, learned topics, questions, session state
+- ✅ **Smart Validators System** — Understands typos, rephrased answers, deferral, negation
+- ✅ **Massive Response Database** — 300+ new patterns: modern slang, typos, international phrases, defer patterns
+- ✅ **Enhanced Practice System** — 3 attempts, custom validators, defer-aware prompts for all 13 topics
+- ✅ **Modular Code Architecture** — 7 logical modules, shared context, clean separation of concerns
+- ✅ **Code Readability** — Professional headers, consistent formatting, clear documentation
+- ✅ **Beginner-Friendly Explanations** — Complex ideas with real-life analogies
+- ✅ **Optional Examples** — Choose to see code examples or skip
+- ✅ **Dedicated Modules** — Strings, Conditionals, Lists as mini-courses with sub-topic menus
+- ✅ **Fully Console-Based** — No external libraries, zero dependencies
+- ✅ **Command-Prefix Support** — `/lists`, `!functions`, `#variables` for quick access
+- ✅ **Last-Response Recall** — "what did you say?" shows actual last message
 
 ---
 
-## 📘 Topics Covered
+## 📘 Topics Covered (13)
 
-The assistant teaches **13** beginner Python topics:
+| # | Topic | Type |
+|---|-------|------|
+| 1 | Hello World | Basic |
+| 2 | Functions | Basic |
+| 3 | Variables | Basic |
+| 4 | Relational Operators | Basic |
+| 5 | Assignment Operators | Basic |
+| 6 | Logical Operators | Basic |
+| 7 | Type Conversion | Intermediate |
+| 8 | Input Function | Intermediate |
+| 9 | Comments in Python | Intermediate |
+| 10 | Strings in Python | **Complete Module** |
+| 11 | Data Types in Python | Intermediate |
+| 12 | Conditional Statements | **Complete Module** |
+| 13 | Lists in Python | **Complete Module** |
 
-1. **Hello World** – Your first Python program.
-2. **Functions** – Reusable blocks of code.
-3. **Variables** – Storing and managing data.
-4. **Relational Operators** – Comparing values.
-5. **Assignment Operators** – Updating variable values.
-6. **Logical Operators** – Combining multiple conditions.
-7. **Type Conversion** – Changing data types safely.
-8. **Input Function** – Taking user input from the keyboard.
-9. **Comments in Python** – Writing notes inside code.
-10. **Strings in Python (Complete Module)** – A full deep dive into text handling.
-11. **Data Types in Python** – Understanding `int`, `float`, `list`, `tuple`, `dict`, and more.
-12. **Conditional Statements (Complete Module)** – Mastering `if`, `elif`, and `else` logic.
-13. **Lists in Python (Complete Module)** – Creating, modifying, and using lists.
+### 🔤 Deep-Dive Modules
 
-### 🔤 Strings, Conditionals & Lists Modules Include:
-
-These three topics are **mini‑courses** inside the assistant:
-
-- **Strings:** Creation, indexing, slicing, operations, methods, formatting (f‑strings), common errors.
-- **Conditionals:** `if` basics, `if-else` paths, `elif` chains, nested decisions, combining conditions with `and`/`or`/`not`, best practices.
-- **Lists:** Creation, indexing, slicing, methods (`append`, `remove`, `pop`, etc.), concatenation, repetition, membership, looping, list comprehension, common errors.
+| Module | Sub-Topics |
+|--------|------------|
+| **Strings** | Basics, Indexing & Slicing, Operations, Methods, Formatting, Common Errors |
+| **Conditionals** | If Basics, If-Else, Elif Chains, Nested, Combining Conditions, Best Practices |
+| **Lists** | Basics, Indexing, Slicing, Methods, Operations, Comprehension, Common Errors |
 
 ---
 
 ## 🧠 How It Works
 
-When you start the program:
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    PYTALON SESSION FLOW                      │
+├─────────────────────────────────────────────────────────────┤
+│  1. INTRODUCTION                                            │
+│     → Greeting + Version + Description                      │
+│     → State: greeting                                       │
+│                                                              │
+│  2. CONVERSATIONAL OPENING                                  │
+│     → "What's on your mind?"                                │
+│     → State: menu                                           │
+│     → Handles: greetings, questions, topic requests, defer  │
+│                                                              │
+│  3. TOPIC SELECTION                                         │
+│     → Menu (1-13) or direct request ("teach me variables")  │
+│     → State: topic                                          │
+│                                                              │
+│  4. TEACHING PHASE                                          │
+│     → Explanation with analogies                            │
+│     → Optional code examples                                │
+│     → State: topic                                          │
+│                                                              │
+│  5. PRACTICE SESSION (optional)                             │
+│     → Interactive coding exercise                           │
+│     → 3 attempts, custom validators                         │
+│     → State: practice → topic                               │
+│                                                              │
+│  6. CONTINUE OR EXIT                                        │
+│     → "Learn another topic?" (yes/no/not now/exit)          │
+│     → State: menu → topic → practice → menu → done          │
+└─────────────────────────────────────────────────────────────┘
+```
 
-1. The assistant introduces itself conversationally.
-2. It listens for greetings, questions, or topic requests (including command‑prefixed ones).
-3. It presents a menu of 13 Python topics (or lets you ask directly).
-4. You choose what to learn (e.g., type `3` for Variables or `/lists` for Lists).
-5. The assistant explains the topic step‑by‑step with analogies.
-6. You can choose to see code examples or skip them.
-7. You can choose to practice the concept interactively.
-8. You can continue learning another topic or exit anytime.
+### Flexible Commands
 
-### Flexible Commands:
+| Command | Action |
+|---------|--------|
+| `yes` / `y` / `teach me` / `fr!` / `lock in bro` / `game on` | Proceed |
+| `no` / `skip` / `nuh uh` / `nah fam` / `hard pass` | Skip |
+| `not now` / `later` / `pause` / `afk` / `brb` / `maybe` / `I'm busy` | Defer (stay on topic) |
+| `exit` / `bye` / `peace` / `logging off` | End session |
+| `/lists` / `!functions` / `#variables` | Quick topic access |
+| `what did you say` / `what's you said` | Last-response recall |
 
-The assistant understands:
-- `yes` / `y` / `teach me` / `fr!` / `lock in bro` to proceed.
-- `no` / `skip` / `nuh uh!` / `nah fam` to move on.
-- `exit` / `bye` / `peace` to end the session.
-- `/lists`, `!functions`, `#variables` as shortcuts for topics.
+---
+
+## 🏗️ Architecture
+
+```
+pytalon/
+├── config.py              # 1,200+ lines: All patterns, responses, keywords, constants
+├── validators.py          # Intent detection, input validation, smart matching
+├── conversation_context.py# State management, history, topics learned, questions
+├── utils.py               # Practice system, separators, menus, smart detection
+├── intro.py               # Introduction, conversational opening, topic selection
+├── learning.py            # Main teaching loop, topic dispatch, state transitions
+├── topics_basic.py        # Topics 1-6: Hello World → Logical Operators
+└── topics_intermediate.py # Topics 7-13: Type Conversion → Lists
+```
+
+### Design Principles
+
+| Principle | Implementation |
+|-----------|----------------|
+| **Zero Dependencies** | Pure Python stdlib only (`difflib`, `re`, `io`, `sys`) |
+| **Single Responsibility** | Each module has one clear purpose |
+| **Shared State** | Single `ConversationContext` instance across all modules |
+| **Extensible Patterns** | New intents/topics added via config lists |
+| **Conversational First** | Natural language > rigid commands |
+| **Graceful Degradation** | Defer > Exit > No > Yes priority |
+
+---
 
 ---
 
