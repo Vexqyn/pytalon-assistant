@@ -246,7 +246,9 @@ pytalon/
 └── topics_intermediate.py # Topics 7-13: Type Conversion → Lists
 ```
 
-### Design Principles
+---
+
+### ✨ Design Principles
 
 | Principle | Implementation |
 |-----------|----------------|
@@ -256,8 +258,7 @@ pytalon/
 | **Extensible Patterns** | New intents/topics added via config lists |
 | **Conversational First** | Natural language > rigid commands |
 | **Graceful Degradation** | Defer > Exit > No > Yes priority |
-
----
+| **Customizable Plugin Architecture** | Easily extend topics, intents, and responses without touching core logic |
 
 ---
 
