@@ -10,6 +10,7 @@ from validators import (
     get_global_examples_valid_input,
     get_global_menu_choice,
 )
+from conversation_context import context
 
 # ============================================================
 # TOPIC 7: TYPE CONVERSION
@@ -96,6 +97,7 @@ def teach_type_conversion():
                 return False, "Use type() to show the data type before and after conversion!"
             return True, ""
 
+        context.set_state("practice")
         run_practice_session(
             topic_name="Type Conversion",
             instructions="Create a string variable 'num_str' with a number value. Convert it to int and float. Print the type before and after each conversion!",
@@ -110,6 +112,7 @@ def teach_type_conversion():
             ),
             custom_check_function=check_conversion_practice,
         )
+        context.set_state("topic")
 
     print("Great! You learned about type conversion!")
 
@@ -175,6 +178,7 @@ def teach_input_function():
                 return False, "Ask for at least 2 pieces of information!"
             return True, ""
 
+        context.set_state("practice")
         run_practice_session(
             topic_name="Input Function",
             instructions="Write a program that asks for a user's name and age using input(). Then print a message using both values!",
@@ -186,6 +190,7 @@ def teach_input_function():
             ),
             custom_check_function=check_input_practice,
         )
+        context.set_state("topic")
 
     print("Great! You learned about the input function!")
 
@@ -254,6 +259,7 @@ def teach_comments():
                 )
             return True, ""
 
+        context.set_state("practice")
         run_practice_session(
             topic_name="Comments",
             instructions="Write a small Python program with at least 3 lines of code. Add comments explaining what each part does! Use both single-line (#) and inline comments.",
@@ -266,6 +272,7 @@ def teach_comments():
             ),
             custom_check_function=check_comments_practice,
         )
+        context.set_state("topic")
 
     print("Great! You learned about comments!")
 
@@ -635,6 +642,7 @@ def teach_strings():
                     )
                 return True, ""
 
+            context.set_state("practice")
             run_practice_session(
                 topic_name="Strings",
                 instructions="Create a string variable with your name. Use at least 3 string operations (e.g., upper(), lower(), concatenation with +, indexing with [], or slicing). Print each result!",
@@ -649,6 +657,7 @@ def teach_strings():
                 ),
                 custom_check_function=check_strings_practice,
             )
+            context.set_state("topic")
 
         print("Excellent! You've learned comprehensive string handling in Python!")
 
@@ -734,6 +743,7 @@ def teach_data_types():
                 )
             return True, ""
 
+        context.set_state("practice")
         run_practice_session(
             topic_name="Data Types",
             instructions="Create at least 4 variables of different data types (int, float, str, bool). Use type() to check and print each variable's type!",
@@ -750,6 +760,7 @@ def teach_data_types():
             ),
             custom_check_function=check_datatypes_practice,
         )
+        context.set_state("topic")
 
     print("Great! You've learned about different data types in Python!")
 
@@ -1294,6 +1305,7 @@ def teach_conditionals():
                     return False, "Make sure to indent the code inside if/else blocks (4 spaces)!"
                 return True, ""
 
+            context.set_state("practice")
             run_practice_session(
                 topic_name="Conditional Statements",
                 instructions="Write a program that checks if a number is positive, negative, or zero. Use if-elif-else statements and print the result!",
@@ -1309,6 +1321,7 @@ def teach_conditionals():
                 ),
                 custom_check_function=check_conditionals_practice,
             )
+            context.set_state("topic")
 
         print("Excellent! You've learned comprehensive conditional statements in Python!")
 
@@ -1793,6 +1806,7 @@ def teach_lists():
                     pass
                 return True, ""
 
+            context.set_state("practice")
             run_practice_session(
                 topic_name="Lists",
                 instructions="Create a list of your favorite colors. Add a new color using append(), remove one color, and sort the list. Print the list after each operation!",
@@ -1809,6 +1823,7 @@ def teach_lists():
                 ),
                 custom_check_function=check_lists_practice
             )
+            context.set_state("topic")
 
         print("Excellent! You've learned how to work with lists in Python!")
 
