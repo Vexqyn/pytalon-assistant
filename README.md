@@ -236,14 +236,14 @@ Every conversation phase tracks state for debugging, analytics, and future featu
 
 ```
 pytalon/
-├── config.py              # 1,200+ lines: All patterns, responses, keywords, constants
-├── validators.py          # Intent detection, input validation, smart matching
-├── conversation_context.py# State management, history, topics learned, questions
-├── utils.py               # Practice system, separators, menus, smart detection
-├── intro.py               # Introduction, conversational opening, topic selection
-├── learning.py            # Main teaching loop, topic dispatch, state transitions
-├── topics_basic.py        # Topics 1-6: Hello World → Logical Operators
-└── topics_intermediate.py # Topics 7-13: Type Conversion → Lists
+├── config.py               # 1,200+ lines: All patterns, responses, keywords, constants
+├── validators.py           # Intent detection, input validation, smart matching
+├── conversation_context.py # State management, history, topics learned, questions
+├── utils.py                # Practice system, separators, menus, smart detection
+├── intro.py                # Introduction, conversational opening, topic selection
+├── learning.py             # Main teaching loop, topic dispatch, state transitions
+├── topics_basic.py         # Topics 1-6: Hello World → Logical Operators
+└── topics_intermediate.py  # Topics 7-13: Type Conversion → Lists
 ```
 
 ---
