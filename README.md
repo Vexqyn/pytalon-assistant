@@ -7,6 +7,29 @@
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
+## 🚨 Announcement 🚨 
+
+Wait, what is this!???
+
+```python
+if something_is_coming:
+    print("👀 Stay tuned...")
+else:
+    print("Nothing to see here. 🤫")
+```
+
+Hmm… 🤔
+
+Maybe it's nothing.
+Maybe it's something.
+I don't know 🤷🏻‍♂️ 
+
+Either way, keep your eyes open. 👀
+
+https://github.com/user-attachments/assets/b50e119b-e6b5-4677-9a77-51a1456f5c33
+
+---
+
 # 🐍 Pytalon 2.2 — Your Python Tutor Companion
 
 > *"The best way to learn is to teach."*  
