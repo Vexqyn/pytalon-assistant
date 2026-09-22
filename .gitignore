@@ -144,3 +144,8 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.temp
+
+# Pytalon: never commit learner personal data or bytecode
+Pytalon_Memory/store/
+Pytalon_Memory/__pycache__/
+.playwright-mcp/
