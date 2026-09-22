@@ -1,6 +1,6 @@
 <img width="1920" height="1080" alt="Pytalon Assistant GA" src="https://github.com/user-attachments/assets/674115d6-ab47-40fb-a93e-a4a316c70ac3" />
 
-![Python](https://img.shields.io/badge/Python-3.14-blue)
+![Python](https://img.shields.io/badge/Python-3.14.7-blue)
 ![Version](https://img.shields.io/badge/Version-2.2-brightgreen)
 ![Status](https://img.shields.io/badge/Status-Stable%20Release-success)
 ![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
