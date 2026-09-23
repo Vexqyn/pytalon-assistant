@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="Pytalon Assistant GA" src="https://github.com/user-attachments/assets/674115d6-ab47-40fb-a93e-a4a316c70ac3" />
+https://github.com/user-attachments/assets/e763f3bc-22e7-48a0-90d4-ed6329cb65a6
 
 ![Python](https://img.shields.io/badge/Python-3.14-blue)
 ![Version](https://img.shields.io/badge/Version-2.3-brightgreen)
