@@ -21,14 +21,14 @@ Yes. Today is the day to share the progress.  Day by day, Pytalon is hitting num
 
 Let me break down the graph:
 
-→ 07/31 – 08/13: 157 clones / 37 unique
-→ 08/13 – 08/26: 477 clones / 60 unique
-→ 09/10 – 09/23: 628 clones / 126 unique
-→ 09/15 – 09/28: 661 clones / 129 unique
+- → 07/31 – 08/13: 157 clones / 37 unique
+- → 08/13 – 08/26: 477 clones / 60 unique
+- → 09/10 – 09/23: 628 clones / 126 unique
+- → 09/15 – 09/28: 661 clones / 129 unique
 
 And then Pytalon 2.3 Assistant broke the record.
 
-543 clones in a single day. That's the Peak Day for me as the developer.
+**543 clones in a single day.** That's the Peak Day for me as the developer.
 The surprising thing? Pytalon 2.3 Assistant surpassed every previous flagship model. It is the first-ever assistant in the line to pull this many clones and unique clones. 😄
 
 The totals:
