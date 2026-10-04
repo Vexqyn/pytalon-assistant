@@ -44,6 +44,8 @@ The engine is the product. The domain is a config file.
 
 Thank you to every single developer who cloned, ran, and tested it. This is just the beginning.
 
+<img width="1920" height="1080" alt="Pytalon Assistant Success" src="https://github.com/user-attachments/assets/97ae3cae-36b9-4dad-bf12-735f0e22a28d" />
+
 ---
 
 # 🐍 Pytalon 2.3 — Your Python Assistant Tutor Companion
