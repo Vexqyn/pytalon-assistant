@@ -1,6 +1,6 @@
 https://github.com/user-attachments/assets/e763f3bc-22e7-48a0-90d4-ed6329cb65a6
 
-![Python](https://img.shields.io/badge/Python-3.14-blue)
+![Python](https://img.shields.io/badge/Python-3.14.8-blue)
 ![Version](https://img.shields.io/badge/Version-2.3-brightgreen)
 ![Status](https://img.shields.io/badge/Status-Major%20Release-success)
 ![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
@@ -386,11 +386,11 @@ python learning.py
 
 ## ⚙️ Requirements
 
-- Python 3.14.7 or higher
+- Python 3.14.8 or higher
 - No external libraries needed — Uses 100% Python Standard Library.
 
-> 🟢 **Why Python 3.14.7?**  
-> Python 3.14.7 offers better performance, improved security, and modern language improvements. Using the latest version ensures long‑term project stability and compatibility.
+> 🟢 **Why Python 3.14.8?**  
+> Python 3.14.8 offers better performance, improved security, and modern language improvements. Using the latest version ensures long‑term project stability and compatibility.
 
 ---
 
