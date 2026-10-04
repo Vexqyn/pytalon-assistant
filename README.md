@@ -33,8 +33,8 @@ The surprising thing? Pytalon 2.3 Assistant surpassed every previous flagship mo
 
 The totals:
 
-📊 Total Clones Success: 1,923
-👥 Total Unique Clone Success: 352
+- 📊 Total Clones Success: 1,923
+- 👥 Total Unique Clone Success: 352
 
 This is not the end. ☺️
 
