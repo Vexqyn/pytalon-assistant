@@ -112,6 +112,7 @@ paths before sharing logs or code snippets.
 - The practice executor in `utils.py`.
 - The static database in `config.py`.
 - Anything that could cause:
+
   - Unauthorized code execution during a practice session.
   - Escape from the practice sandbox.
   - Corruption or unintended deletion of `Pytalon_Memory/store/` files.
@@ -165,7 +166,8 @@ Please do **not**:
 ## Thank You
 
 Pytalon's philosophy is **"Honesty is the first feature."**  
-That applies to security too. If something feels unsafe, unclear, or unfair,
+
+- That applies to security too. If something feels unsafe, unclear, or unfair,
 please say so — every serious report makes Pytalon stronger and more honest.
 
 — **M. Qasim Farooqi (@acubura)**  
