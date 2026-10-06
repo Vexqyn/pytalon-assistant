@@ -74,7 +74,9 @@ python learning.py
 
 ```bash
 git checkout -b fix/short-description
+
 # or
+
 git checkout -b feature/short-description
 ```
 
@@ -109,13 +111,21 @@ Know where your change belongs before you start:
 Follow the existing style — the 2.3 overhaul happened precisely to make the code readable.
 
 1. **🐍 Standard library only.** No third-party dependencies. Allowed modules: `difflib`, `re`, `io`, `sys`, `json`, `os`, `datetime`, and other stdlib essentials.
+
 2. **📄 Module docstrings.** Every file starts with a `# filename.py` comment and a docstring stating its purpose (see existing files).
+
 3. **🎯 Single responsibility.** Split giant functions; give each layer a clear job. No god-functions.
+
 4. **⚡ Lazy, intentional imports.** Import submodules where needed — eager imports slow `learning.py` startup (see `pytalon_body/__init__.py`).
+
 5. **🛡️ Graceful degradation.** Wrap optional systems (especially memory) in `try/except` so a failure never crashes a lesson.
+
 6. **🗣️ Honest, natural language.** New phrases belong in `config.py`, written the way people actually talk — no robotic patterns.
+
 7. **🔍 Inspectable logic only.** Pytalon is a rule-based, threshold-based Non-AI model. Never add LLM/cloud calls; when unsure, the code should **ask**, not guess.
+
 8. **🔒 Privacy first.** Never commit learner personal data or `Pytalon_Memory/store/` contents. Behavior learning stores derived counters — never raw messages.
+
 9. **🚫 No secrets.** Don't commit API keys, tokens, or credentials — CI runs Bandit and dependency reviews on every PR.
 
 ---
@@ -124,7 +134,9 @@ Follow the existing style — the 2.3 overhaul happened precisely to make the co
 
 1. Search [existing issues](https://github.com/Vexqyn/pytalon-assistant/issues) first — duplicates slow everyone down.
 2. Open a new issue using the **[🐛 Bug Report](https://github.com/Vexqyn/pytalon-assistant/issues/new?template=🐛-bug-report.md)** template.
+
 3. Include:
+
    - **Steps to reproduce** (exact input you typed)
    - **Expected vs. actual behavior**
    - **Python version** and **OS**
