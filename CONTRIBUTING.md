@@ -57,7 +57,7 @@ cd pytalon-assistant
 
 ### 2️⃣ Verify your environment
 
-- **Python 3.14.7 or higher** (`python --version`)
+- **Python 3.14.8 or higher** (`python --version`)
 - **No external libraries needed** — Pytalon is 100% Python Standard Library.
 
 > 🟢 **Zero dependencies is a feature, not an accident.** Please don't add third-party packages (see [Coding Conventions](#️-coding-conventions)).
