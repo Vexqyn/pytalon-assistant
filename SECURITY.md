@@ -1,174 +1,317 @@
-# Security Policy
+# 🔐 Security Policy
 
 ## Pytalon Assistant — Security Commitment
 
-Pytalon Assistant is a **pure-Python, zero-dependency, console-based Assistant**.
-It runs entirely on the learner's own computer, makes no network calls, and
-stores only derived patterns and progress in local JSON files. Because of this
-design, the attack surface is intentionally small — but security is still taken
-seriously, and reports are always welcome.
+Pytalon Assistant is a **pure-Python, zero-dependency, console-based assistant** designed to run entirely on the learner's own computer.
 
-This policy explains which versions receive security updates and how to report
-a vulnerability responsibly.
+Pytalon makes **no network calls** and stores only derived patterns and learning progress in local JSON files. This intentionally keeps the attack surface small.
+
+Security is still taken seriously, and responsible vulnerability reports are always welcome.
+
+> **"Honesty is the first feature."**
+>
+> That principle applies to security too.
 
 ---
 
-## Supported Versions
+## 🛡️ Supported Versions
 
 Pytalon follows a **flagship-line support model**. Only the current flagship
-line and the most recent hotfix line receive security updates.
+line receives active security maintenance.
 
-| Version Line | Status                          | Security Updates |
-| ------------ | ------------------------------- | ---------------- |
-| 2.3.x        | Current flagship (Major Release)| :white_check_mark: |
-| 2.2.x        | Previous stable line            | :x:              |
-| 2.1.x        | Legacy hotfix line              | :x:              |
-| 2.0.x        | Legacy stable line              | :x:              |
-| < 2.0        | Historical previews             | :x:              |
+| Version Line | Status | Security Updates |
+| :--- | :--- | :---: |
+| **2.3.x** | 🟢 Current flagship | ✅ |
+| **2.2.x** | ⚪ Previous stable line | ❌ |
+| **2.1.x** | ⚪ Legacy hotfix line | ❌ |
+| **2.0.x** | ⚪ Legacy stable line | ❌ |
+| **< 2.0** | ⚪ Historical previews | ❌ |
 
-**Notes**
+### Notes
 
-- `2.3.x` is the only line actively maintained for security.
-- Older lines are kept for learning and historical reference only.
-- If a security issue is found in an unsupported line, the fix will be
-  delivered in the current flagship line whenever technically possible.
-
----
-
-## Reporting a Vulnerability
-
-If you believe you have found a security vulnerability in Pytalon Assistant,
-please report it **privately** so it can be investigated and fixed before any
-public disclosure.
-
-### Where to Report
-
-Preferred channel:
-
-- **GitHub Private Vulnerability Reporting**
-  Open the repository, go to the **Security** tab, and use
-  **"Report a vulnerability"**:
-  `https://github.com/Vexqyn/pytalon-assistant/security/advisories/new`
-
-Alternative channel (if private reporting is unavailable):
-
-- Open a **minimal public issue** that only states *"I would like to report a
-  security issue — please contact me privately."*
-    
-  - Do **not** include the technical details, proof-of-concept, or affected code
-  in the public issue.
-
-### What to Include in Your Report
-
-To help reproduce and resolve the issue quickly, please include:
-
-1. A clear description of the vulnerability.
-2. The affected version (for example: `2.3`, `2.3.x`, or a specific commit).
-3. The affected file(s) and function(s) if known.
-4. Step-by-step reproduction instructions.
-5. A minimal proof-of-concept, if one is safe to share privately.
-6. The potential impact as you understand it.
-7. Any suggested fix or mitigation (optional but appreciated).
-
-Please **redact** any personal data, learner memory files, or machine-specific
-paths before sharing logs or code snippets.
+- `2.3.x` is the **only actively maintained security line**.
+- Older versions remain available for learning, experimentation, and historical reference.
+- Security fixes for unsupported versions will generally be developed against the current `2.3.x` line.
+- Users running unsupported versions are strongly encouraged to upgrade before reporting or relying on security fixes.
 
 ---
 
-## What to Expect After Reporting
+## 🚨 Reporting a Vulnerability
 
-| Stage                        | Target Time             |
-| ---------------------------- | ----------------------- |
-| Initial acknowledgement      | Within 3 business days  |
-| Triage and severity review   | Within 7 business days  |
-| Status update to reporter    | Every 7 days while open |
-| Fix or mitigation plan       | Within 30 days (when feasible) |
-| Public disclosure (if any)   | After a fix is released |
+If you believe you have discovered a security vulnerability in Pytalon Assistant, please **report it privately**.
 
-**If the report is accepted**
+Private reporting gives the project an opportunity to investigate, reproduce, and fix the issue before technical details become public.
 
-- You will receive confirmation that the issue is valid.
-- A fix will be prepared for the current flagship line (`2.3.x`).
-- Credit will be given in the release notes unless you request anonymity.
-- A coordinated disclosure date will be agreed with you before any public
-  write-up.
+### 🔒 Preferred Channel — GitHub Private Vulnerability Reporting
 
-**If the report is declined**
+Open the repository's **Security** tab and select **"Report a vulnerability"**:
 
-- You will receive a written explanation of why it was not treated as a
-  security vulnerability.
-- If it is better classified as a functional bug, it will be redirected to the
-  normal issue tracker.
-- You are still welcome to open a regular issue with the non-security details.
+`https://github.com/Vexqyn/pytalon-assistant/security/advisories/new`
+
+This is the preferred method for reporting security-sensitive issues.
+
+### 📝 Alternative Reporting Method
+
+If GitHub Private Vulnerability Reporting is unavailable, open a **minimal public issue** containing only:
+
+> I would like to report a security issue — please contact me privately.
+
+**Do not include:**
+
+- ❌ Exploit details
+- ❌ Proof-of-concept code
+- ❌ Sensitive logs
+- ❌ Vulnerable source-code excerpts
+- ❌ Personal or machine-specific information
+
+The technical details should be shared privately after contact has been established.
 
 ---
 
-## Scope
+## 📋 What to Include in Your Report
 
-**In scope**
+A useful security report should include as much of the following information as is safe to disclose privately:
 
-- The Pytalon Assistant source code in this repository.
-- Modules under `pytalon_body/` and `Pytalon_Memory/`.
+1. **Vulnerability description**
+   - What is wrong?
+   - Why does it present a security risk?
+
+2. **Affected version**
+   - Example: `2.3`
+   - Example: `2.3.x`
+   - Or a specific commit hash.
+
+3. **Affected components**
+   - File(s)
+   - Module(s)
+   - Function(s)
+   - Relevant configuration
+
+4. **Reproduction steps**
+   - Clear, minimal steps that reproduce the issue.
+
+5. **Proof of concept**
+   - Include a minimal PoC when it is safe and appropriate.
+
+6. **Potential impact**
+   - Explain what an attacker or malicious practice could potentially achieve.
+
+7. **Suggested mitigation**
+   - Optional, but highly appreciated.
+
+### ⚠️ Please Redact Sensitive Information
+
+Before sending logs, source code, or examples, remove:
+
+- Personal information
+- Learner memory contents
+- Machine-specific paths
+- Usernames
+- Environment-specific secrets
+- Other unrelated private data
+
+---
+
+## ⏱️ What to Expect After Reporting
+
+We aim to handle security reports consistently and transparently.
+
+| Stage | Target |
+| :--- | :--- |
+| 📩 Initial acknowledgement | Within **3 business days** |
+| 🔎 Triage & severity review | Within **7 business days** |
+| 🔄 Status updates | Every **7 days** while open |
+| 🛠️ Fix or mitigation plan | Within **30 days**, when feasible |
+| 📢 Public disclosure | After a fix is released |
+
+These are **target response times**, not absolute guarantees. Complex vulnerabilities may require additional investigation or coordination.
+
+---
+
+## ✅ If the Report Is Accepted
+
+When a report is confirmed as a security vulnerability:
+
+- The issue will be investigated and tracked privately.
+- A fix will be prepared for the current flagship line (`2.3.x`) where technically applicable.
+- Affected users may be advised to upgrade.
+- The reporter will receive updates during remediation.
+- Security fixes may be accompanied by release notes or security advisories.
+- Reporter credit will be provided where appropriate, unless anonymity is requested.
+- A coordinated disclosure date may be agreed upon before public disclosure.
+
+---
+
+## ❌ If the Report Is Declined
+
+If an issue is determined **not to be a security vulnerability**, the reporter will receive an explanation where appropriate.
+
+Depending on the issue, it may instead be classified as:
+
+- 🐛 A normal functional bug
+- 💡 A feature request
+- 📚 A documentation issue
+- 🎨 A cosmetic issue
+- ⚙️ An expected behavior
+
+Security reports that are better suited to the normal issue tracker may be redirected there.
+
+You are still welcome to submit a regular issue containing the appropriate non-security details.
+
+---
+
+# 🎯 Scope
+
+## ✅ In Scope
+
+The following areas are considered within the security scope:
+
+- Pytalon Assistant source code in this repository.
+- Modules under `pytalon_body/`.
+- Modules under `Pytalon_Memory/`.
 - The practice executor in `utils.py`.
 - The static database in `config.py`.
-- Anything that could cause:
+- Local memory handling.
+- Practice-session execution and isolation.
 
-  - Unauthorized code execution during a practice session.
-  - Escape from the practice sandbox.
-  - Corruption or unintended deletion of `Pytalon_Memory/store/` files.
-  - Leakage of data outside the learner's own machine.
+Security issues are especially relevant when they could result in:
 
-**Out of scope**
-
-- Vulnerabilities in Python itself or in the standard library.
-- Issues in third-party tools used to clone or run the project.
-- Social engineering against the learner or the developer.
-- Denial-of-service by the learner against their own machine.
-- Cosmetic issues, typos, or documentation clarity problems.
-- Feature requests or general bug reports (use the issue tracker instead).
+- 🔴 Unauthorized code execution during a practice session.
+- 🔴 Escape from the practice sandbox.
+- 🔴 Unauthorized modification or corruption of learner memory.
+- 🔴 Unintended deletion of files under `Pytalon_Memory/store/`.
+- 🔴 Leakage of data outside the learner's intended local environment.
+- 🔴 Circumvention of security controls implemented by Pytalon.
 
 ---
 
-## Security Design Principles
+## ❌ Out of Scope
 
-Pytalon is built with the following guarantees in mind:
+The following are generally outside the project's security scope:
 
-- **No network access** — the assistant never makes outbound calls.
-- **No third-party dependencies** — only the Python standard library is used.
-- **No raw utterance storage** — only derived patterns and progress are saved.
-- **Atomic local writes** — memory files are written via a temporary file and
-  an atomic replace, so a crash cannot leave a half-written file.
-- **Sandboxed practice** — learner code runs under a restricted namespace with
-  step limits, blocked `exit()` / `quit()`, and canned `input()` values.
-- **Graceful degradation** — memory failures never crash a lesson.
-- **No auto-deletion** — Pytalon never deletes learner memory on its own.
+- Vulnerabilities in Python itself.
+- Vulnerabilities in the Python standard library.
+- Security issues in third-party software used to clone, install, or execute Pytalon.
+- Social engineering targeting learners or maintainers.
+- Denial-of-service against the researcher's own machine.
+- Cosmetic issues.
+- Typos.
+- Documentation clarity issues.
+- Feature requests.
+- General functional bugs without a security impact.
 
----
-
-## Safe Harbor
-
-Security research conducted in good faith against your **own local copy** of
-Pytalon Assistant is welcome. You will not be pursued or reported for:
-
-- Running the assistant locally.
-- Fuzzing inputs against the validators or intent engine.
-- Attempting to escape the practice sandbox on your own machine.
-- Reporting findings privately through the channels above.
-
-Please do **not**:
-
-- Test against other learners' machines or memory stores.
-- Publish exploit details before a fix has been released.
-- Use findings to harm other users of the project.
+For these issues, please use the normal issue tracker instead.
 
 ---
 
-## Thank You
+# 🔐 Security Design Principles
 
-Pytalon's philosophy is **"Honesty is the first feature."**  
+Pytalon is designed around several security and privacy principles.
 
-- That applies to security too. If something feels unsafe, unclear, or unfair,
-please say so — every serious report makes Pytalon stronger and more honest.
+### 🌐 No Network Access
 
-— **M. Qasim Farooqi (@acubura)**  
-Creator of Pytalon Assistant
+Pytalon is designed to operate locally and does not make outbound network calls.
+
+### 📦 Zero Third-Party Dependencies
+
+The project uses the **Python standard library only**, reducing dependency-related supply-chain risk.
+
+### 🧠 No Raw Utterance Storage
+
+Pytalon does not intentionally store raw learner utterances as permanent memory.
+
+Only derived patterns and learning progress are persisted.
+
+### 💾 Atomic Local Writes
+
+Memory files are written through a temporary-file-and-replace process where applicable.
+
+This helps prevent crashes or interruptions from leaving written memory files.
+
+### 🧪 Sandboxed Practice
+
+Learner practice code runs within a restricted execution environment designed to limit:
+
+- Available functionality
+- Execution time
+- Process termination
+- Interactive input
+
+The practice environment blocks mechanisms such as `exit()` and `quit()` and provides canned `input()` values where required.
+
+> ⚠️ **Important:** A Python-level sandbox should not be treated as equivalent to a hardened OS-level security boundary. Users should only execute untrusted practice code in environments appropriate for the level of isolation required.
+
+### 🧯 Graceful Degradation
+
+Memory or persistence failures should not unnecessarily crash an active lesson.
+
+### 🗑️ No Automatic Memory Deletion
+
+Pytalon does not intentionally delete learner memory as part of normal operation.
+
+---
+
+# 🤝 Safe Harbor
+
+Security research conducted **in good faith against your own local copy of Pytalon Assistant** is welcome.
+
+We encourage responsible research such as:
+
+- 🧪 Running Pytalon locally.
+- 🔍 Smart validators and intent-handling logic.
+- 🧰 Testing malformed or unexpected inputs.
+- 🧪 Attempting to escape the practice sandbox on your own machine.
+- 📋 Reporting security findings privately.
+
+### Researchers Should Not
+
+Please do not:
+
+- ❌ Test against other learners' machines.
+- ❌ Access or modify other users' memory stores.
+- ❌ Attempt to obtain data belonging to other users.
+- ❌ Publish exploit details before reasonable remediation.
+- ❌ Use discovered vulnerabilities to harm users.
+- ❌ Conduct testing against infrastructure that you do not own or have explicit permission to test.
+
+Safe harbor applies to **good-faith research conducted within these boundaries**.
+
+---
+
+# 📢 Coordinated Disclosure
+
+When a vulnerability is confirmed, the project will make a reasonable effort to coordinate disclosure with the reporter.
+
+Where practical:
+
+1. 🔎 The vulnerability is privately investigated.
+2. 🛠️ A fix or mitigation is developed.
+3. 🧪 The fix is validated.
+4. 📦 A patched release is published.
+5. 📝 Relevant release notes or security documentation are updated.
+6. 📢 Public disclosure occurs after remediation.
+
+The exact timeline may vary depending on severity, complexity, affected versions, and the availability of a reliable fix.
+
+---
+
+# ❤️ Thank You
+
+Security is a shared responsibility.
+
+Pytalon's philosophy is:
+
+> **"Honesty is the first feature."**
+
+That applies to security too.
+
+If something feels **unsafe, unclear, or unfair**, please report it. Every responsible security report helps make Pytalon stronger, safer, and more honest.
+
+Thank you to everyone who takes the time to research, report, reproduce, and responsibly disclose security issues.
+
+---
+
+**— M. Qasim Farooqi (@acubura)**  
+**Creator of Pytalon Assistant**
+
+🔐 *Security reports are always appreciated. Thank you for helping keep Pytalon safe.*
