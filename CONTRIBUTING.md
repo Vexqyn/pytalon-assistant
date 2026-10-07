@@ -3,9 +3,11 @@
 > *"Honesty is the first feature. Intelligence is the second. Everything else is polish."*
 > — **Pytalon 2.3 Philosophy**
 
-Thank you for wanting to make **Pytalon** better! Contributions are welcome — you don't have to be an expert to help. Whether you fix a typo, improve a lesson, or report a bug, you're making Python easier for every learner who comes after you.
+Contributions are welcome — you don't have to be an expert to help. A typo fix, a clearer explanation, a bug report: every change makes Pytalon better for the learner who comes next.
 
-Please read this guide before opening an issue or pull request. It keeps the project honest, stable, and easy to maintain.
+This guide explains how to report issues, propose changes, and get your pull request merged. Please read it before opening an issue or PR.
+
+**TL;DR:** Fork → branch → change → `python learning.py` → open a PR.
 
 ---
 
@@ -26,7 +28,7 @@ Please read this guide before opening an issue or pull request. It keeps the pro
 
 ## 📜 Code of Conduct
 
-By participating in this project, you agree to be kind, respectful, and honest. Feedback is welcome; hostility is not. See the [Code of Conduct](CODE_OF_CONDUCT.md) for details.
+By participating in this project, you agree to be kind, respectful, and honest. Feedback is welcome; hostility is not. The full [Code of Conduct](CODE_OF_CONDUCT.md) applies to every project space.
 
 ---
 
@@ -34,53 +36,56 @@ By participating in this project, you agree to be kind, respectful, and honest. 
 
 | Type | What it looks like |
 |------|--------------------|
-| 🧠 **Lessons** | Improve beginner-friendly explanations in `topics_basic.py` / `topics_intermediate.py`. |
-| ✏️ **Clarity** | Fix grammar, typos, or confusing wording anywhere in the code or docs. |
-| ➕ **New Content** | Add new beginner topics or advanced modules (see [Coding Conventions](#️-coding-conventions)). |
-| 🧪 **Practice** | Add more practice exercises with clear instructions and expected keywords. |
-| 🐛 **Bug Fixes** | Squash bugs — especially the ones that should have died in 2.3. |
-| 💡 **Features** | Suggest or build new learning, validation, or memory features. |
-| 🗣️ **Feedback** | Give honest feedback on Pytalon as a flagship Non-AI model. |
+| **Lessons** | Improve beginner-friendly explanations in `topics_basic.py` / `topics_intermediate.py`. |
+| **Clarity** | Fix grammar, typos, or confusing wording anywhere in the code or docs. |
+| **New content** | Add a new beginner topic or advanced module (see [Coding Conventions](#️-coding-conventions)). |
+| **Practice** | Add exercises with clear instructions and expected keywords. |
+| **Bug fixes** | Squash bugs — especially the ones that should have died in 2.3. |
+| **Features** | Suggest or build new learning, validation, or memory features. |
+| **Feedback** | Honest thoughts on Pytalon as a flagship Non-AI model. |
 
-> 💛 **Remember:** Finding and reporting a bug isn't complaining — it's contributing.
+> Finding and reporting a bug isn't complaining — it's contributing.
+
+For anything beyond a small fix, [open an issue first](#-suggesting-features) so we can agree on the direction before code is written.
 
 ---
 
 ## 🚀 Getting Started
 
-### 1️⃣ Fork and clone the repository
+### Prerequisites
+
+| Requirement | Details |
+|-------------|---------|
+| **Python** | 3.14.8 or newer — check with `python --version` |
+| **Libraries** | None. Pytalon is 100% Python Standard Library. |
+| **Tools** | Git |
+
+Zero dependencies is a feature, not an accident — please don't add third-party packages.
+
+### Step 1 — Fork and clone
 
 ```bash
 git clone https://github.com/<your-username>/pytalon-assistant.git
 cd pytalon-assistant
 ```
 
-### 2️⃣ Verify your environment
+### Step 2 — Create a branch
 
-- **Python 3.14.8 or higher** (`python --version`)
-- **No external libraries needed** — Pytalon is 100% Python Standard Library.
+```bash
+git checkout -b fix/short-description      # bug fixes
+git checkout -b feature/short-description  # new ideas
+git checkout -b docs/short-description     # documentation only
+```
 
-> 🟢 **Zero dependencies is a feature, not an accident.** Please don't add third-party packages (see [Coding Conventions](#️-coding-conventions)).
+Pick a short, specific name — for example `fix/negation-detection`, `feature/loops-topic`, or `docs/readme-typo`.
 
-### 3️⃣ Run the program
+### Step 3 — Run the program
 
 ```bash
 python learning.py
 ```
 
-**For Linux/macOS users:** If `python` doesn't work, use `python3 learning.py` instead.
-
-### 4️⃣ Create a branch
-
-```bash
-git checkout -b fix/short-description
-
-# or
-
-git checkout -b feature/short-description
-```
-
-Use a clear branch name, e.g. `fix/negation-detection`, `feature/loops-topic`, `docs/readme-typo`.
+On Linux/macOS, use `python3 learning.py` if `python` doesn't work. You're ready to make changes.
 
 ---
 
@@ -102,42 +107,35 @@ Know where your change belongs before you start:
 | `Pytalon_Memory/store/` | **Learner data — gitignored. Never commit this.** |
 | `.github/` | Issue templates and CI workflows. |
 
-**Single-responsibility rule of thumb:** App teaches · body understands · memory persists · config knows. Put new code in the layer that owns that job.
+**Rule of thumb:** App teaches · body understands · memory persists · config knows. Put new code in the layer that owns that job.
 
 ---
 
 ## ✏️ Coding Conventions
 
-Follow the existing style — the 2.3 overhaul happened precisely to make the code readable.
+The 2.3 overhaul exists to keep this code readable — please keep it that way.
 
-1. **🐍 Standard library only.** No third-party dependencies. Allowed modules: `difflib`, `re`, `io`, `sys`, `json`, `os`, `datetime`, and other stdlib essentials.
-
-2. **📄 Module docstrings.** Every file starts with a `# filename.py` comment and a docstring stating its purpose (see existing files).
-
-3. **🎯 Single responsibility.** Split giant functions; give each layer a clear job. No god-functions.
-
-4. **⚡ Lazy, intentional imports.** Import submodules where needed — eager imports slow `learning.py` startup (see `pytalon_body/__init__.py`).
-
-5. **🛡️ Graceful degradation.** Wrap optional systems (especially memory) in `try/except` so a failure never crashes a lesson.
-
-6. **🗣️ Honest, natural language.** New phrases belong in `config.py`, written the way people actually talk — no robotic patterns.
-
-7. **🔍 Inspectable logic only.** Pytalon is a rule-based, threshold-based Non-AI model. Never add LLM/cloud calls; when unsure, the code should **ask**, not guess.
-
-8. **🔒 Privacy first.** Never commit learner personal data or `Pytalon_Memory/store/` contents. Behavior learning stores derived counters — never raw messages.
-
-9. **🚫 No secrets.** Don't commit API keys, tokens, or credentials — CI runs Bandit and dependency reviews on every PR.
+| Convention | What it means |
+|------------|---------------|
+| **Standard library only** | No third-party dependencies. Allowed: `difflib`, `re`, `io`, `sys`, `json`, `os`, `datetime`, and other stdlib essentials. |
+| **Module docstrings** | Every file starts with a `# filename.py` comment and a docstring stating its purpose. |
+| **Single responsibility** | Split giant functions; give each layer one clear job. No god-functions. |
+| **Lazy, intentional imports** | Import submodules where needed — eager imports slow `learning.py` startup (see `pytalon_body/__init__.py`). |
+| **Graceful degradation** | Wrap optional systems (especially memory) in `try/except` so a failure never crashes a lesson. |
+| **Honest, natural language** | New phrases belong in `config.py`, written the way people actually talk — no robotic patterns. |
+| **Inspectable logic only** | Pytalon is rule-based and threshold-based — never add LLM/cloud calls. When unsure, the code should ask, not guess. |
+| **Privacy first** | Never commit learner data or `Pytalon_Memory/store/`. Behavior learning stores derived counters — never raw messages. |
+| **No secrets** | No API keys, tokens, or credentials — CI runs Bandit and dependency review on every PR. |
 
 ---
 
 ## 🐛 Reporting Bugs
 
 1. Search [existing issues](https://github.com/Vexqyn/pytalon-assistant/issues) first — duplicates slow everyone down.
-2. Open a new issue using the **[🐛 Bug Report](https://github.com/Vexqyn/pytalon-assistant/issues/new?template=🐛-bug-report.md)** template.
-
+2. Open a new issue with the **[🐛 Bug Report](https://github.com/Vexqyn/pytalon-assistant/issues/new?template=🐛-bug-report.md)** template.
 3. Include:
 
-   - **Steps to reproduce** (exact input you typed)
+   - **Steps to reproduce** — the exact input you typed
    - **Expected vs. actual behavior**
    - **Python version** and **OS**
    - Screenshot or error text, if any
@@ -148,13 +146,14 @@ Follow the existing style — the 2.3 overhaul happened precisely to make the co
 
 1. Use the **[✨ Feature Request](https://github.com/Vexqyn/pytalon-assistant/issues/new?template=✨-feature-request.md)** template.
 2. Explain the **learning problem** it solves, not just the feature itself.
-3. Small, focused suggestions are easier to act on than big vague ones.
+3. Keep suggestions small and focused — they're easier to act on than big vague ones.
 
 ---
 
 ## 🔀 Pull Request Process
 
 1. **Open an issue first** for anything beyond small fixes — let's agree on the direction before code.
+
 2. **Branch from `main`:**
 
    ```bash
@@ -163,7 +162,7 @@ Follow the existing style — the 2.3 overhaul happened precisely to make the co
    git checkout -b fix/short-description
    ```
 
-3. **Make focused commits.** One concern per PR. Commit messages should be short and descriptive, e.g.:
+3. **Make focused commits.** One concern per PR. Keep commit messages short and descriptive:
 
    ```text
    Fix negation handling in yes/no validator
@@ -179,15 +178,13 @@ Follow the existing style — the 2.3 overhaul happened precisely to make the co
 
    Walk through the affected topic, try edge-case inputs (empty input, negations like "no not really", slang like "lock in"), and confirm nothing crashes — including memory failures.
 
-5. **Push and open a PR:**
+5. **Push and open a PR** against `main` with a clear title and description (what changed and why):
 
    ```bash
    git push origin fix/short-description
    ```
 
-   Then open a Pull Request against `main` with a clear title and description (what changed and why).
-
-6. **CI must pass.** Every PR runs automated checks:
+6. **Make sure CI passes.** Every PR runs these automated checks:
 
    | Workflow | What it checks |
    |----------|----------------|
@@ -222,5 +219,6 @@ By contributing, you agree that your contributions will be licensed under the **
 
 ---
 
-> 🐍 **Happy Coding, and thank you for helping Pytalon stay honest!**
-> — M. Qasim Farooqi (@acubura)
+Thank you for helping Pytalon stay honest — and happy coding.
+
+— M. Qasim Farooqi (@acubura)
