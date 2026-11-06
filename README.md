@@ -9,6 +9,36 @@ https://github.com/user-attachments/assets/e763f3bc-22e7-48a0-90d4-ed6329cb65a6
 
 ---
 
+# Pytalon Assistant Development Has Started — Mini Versions Are on Their Way! 🚀
+
+> **Project Status Update:** Active Development (2.3 Series)
+
+Hey everyone! If you've noticed a little bit of silence recently, I'm officially here to break it. 
+
+Development on Pytalon Assistant has started again. To clear the air: the project was never abandoned, and development never fully stopped. Pytalon is a long-term project for me. The reality is that my priorities shifted for a bit. As a student, my studies have to be my first priority. Once my academic tasks are handled, my focus shifts back to my other projects—including this one.
+
+### 🗺️ What’s Next? The 2.3 Series
+
+I am currently focusing on releasing stable mini-versions under the **Pytalon Assistant 2.3 Series** (e.g., `2.3.1`, `2.3.2`, etc.). 
+
+Once I am fully satisfied with the stability and performance of these mini-versions, the development cycle will transition into the **Preview Cycle**. 
+
+### ⚖️ Setting Expectations
+
+I want to keep expectations balanced. Because I am balancing student life with development, you will see times where updates come fast, and times when they are slow. I am aiming for a healthy, sustainable balance, and I promise to keep everyone updated here if I need to take a pause or a break.
+
+### 💻 The Reality of Solo Development
+
+As a Solo Founder handling the software engineering, testing, and everything else entirely on my own, things can get tough. 
+
+Even with the incredible rise of Agentic AI tools, software engineering is *not* easy. The narrative that "coding is dead" is a total myth. Building a robust assistant requires deep engineering, and I'm here for the challenge. 
+
+**Pytalon updates are coming soon ;)** 
+
+Thank you for your patience, your stars, and for sticking with me on this journey!
+
+---
+
 ### 💫 Pytalon Assistant Success, A New Era for Non-AI Assistants 💫
 
 Are you expecting another release of Pytalon that either contains new features or bug fixes and polishes?
