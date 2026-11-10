@@ -78,7 +78,7 @@ Thank you to every single developer who cloned, ran, and tested it. This is just
 
 ---
 
-# 🐍 Pytalon 2.3 — Your Python Assistant Tutor Companion
+# 🐍 Pytalon 2.3 — Your Python Assistant
 
 > *"Honesty is the first feature. Intelligence is the second. Everything else is polish."*  
 > — **Pytalon 2.3 Philosophy**
