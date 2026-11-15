@@ -4,7 +4,10 @@ Created by: M Qasim Farooqi
 Role: BS IT Student | Python Developer · AI Prompt Strategist · Game Systems Analyst | I build, analyze & create. Founder of Vexqyn
 Version: 2.3
 Category: Major Release (Stable Version)
-Purpose: Learn Python basics through interactive teaching with 13 comprehensive topics
+Purpose:It's a fully customizable, plugin-powered Python terminal assistant built to adapt to you. 
+   - Extend, configure, and shape it your way. Dependency-free, rule-based, transparent, and local-first. 
+   - No AI, no cloud, no black boxes & MIT-licensed. 
+   - Learn Python through hands-on practice tailored to your pace and learning style as plugin.
 """
 
 from utils import print_global_separator, show_topic_menu
