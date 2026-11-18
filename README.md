@@ -1,7 +1,7 @@
 # 🐍 PYTALON
 
-**A functional, customizable assistant engine, built in pure Python.**
-The assistant is the core. Teaching is just one plugin.
+>A functional, customizable assistant engine, built in pure Python.
+>The assistant is the core. Teaching is just one plugin.
 
 https://github.com/user-attachments/assets/e763f3bc-22e7-48a0-90d4-ed6329cb65a6
 
