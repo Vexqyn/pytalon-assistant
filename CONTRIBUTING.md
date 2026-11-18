@@ -56,7 +56,7 @@ For anything beyond a small fix, [open an issue first](#-suggesting-features) so
 
 | Requirement | Details |
 |-------------|---------|
-| **Python** | 3.14.8 or newer — check with `python --version` |
+| **Python** | 3.15.2 or newer — check with `python --version` |
 | **Libraries** | None. Pytalon is 100% Python Standard Library. |
 | **Tools** | Git |
 

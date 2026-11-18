@@ -1,480 +1,230 @@
+# 🐍 PYTALON
+
+**A functional, customizable assistant engine, built in pure Python.**
+The assistant is the core. Teaching is just one plugin.
+
 https://github.com/user-attachments/assets/e763f3bc-22e7-48a0-90d4-ed6329cb65a6
 
-![Python](https://img.shields.io/badge/Python-3.15.2-blue)
-![Version](https://img.shields.io/badge/Version-2.3-brightgreen)
-![Status](https://img.shields.io/badge/Status-Major%20Release-success)
-![Platform](https://img.shields.io/badge/Platform-Console-lightgrey)
-![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+<p align="center">
+  <a href="https://github.com/Vexqyn/pytalon-assistant"><img src="https://img.shields.io/badge/Pytalon-2.3-brightgreen?style=for-the-badge" alt="Pytalon 2.3"></a>
+  <img src="https://img.shields.io/badge/Python-pure%20Python-blue?style=for-the-badge" alt="Pure Python">
+  <img src="https://img.shields.io/badge/Dependencies-none-success?style=for-the-badge" alt="No third-party dependencies">
+  <img src="https://img.shields.io/badge/Interface-console-lightgrey?style=for-the-badge" alt="Console interface">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT License"></a>
+</p>
+
+<p align="center">
+  <a href="#-quick-start">🚀 Quick start</a> ·
+  <a href="#-what-is-pytalon">✨ What is Pytalon?</a> ·
+  <a href="#-how-the-current-application-works">🧭 How it works</a> ·
+  <a href="CONTRIBUTING.md">🤝 Contributing</a>
+</p>
 
 ---
 
-# Pytalon Assistant Development Has Started — Mini Versions Are on Their Way! 🚀
+> [!IMPORTANT]
+> ## 🚧 Development update
+> **This commit is not a new version of Pytalon.** The current code has a few known issues that I'm working on. This is a development push, and **Pytalon 2.3 remains the current version line.**
 
-> **Project Status Update:** Active Development (2.3 Series)
+## ✨ What is Pytalon?
 
-Hey everyone! If you've noticed a little bit of silence recently, I'm officially here to break it. 
+**Pytalon is not a tutor.**
 
-Development on Pytalon Assistant has started again. To clear the air: the project was never abandoned, and development never fully stopped. Pytalon is a long-term project for me. The reality is that my priorities shifted for a bit. As a student, my studies have to be my first priority. Once my academic tasks are handled, my focus shifts back to my other projects—including this one.
+It's a fully functional, customizable assistant, built like a plugin. The teaching part is just a plugin, not the core. Python teaching is simply the first thing built on top of it.
 
-### 🗺️ What’s Next? The 2.3 Series
+Pytalon is written in **pure Python with no external dependencies**. It runs on its own custom, fully functional pure-Python engine. No fuzzy-matching package is installed, and none is written. Everything, including the engine, is plain Python, and the whole system is customized like a plugin.
 
-I am currently focusing on releasing stable mini-versions under the **Pytalon Assistant 2.3 Series** (e.g., `2.3.1`, `2.3.2`, etc.). 
+### 🔧 Where you can take it
 
-Once I am fully satisfied with the stability and performance of these mini-versions, the development cycle will transition into the **Preview Cycle**. 
+Pytalon can be modified and adapted to any field you want:
 
-### ⚖️ Setting Expectations
+- **Make it an LLM.** Do the LLM engineering, and it becomes an LLM model, in the same family as DeepSeek, Claude, ChatGPT, GLM, and others.
+- **Put an AI model inside it.** Plug one in and Pytalon works with it.
+- **Turn it into a Plugin House.** Pytalon uses all the plugins, MCP, tools, and connectors, and executes them too.
+- **Make it a harness.** It becomes that as well.
 
-I want to keep expectations balanced. Because I am balancing student life with development, you will see times where updates come fast, and times when they are slow. I am aiming for a healthy, sustainable balance, and I promise to keep everyone updated here if I need to take a pause or a break.
+In short: **the engine is the product, and the domain is yours to choose.** 🛠️
 
-### 💻 The Reality of Solo Development
+### 🧩 The idea in one glance
 
-As a Solo Founder handling the software engineering, testing, and everything else entirely on my own, things can get tough. 
+| Pytalon | In this project |
+| --- | --- |
+| **Core** | A customizable assistant engine |
+| **Current plugin** | Python teaching, built on that engine |
+| **Building blocks** | Conversation rules, configurable knowledge, behavior handling, and memory |
+| **For engineers** | A pure-Python foundation to shape into your own assistant project |
 
-Even with the incredible rise of Agentic AI tools, software engineering is *not* easy. The narrative that "coding is dead" is a total myth. Building a robust assistant requires deep engineering, and I'm here for the challenge. 
+### ⚙️ Built with Python, built to be customized
 
-**Pytalon updates are coming soon ;)** 
+Pytalon uses only Python's standard library, so there are no third-party runtime dependencies. The engine is made from Python code, explicit rules, curated patterns, and configurable data. The only text-similarity helper is Python's built-in `difflib`.
 
-Thank you for your patience, your stars, and for sticking with me on this journey!
+The current implementation is local and console-based. Its modules and configuration are where you go to understand and reshape how the assistant behaves.
 
----
+## 🌟 What Pytalon includes
 
-### 💫 Pytalon Assistant Success, A New Era for Non-AI Assistants 💫
+| Feature | What it does |
+| --- | --- |
+| 🧠 **Rule-based conversation** | Detects configured intents such as greetings, requests, pauses, and clarifications |
+| 🧰 **Custom response engine** | Uses curated language patterns, configurable rules, and Python-native matching |
+| 🗂️ **Configurable knowledge** | Keeps phrases, patterns, behavior settings, and application data in Python modules |
+| 💾 **Local memory** | Saves selected profile and progress data on your computer |
+| 🎛️ **Behavior adaptation** | Uses derived counters to adjust some openings and prompts |
+| 🧪 **Interactive practice runner** | Captures output, supplies canned input, and applies a line-step limit to submitted practice code |
+| 🧱 **Modular structure** | Separates the app flow, assistant body, configuration data, and memory package |
+| 📦 **No third-party packages** | Runs on Python's standard library alone |
 
-Are you expecting another release of Pytalon that either contains new features or bug fixes and polishes?
+## 🧩 Current plugin: Python teaching
 
-Well, today and this week wasn't supposed to be that. 🙅🏻‍♂️
+The current app shows Pytalon in action through a conversational Python-learning experience. It greets you, responds to supported requests, guides the session, offers code practice, and gives you local progress summaries.
 
-I was being quiet for some days — a week maybe. And it's because I was preparing myself to share the success of Pytalon.
+Teaching is **one plugin built with Pytalon**, not its whole identity. The lesson content lives in its own modules, so you can explore it, swap it, or replace it entirely.
 
-Yes. Today is the day to share the progress.  Day by day, Pytalon is hitting numbers in getting cloned and unique clones. 😏
+## 🚀 Quick start
 
-Let me break down the graph:
+### Requirements
 
-- → 07/31 – 08/13: 157 clones / 37 unique
-- → 08/13 – 08/26: 477 clones / 60 unique
-- → 09/10 – 09/23: 628 clones / 126 unique
-- → 09/15 – 09/28: 661 clones / 129 unique
+- **Python 3.15.2 or newer**
+- A terminal or command prompt
+- Nothing else. No packages to install.
 
-And then Pytalon 2.3 Assistant broke the record.
-
-**543 clones in a single day.** That's the Peak Day for me as the developer.
-The surprising thing? Pytalon 2.3 Assistant surpassed every previous flagship model. It is the first-ever assistant in the line to pull this many clones and unique clones. 😄
-
-The totals:
-
-- 📊 Total Clones Success: 1,923
-- 👥 Total Unique Clone Success: 352
-
-This is not the end. ☺️
-
-Pytalon will continue to be developed. In the upcoming days and weeks, I will focus only on bug fixes and polish for Pytalon 2.3, releasing updates under its version number — before Pytalon enters the preview stage to experiment with new features. 
-
-The engine is the product. The domain is a config file.
-
-Thank you to every single developer who cloned, ran, and tested it. This is just the beginning.
-
-<img width="1920" height="1080" alt="Pytalon Assistant Success" src="https://github.com/user-attachments/assets/97ae3cae-36b9-4dad-bf12-735f0e22a28d" />
-
----
-
-# 🐍 Pytalon 2.3 — Your Python Assistant
-
-> *"Honesty is the first feature. Intelligence is the second. Everything else is polish."*  
-> — **Pytalon 2.3 Philosophy**
-
-**Pytalon 2.3** is the **most intelligent and the most honest major flagship Non-AI model** I have developed so far — and it **surpasses every previous flagship Non-AI model** in the Pytalon line. This is not another chat wrapper. It is a pure-Python, zero-dependency terminal assistant tutor companion that has **overhauled architecture**, and even **rewrote its body and brain for code readability and refactorization**, **shipped a huge database upgrade**, and — for the first time — introduced **persistent and permanent memory** so Pytalon can truly remember you across sessions.
-
-Whether you are a total beginner or revisiting Python basics, Pytalon 2.3 walks you through **13 comprehensive topics** with natural conversation, smart validation, hands-on practice, behavioral awareness, and a permanent learning profile that stays on **your computer only**.
-
-### What this major flagship model delivers
-
-| Pillar | What changed in 2.3 |
-|--------|---------------------|
-| 🏗️ **Architecture overhaul** | The flat 2.2 codebase became a clean **root app + `pytalon_body` + `Pytalon_Memory`** layout — validation, intent, behavior, and permanent memory are real modules with single responsibilities. |
-| 📖 **Code readability & refactorization** | Giant functions were split, dead/orphan paths were isolated, imports were made lazy and intentional, validators became a thin compatibility layer over a dedicated body, and every layer has a clear job and docstring voice. |
-| 🗄️ **Database huge upgrade** | The response / phrase / topic database exploded again — memory language, validator word-sets, behavior markers, practice inputs, and hundreds of natural conversational patterns. `config.py` is now the single static knowledge base of the assistant. |
-| 💾 **Persistent & permanent memory** | Learner name, completed topics, practice records, pauses, sessions, and style patterns live in **JSON under `Pytalon_Memory/store/`** — atomic writes, session snapshots, welcome-back summaries, and a privacy promise: *how you learn is remembered, what you said is not.* |
-| 🤝 **Honest Non-AI intelligence** | No LLM, no cloud, no black box. Every decision is rule-based, threshold-based, and inspectable — and when Pytalon is unsure, it **asks** instead of guessing. |
-
-**Zero dependencies. Fully console. Flagship honest intelligence.**
-
----
-
-## 🚀 The Journey to 2.3
-
-| Version | Milestone |
-|---------|-----------|
-| **v1.0.1 – v1.0.2** | Foundation: 10 topics, basic validation, beginner-friendly explanations |
-| **v1.0.3 Preview** | Added Data Types & Conditional Statements; practice for ALL topics; slang database |
-| **v1.0.4 Preview** | Added Lists; Conversational Intent Detection; Temporary Memory; Smart Validators; Modular Codebase; Enhanced Practice System |
-| **v1.0.5 Preview** | 4 bug fixes: negation handling, intro formatting, menu mismatch, negation gaps |
-| **v1.0.5 Pre-Release 1** | 4 critical fixes: infinite loops, `exit()` crash, Ctrl+C crash, "maybe later" false positive |
-| **v1.0.5 Pre-Release 2** | 4 final fixes: clean `exit()` termination, EOFError handling, resource cleanup, expanded loop detection |
-| **🎉 Pytalon 2.0** | Stable Release — all features polished, 18 bugs squashed |
-| **🔧 Pytalon 2.1** | Hotfix Release — 20 bugs fixed, 4 new features, database upgrades |
-| **✨ Pytalon 2.2** | Stable Release — Defer/Pause Intent System, State Management, massive database expansion, codebase refactoring |
-| **🚀 Pytalon 2.3** | **Major Flagship Release** — architecture overhaul, body + memory packages, permanent persistent memory, behavior learner, database huge upgrade, deepest polish pass yet |
-
----
-
-## ✨ What's New in Pytalon Assistant 2.3
-
-### 🏗️ 1. Architecture Overhaul (Major)
-
-Pytalon 2.3 is no longer a pile of scripts. It is a **layered product**:
-
-| Layer | Package / files | Responsibility |
-|-------|-----------------|----------------|
-| **App** | `learning.py`, `intro.py`, `topics_*` | Session flow, teaching, curriculum |
-| **Body** | `pytalon_body/` | Input validation (muscles) + conversation intent (nervous system) + behavior learner |
-| **Memory** | `Pytalon_Memory/` | Permanent learner profile + progress JSON + session snapshots |
-| **Session RAM** | `Pytalon_Memory/conversation_context.py` | Temporary chat state, taught topics, style counters |
-| **Knowledge DB** | `config.py` | Every phrase, topic keyword, threshold, and behavior rule |
-
-Teaching code no longer owns NLP. Memory no longer owns conversation. Intent no longer owns disk I/O. That separation is the real 2.3 upgrade.
-
-### 💾 2. Persistent & Permanent Memory (Major)
-
-For the first time, **Pytalon remembers you after you close the terminal**.
-
-| Memory piece | What it stores | Where |
-|--------------|----------------|-------|
-| **Learner profile** | Name, optional username, display name | `Pytalon_Memory/store/learner_profile.json` |
-| **Long-term progress** | Completed topics, practice attempts, last topic, defer count, session stats | `Pytalon_Memory/store/long_term_memory.json` |
-| **Session snapshots** | Dated JSON copies for offline review | `Pytalon_Memory/store/session_snapshots/` |
-| **Export report** | Human-readable memory report — **only when you ask** | `Pytalon_Memory/store/memory_report.txt` |
-
-**Memory powers real UX:**
-
-- First run: *"What should I call you?"* — once, ever  
-- Every later run: **"Welcome back, {name}!"** + completed topics + suggested next topic  
-- *"What do you remember?"* / *"my stats"* / *"export memory"* / *"where is my memory?"*  
-- *"Call me Ahmed"* — safe rename with guards  
-- Goodbye summaries that reflect **this session's** practice, not old sessions  
-
-**Honest privacy promise:** Pytalon remembers **how you learn, not what you said**. No full chat logs. Wipe/delete questions are explained — files are **never auto-deleted**.
-
-### 🧠 3. Behavior Learner (New)
-
-Pytalon watches **patterns, not messages**:
-
-| Signal | Derived only |
-|--------|----------------|
-| Casual / slang / emoji ratios | Voice style |
-| Yes / no / defer answer rates | Offer affinity & pacing |
-| Topic teach counts | Revisit suggestions |
-
-Then it **adapts**:
-
-- Casual learners get a casual opening (*"Yo yo! 😄"*)  
-- Learners who pause often get **gentler prompts** (*"No pressure at all…"*)  
-- Revisited topics are suggested first  
-
-All of this is rule-based, threshold-based, and printed honestly in memory reports.
-
-### 🎯 4. Smarter, More Honest Answer Understanding
-
-The body validators grew real grammar:
-
-| Learner says | 2.3 behavior |
-|--------------|--------------|
-| `of course! dude` | Yes (affirmative phrase + casual filler) |
-| `teach me` / `teach me this` | Yes for the **current** topic |
-| `teach me lists` mid-prompt | Topic **switch**, not a yes |
-| `yeah man! skip the topic` | **No** (skip beats casual yes) |
-| `exit bro!` / `bye man` | Exit |
-| `stop using print` | **Not** an exit — Pytalon asks instead of quitting on you |
-| `yes maybe no` | Clarifies instead of guessing |
-| `call me Ahmed` / `what do you remember?` | Handled **mid-prompt** without losing the question |
-
-When Pytalon is unsure, it says so. That is the honesty part of this flagship.
-
-### 🧪 5. Practice System Hardening
-
-- Step-limit tracer stops real runaway loops (not just `while True` strings)  
-- Practice `input()` is **canned** — the real terminal is never stolen mid-exercise  
-- `DONE` accepts typos (`Don`, `Dun`, `Fin`, `Submit`, …) so practice does not hang  
-- Operator-aware keyword checks (`>` does not false-match `>=`)  
-- **Completion is earned**: a topic is saved as completed only when practice **passes**  
-
-### 📚 6. Database Huge Upgrade
-
-`config.py` is now the assistant's full static brain (~3,200+ lines of curated language):
-
-- Response banks (yes / no / exit × general, examples, question phases)  
-- Memory request / summary / path / rename / export language  
-- Validator word-sets (teach-me, skip, exit-first-words, casual fillers, mixed-yes-no)  
-- Behavior markers, emoji ranges, and honest learning thresholds  
-- Practice input fixtures and topic keyword graphs  
-
-Plus the same conversational power you already love: defer/pause, greetings, gratitude, confusion, clarification, identity, last-response recall, and command prefixes.
-
----
-
-## 🐛 Bug Fixes in Pytalon 2.3
-
-**A lot — honestly, tons — of bugs were fixed in this major release.**
-
-I studied, tested, broke, and rebuilt large parts of the assistant so that the issues you may have hit before simply **should not come back**. Polish, edge-case handling, import safety, practice sandbox limits, memory writes, prompt honesty, and conversation recovery all went through a deep cleanup pass.
-
-**I cannot mention every single fix.** Between studies and everything else going on, listing the full bug log would be its own project. What I can say is this: the amount of bug fixing, polishing, and enhancement in 2.3 is the largest in Pytalon's history — and it is baked into how the product is structured now, not taped on top.
-
-**I want your honest feedback on this flagship Non-AI model — Pytalon Assistant 2.3.**
-
-If something still feels wrong, unclear, unfair, or not honest enough, **please tell me**. Your reports are what make Pytalon **stronger than ever — and more honest than ever**. Open an issue, drop a suggestion, or just say what felt off. Every serious note gets treated as a gift.
-
----
-
-## 🌟 Key Features
-
-- ✅ **Flagship Non-AI Intelligence** — rule-based, inspectable, honest; never pretends to be an AI model
-- ✅ **Persistent & Permanent Memory** — name, progress, practice, sessions saved on your computer
-- ✅ **Welcome Back Flow** — personalized greetings and next-topic suggestions every run
-- ✅ **"What Do You Remember?" Reports** — human list, box stats, path info, optional export
-- ✅ **Behavior Learning (patterns only)** — casual voice, gentle pacing, revisit awareness
-- ✅ **Architecture Overhaul** — app + body + memory packages with clean responsibilities
-- ✅ **13 Comprehensive Topics** — from Hello World to Lists, with deep-dive modules
-- ✅ **Conversational Learning** — greetings, defer/pause, confusion, gratitude, identity, last-response recall
-- ✅ **Smart Honest Validators** — typos, slang, rephrasing, skip-vs-yes, teach-me-as-yes, mixed-answer clarify
-- ✅ **Huge Response Database** — modern slang, typos, international phrases, memory language
-- ✅ **Hardened Practice System** — step limits, canned input, typo-safe DONE, custom validators for all 13 topics
-- ✅ **Full State Management** — greeting → menu → topic → practice → menu → done
-- ✅ **Code Readability & Refactorization** — modular body, lazy imports, single-responsibility layers
-- ✅ **Command-Prefix Support** — `/lists`, `!functions`, `#variables` for quick access
-- ✅ **Fully Console-Based** — zero dependencies, pure Python standard library
-- ✅ **Privacy by Design** — stores patterns and progress, never full chats
-
----
-
-## 📘 Topics Covered (13)
-
-| # | Topic | Type |
-|---|-------|------|
-| 1 | Hello World | Basic |
-| 2 | Functions | Basic |
-| 3 | Variables | Basic |
-| 4 | Relational Operators | Basic |
-| 5 | Assignment Operators | Basic |
-| 6 | Logical Operators | Basic |
-| 7 | Type Conversion | Intermediate |
-| 8 | Input Function | Intermediate |
-| 9 | Comments in Python | Intermediate |
-| 10 | Strings in Python | **Complete Module** |
-| 11 | Data Types in Python | Intermediate |
-| 12 | Conditional Statements | **Complete Module** |
-| 13 | Lists in Python | **Complete Module** |
-
-### 🔤 Deep-Dive Modules
-
-| Module | Sub-Topics |
-|--------|------------|
-| **Strings** | Basics, Indexing & Slicing, Operations, Methods, Formatting, Common Errors |
-| **Conditionals** | If Basics, If-Else, Elif Chains, Nested, Combining Conditions, Best Practices |
-| **Lists** | Basics, Indexing, Slicing, Methods, Operations, Looping, Comprehension, Common Errors |
-
----
-
-## 🧠 How It Works
-
-```
-┌──────────────────────────────────────────────────────────────────────┐
-│                    PYTALON 2.3 SESSION FLOW                           │
-├──────────────────────────────────────────────────────────────────────┤
-│  0. PERMANENT MEMORY BOOT                                            │
-│     → Load profile + progress JSON                                   │
-│     → "Welcome back, {name}!" + suggested next topic                 │
-│     → Seed session RAM with completed topics                         │
-│                                                                      │
-│  1. INTRODUCTION                                                     │
-│     → Identity banner (Pytalon 2.3 · Major Release)                  │
-│     → Adaptive opening line (casual / gentle / default)              │
-│     → State: greeting                                                │
-│                                                                      │
-│  2. CONVERSATIONAL OPENING                                           │
-│     → Intent engine: greeting, topic, help, defer, memory, rename…   │
-│     → "What do you remember?" answers from permanent memory          │
-│     → State: menu                                                    │
-│                                                                      │
-│  3. TOPIC SELECTION                                                  │
-│     → Menu (1-13) or direct request ("teach me variables")           │
-│     → Mid-prompt topic switch supported                              │
-│     → State: topic                                                   │
-│                                                                      │
-│  4. TEACHING PHASE                                                   │
-│     → Explanations with real-life analogies                          │
-│     → Optional code examples                                         │
-│     → Behavior-aware prompts                                         │
-│     → State: topic                                                   │
-│                                                                      │
-│  5. PRACTICE SESSION (optional)                                      │
-│     → Sandboxed code runner (step limit + canned input)              │
-│     → 3 attempts, custom validators                                  │
-│     → Pass → topic completed + saved to permanent memory             │
-│     → State: practice → topic                                        │
-│                                                                      │
-│  6. CONTINUE, PAUSE, SWITCH, OR EXIT                                 │
-│     → yes / no / not now / topic name / exit                         │
-│     → Defer count saved for gentler future prompts                   │
-│     → State: menu → topic → practice → menu → done                   │
-│                                                                      │
-│  7. FAREWELL + MEMORY GOODBYE                                        │
-│     → Session summary + permanent autosave                           │
-│     → "What I'll remember next time…"                                │
-└──────────────────────────────────────────────────────────────────────┘
-```
-
-### Flexible Commands
-
-| Command | Action |
-|---------|--------|
-| `yes` / `y` / `teach me` / `teach me this` / `fr!` / `lock in bro` / `game on` | Proceed (teach-me means yes for the current topic) |
-| `no` / `skip` / `skip the topic` / `nuh uh` / `nah fam` / `hard pass` | Skip (clear skip beats casual yes) |
-| `not now` / `later` / `pause` / `afk` / `brb` / `maybe` / `I'm busy` | Defer — stay on topic, gentle resume |
-| `exit` / `bye` / `peace out` / `logging off` / `exit bro!` | End session cleanly + memory goodbye |
-| `stop using print` (and similar) | **Not treated as exit** — Pytalon clarifies first |
-| `yes maybe no` (mixed answers) | Clarify prompt, wait for a clear choice |
-| `teach me lists` mid-prompt | Switch topic after a confirm |
-| `/lists` / `!functions` / `#variables` | Quick topic access (command prefix) |
-| `what did you say` / `what's you said` | Last-response recall |
-| `what do you remember?` / `my stats` / `about me` | Permanent memory report |
-| `export memory` / `export my memory as a report` | Write `memory_report.txt` (only when asked) |
-| `where is my memory?` | Show profile / store paths |
-| `call me Ahmed` / `my name is Qasim` | Permanent rename (safe-guarded) |
-| `forget my memory` / `delete my profile` | Explains only — **never auto-deletes** |
-
----
-
-## 🏗️ Architecture
-
-```
-pytalon/
-├── learning.py                 # Entry point + main teaching loop + memory lifecycle
-├── intro.py                    # Identity 2.3, topic catalog, conversational opening
-├── config.py                   # Huge static database: phrases, memory language, thresholds
-├── utils.py                    # Practice sandbox, menus, smart matching
-├── validators.py               # Compatibility shim → body validators + intent
-├── topics_basic.py             # Topics 1-6: Hello World → Logical Operators
-├── topics_intermediate.py      # Topics 7-13: Type Conversion → Lists
-│
-├── pytalon_body/               # BODY: validation + intent + behavior
-│   ├── response_validators.py  #   yes / no / exit / defer / menu parsing
-│   ├── intent_engine.py        #   what the learner means
-│   └── behavior_learner.py     #   how the learner behaves (patterns only)
-│
-└── Pytalon_Memory/             # MEMORY PACKAGE
-    ├── conversation_context.py #   session RAM + taught topics + style counters
-    ├── memory_store.py         #   profile + progress + snapshots + reports
-    └── store/                  #   learner JSON (gitignored, local only)
-        ├── learner_profile.json
-        ├── long_term_memory.json
-        ├── memory_report.txt   #   optional export
-        └── session_snapshots/
-```
-
-### ✨ Design Principles
-
-| Principle | Implementation |
-|-----------|----------------|
-| **Honest Non-AI Intelligence** | Rules and thresholds only — never pretends to be an AI model |
-| **Zero Dependencies** | Pure Python stdlib (`difflib`, `re`, `io`, `sys`, `json`, `os`, `datetime`) |
-| **Single Responsibility** | App teaches · body understands · memory persists · config knows |
-| **Persistent & Permanent Memory** | Local JSON with atomic writes and session snapshots |
-| **Patterns, Not Chats** | Behavior learning stores derived counters — never raw messages |
-| **Graceful Degradation** | Memory failures never crash a lesson (`try/except` around optional systems) |
-| **Honesty Over Guessing** | Mixed answers and ambiguous exits trigger clarification |
-| **Completion Is Earned** | Topics are marked complete only after practice passes |
-| **Extensible Plugin Architecture** | Topics, intents, phrases, and thresholds extend via `config.py` |
-
----
-
-## 🚀 How to Run
-
-**1️⃣ Clone the repository**
+### Download and run
 
 ```bash
 git clone https://github.com/Vexqyn/pytalon-assistant.git
-```
-
-**2️⃣ Open the project folder**
-
-```bash
 cd pytalon-assistant
-```
-
-**3️⃣ Run the program**
-
-```bash
 python learning.py
 ```
 
-**For Linux/macOS users:** If `python` doesn't work, use `python3 learning.py` instead.
+If your system uses `python3`:
 
-**No extra installations needed** - Pytalon uses only Python's standard library! 🐍
+```bash
+python3 learning.py
+```
 
----
+That's it. No environment setup and no `pip install`. 🐍
 
-## ⚙️ Requirements
+## 💬 See it in action
 
-- Python 3.15.2 or higher
-- No external libraries needed — Uses 100% Python Standard Library.
+Start a session and talk to Pytalon in plain language:
 
-> 🟢 **Why Python 3.15.2?**  
-> Python 3.15.2 offers better performance, improved security, and modern language improvements. Using the latest version ensures long‑term project stability and compatibility.
+```text
+Pytalon, version 2.3, category: Major Release (Stable Version).
 
----
+You: hi
+Pytalon: Hey! Great to see you! Ready to learn some Python? Let's dive in!
 
-## 🧩 Who Is This For?
+You: (Type any response & Pytalon will talk to you)
+```
 
-- 👶 Absolute beginners with zero coding experience.
-- 🎓 School and college students learning Python basics.
-- 👨‍🏫 Teachers who want a simple, interactive Python demo tool.
-- 💻 Self‑learners who prefer guided conversation over textbooks.
-- 🧠 Learners who want a tutor that **remembers their progress** without sending data anywhere.
+The exact replies depend on the session path and your locally saved profile.
 
----
+### 🗣️ Things to try
+
+| Say or enter | What happens |
+| --- | --- |
+| `teach me variables` | Asks for a supported topic directly |
+| `show topics` | Opens the topic menu |
+| `not now` | Pauses at the current prompt |
+| `what did you say?` | Recalls Pytalon's last response from this session |
+| `what do you remember?` | Shows your locally saved profile and progress summary |
+| `exit` | Ends the session |
+
+## 🧭 How the current application works
+
+```text
+┌───────────────────────────────────────────────────────────────┐
+│                    PYTALON SESSION FLOW                       │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  START                                                        │
+│    │                                                          │
+│    ├── Load local profile and progress                        │
+│    ├── Open a conversation                                    │
+│    ├── Detect a request using configured rules                │
+│    ├── Route into the current teaching plugin                 │
+│    ├── Offer an explanation, examples, or code practice       │
+│    ├── Save selected progress locally                         │
+│    └── Close with a session summary                           │
+│                                                               │
+│  Assistant engine → configurable behavior → plugin            │
+└───────────────────────────────────────────────────────────────┘
+```
+
+## 🏗️ Architecture
+
+Pytalon keeps its parts separate so each one can be understood and customized on its own.
+
+| Part | Role |
+| --- | --- |
+| 🖥️ **Application** | Starts the session and coordinates the current experience |
+| 🧠 **Assistant body** | Validates responses, detects intents, and derives behavior signals |
+| ⚙️ **Configuration** | Exposes phrases, patterns, response data, and behavior thresholds |
+| 💾 **Memory** | Tracks session context and saves selected profile and progress data |
+| 🧩 **Plugin content** | Provides the current Python teaching experience |
+
+### 📂 Project structure
+
+```text
+.
+├── learning.py                  # Application entry point and session flow
+├── intro.py                     # Opening conversation and topic selection
+├── config.py                    # Configuration exports
+├── utils.py                     # Text matching, menus, and practice runner
+├── validators.py                # Compatibility exports for assistant-body functions
+├── topics_basic.py              # Teaching plugin content
+├── topics_intermediate.py       # Teaching plugin content
+├── pytalon_body/
+│   ├── response_validators.py   # Response and prompt validation
+│   ├── intent_engine.py         # Rule-based intent detection
+│   └── behavior_learner.py      # Derived behavior signals and adaptation
+├── static_database/             # Phrases, patterns, and behavior settings
+└── Pytalon_Memory/
+    ├── conversation_context.py  # In-session context
+    └── memory_store.py          # Local profile and progress storage
+```
+
+## 🔐 Local data and privacy
+
+Pytalon's current application makes no network calls. Selected profile and progress data are stored as local JSON under `Pytalon_Memory/store/`, and Git ignores that folder.
+
+The session context also has in-memory conversation-history methods. Session history and the saved profile/progress files are separate, so check the source and your local files to see what is held during a session and what is saved on your computer.
+
+## 🛠️ Project status
+
+Pytalon 2.3 is the current version line. The notice at the top describes the current development push: it is not a new release, and known issues are being fixed.
 
 ## 🤝 Contributing
 
-Contributions are welcome! You don't have to be an expert to help.
+Want to help shape Pytalon? Contributions, issue reports, and clear feedback are all welcome! 🌱
 
-Ways to contribute:
+- Read the [Contribution Guide](CONTRIBUTING.md) before opening a pull request.
+- Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+- For security concerns, follow the [Security Policy](SECURITY.md).
+- For larger changes, open an issue first so we can talk through the direction.
 
-- 🧠 Improve beginner‑friendly explanations.
-- ✏️ Fix grammar or clarity issues.
-- ➕ Add new beginner topics or advanced modules.
-- 🧪 Add more practice exercises.
-- 🐛 Report bugs — especially the ones that should have died in 2.3.
-- 💡 Suggest new learning or memory features.
-- 🗣️ Give honest feedback on Pytalon Assistant 2.3 as a flagship Non-AI model.
-
-Feel free to open an Issue or submit a Pull Request.
-
----
+The current runtime uses only the Python standard library. If you propose a third-party dependency, please explain why in your issue or pull request.
 
 ## 📜 License
 
-This project is licensed under the **MIT License**.
+Pytalon is released under the [MIT License](LICENSE). Please read the license file for its full terms and attribution requirements.
 
----
+## ⭐ Support Pytalon
 
-## ⭐ Support the Project
+If Pytalon interests you, visit the [repository](https://github.com/Vexqyn/pytalon-assistant), explore the source, and share your feedback. Every thoughtful report helps the project grow. 💚
 
-If this assistant helped you learn Python, please consider giving it a star!
+## 🎉 Pytalon Assistant Success Announcement
 
-[![Star on GitHub](https://img.shields.io/github/stars/Vexqyn/pytalon-assistant?style=flat&logo=github&logoColor=white&label=Stars&color=blue)](https://github.com/Vexqyn/pytalon-assistant)
+The original announcement celebrated Pytalon's community activity and shared these reported clone figures:
 
-It helps more learners discover this project.
+- 📈 **07/31–08/13:** 157 clones / 37 unique
+- 📈 **08/13–08/26:** 477 clones / 60 unique
+- 📈 **09/10–09/23:** 628 clones / 126 unique
+- 📈 **09/15–09/28:** 661 clones / 129 unique
 
----
+Pytalon 2.3 reached a reported peak of **543 clones in one day**, with reported totals of **1,923 clones** and **352 unique clones**.
 
-## 🌈 Final Note
+Thank you to everyone who cloned, ran, and explored Pytalon. This is just the beginning! 😄
 
-Learning programming should feel exciting, not overwhelming — and your tutor should be **honest** about what it is.
-
-Pytalon 2.3 was built to make your first steps in Python **friendly, interactive, memorable, and trustworthy**.  
-It remembers your journey. It admits when it is unsure. And it never pretends to be something it is not.
-
-**Happy Coding! 🐍✨**
-
-— M. Qasim Farooqi (@acubura)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/97ae3cae-36b9-4dad-bf12-735f0e22a28d" alt="Pytalon Assistant success announcement and community clone statistics" width="100%">
+</p>
