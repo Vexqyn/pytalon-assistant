@@ -167,9 +167,9 @@ Pytalon keeps its parts separate so each one can be understood and customized on
 ```text
 .
 ├── learning.py                  # Application entry point and session flow
-├── intro.py                     # Opening conversation and topic selection
+├── intro.py                     # Opening conversation System & Topic selection as a plugin too
 ├── config.py                    # Configuration exports
-├── utils.py                     # Text matching, menus, and practice runner
+├── utils.py                     # Custom Pure Python Engine & Helper Functions plus Practice Engine as a plugin too
 ├── validators.py                # Compatibility exports for assistant-body functions
 ├── topics_basic.py              # Teaching plugin content
 ├── topics_intermediate.py       # Teaching plugin content
@@ -177,7 +177,19 @@ Pytalon keeps its parts separate so each one can be understood and customized on
 │   ├── response_validators.py   # Response and prompt validation
 │   ├── intent_engine.py         # Rule-based intent detection
 │   └── behavior_learner.py      # Derived behavior signals and adaptation
-├── static_database/             # Phrases, patterns, and behavior settings
+├── static_database/
+│   ├── response_phrases.py      # Yes, no, exit, and conversational response text
+│   ├── conversation_patterns.py # Greeting, farewell, pause, and clarification patterns
+│   ├── conversation_intents.py  # Conversation intent vocabulary
+│   ├── topic_catalog.py         # Topic names and matching keywords
+│   ├── topic_core.py            # Shared topic terms and command patterns
+│   ├── topic_matching.py        # Topic matching rules and thresholds
+│   ├── topic_patterns.py        # Combined topic and conversation pattern exports
+│   ├── validator_sets.py        # Answer validation phrases and word sets
+│   ├── behavior_settings.py     # Behavior markers and adaptation thresholds
+│   ├── memory_patterns.py       # Memory request and response patterns
+│   ├── practice_data.py         # Practice input responses
+│   └── response_followups.py    # Follow-up response phrases
 └── Pytalon_Memory/
     ├── conversation_context.py  # In-session context
     └── memory_store.py          # Local profile and progress storage
