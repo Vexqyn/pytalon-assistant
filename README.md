@@ -203,7 +203,7 @@ The session context also has in-memory conversation-history methods. Session his
 
 ## 🛠️ Project status
 
-Pytalon 2.3 is the current version line. The notice at the top describes the current development push: it is not a new release, and known issues are being fixed.
+Pytalon 2.3 is the current version line. The notice at the top describes the current development push: it is not a new release, and known issues are in development to be fixed.
 
 ## 🤝 Contributing
 
