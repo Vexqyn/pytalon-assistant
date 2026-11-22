@@ -5,7 +5,7 @@
 >A functional, customizable assistant engine, built in pure Python.
 >The assistant is the core. Teaching is just one plugin.
 
-https://github.com/user-attachments/assets/e763f3bc-22e7-48a0-90d4-ed6329cb65a6
+---
 
 <p align="center">
   <a href="https://github.com/Vexqyn/pytalon-assistant"><img src="https://img.shields.io/badge/Pytalon-2.3-brightgreen?style=for-the-badge" alt="Pytalon 2.3"></a>
@@ -35,6 +35,10 @@ https://github.com/user-attachments/assets/e763f3bc-22e7-48a0-90d4-ed6329cb65a6
 It's a fully functional, customizable assistant, built like a plugin. The teaching part is just a plugin, not the core. Python teaching is simply the first thing built on top of it.
 
 Pytalon is written in **pure Python with no external dependencies**. It runs on its own custom, fully functional pure-Python engine. No fuzzy-matching package is installed, and none is written. Everything, including the engine, is plain Python, and the whole system is customized like a plugin.
+
+https://github.com/user-attachments/assets/e763f3bc-22e7-48a0-90d4-ed6329cb65a6
+
+---
 
 ### 🔧 Where you can take it
 
