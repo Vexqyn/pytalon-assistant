@@ -36,7 +36,7 @@ It's a fully functional, customizable assistant, built like a plugin. The teachi
 
 Pytalon is written in **pure Python with no external dependencies**. It runs on its own custom, fully functional pure-Python engine. No fuzzy-matching package is installed, and none is written. Everything, including the engine, is plain Python, and the whole system is customized like a plugin.
 
-https://github.com/user-attachments/assets/e763f3bc-22e7-48a0-90d4-ed6329cb65a6
+https://github.com/user-attachments/assets/f440ca87-7be9-49e6-a446-b6215a954ce4
 
 ---
 
