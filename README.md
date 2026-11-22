@@ -32,7 +32,7 @@
 
 **Pytalon is not a tutor. Teaching part is just a Plugin**
 
-Pytalon is a fully functional, customizable assistant engine built around a modular, plugin-based architecture. The core engine itself a functional assistant, and Python teaching is simply the first plugin which is used as an optional plugin, you can extend it any field you want. 
+Pytalon is a fully functional, customizable assistant engine built around a modular, plugin-based architecture. The core engine itself is a functional assistant, and Python teaching is simply the first plugin. It is an optional plugin, you can extend Pytalon into any field you want.
 
 The entire system is written in pure Python with zero external dependencies. It runs on its own custom, lightweight pure-Python engine. No third-party fuzzy-matching packages are installed or required. Everything—from the core engine to the modular plugins—is written in plain Python, making the whole system infinitely customizable.
 
