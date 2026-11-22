@@ -1,4 +1,6 @@
-# 🐍 PYTALON
+<p align="center">
+  <img src="<img width="1024" height="1024" alt="Pytalon Transparent Logo" src="https://github.com/user-attachments/assets/33dbbdea-f22b-418d-9640-ee57a74e88d1" /> " alt="Pytalon Assistant" width="250"/>
+</p>
 
 >A functional, customizable assistant engine, built in pure Python.
 >The assistant is the core. Teaching is just one plugin.
