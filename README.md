@@ -59,15 +59,15 @@ We also aim to introduce a flexible plugin architecture that allows users to cus
 
 This is a significant undertaking, and the journey won't happen overnight.
 
-### 📦 The First Rust Release: Pytalon 3.1
+### 📦 The First Rust Release: Pytalon 2.3.1
 
 Before going further, there's something important to clarify about Pytalon's version history.
 
 **Pytalon 2.3 remains the current Python implementation.** It is the existing version line, and this announcement does not mean that the current Python implementation has already been replaced.
 
-The upcoming **Pytalon 3.1** release will mark the beginning of an entirely new era.
+The upcoming **Pytalon 2.3.1** release will mark the beginning of an entirely new era.
 
-**Pytalon 3.1 will be the first version of Pytalon developed entirely in native Rust.**
+**Pytalon 2.3.1 will be the first version of Pytalon developed entirely in native Rust.**
 
 It will introduce the foundation for the new Rust architecture and establish the groundwork for the future capabilities we envision for Pytalon.
 
@@ -75,7 +75,7 @@ This release will represent the first major milestone in our transition from Pyt
 
 **Pytalon 2.3 — The Python Era.**
 
-**Pytalon 3.1 — The Beginning of the Native Rust Era.** 🦀
+**Pytalon 2.3.1 — The Beginning of the Native Rust Era.** 🦀
 
 But every great project has a moment when its future changes direction.
 
