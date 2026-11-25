@@ -781,38 +781,6 @@ NO_RESPONSES = [
     "i would rather not continue with this",
 ]
 
-DEFER_PATTERNS = [
-    # Filler / hesitation
-    'hmm', 'hmmm', 'hmmmm', 'mmmm', 'mm', 'uh', 'uhh', 'um', 'umm', 'err',
-    'erm', 'well', 'huh', 'hmmm! not sure yet',
-
-    # Undecided
-    'maybe', 'perhaps', 'possibly', 'probably', 'not sure', 'not sure yet',
-    'unsure', 'undecided', 'idk', "i don't know", 'i dont know', 'dunno',
-    'no idea', 'on the fence', 'torn',
-
-    # Need time
-    'need to think', 'need to think about it', 'let me think',
-    'let me think about it', 'let me consider', 'let me consider it',
-    'let me decide', 'give me a moment', 'give me a sec',
-    'give me a second', 'give me a minute', 'hold on', 'hold up', 'wait',
-    'one moment', 'one sec', 'brb', 'hang on',
-
-    # Deferral
-    'maybe later', 'maybe next time', 'perhaps later', 'ask me later',
-    'come back to me', 'come back to this later',
-    'can we come back to this later', 'save this for later',
-
-    # Pause
-    'please pause', 'pause the lesson', 'let us pause here',
-    'i need to pause', 'i need a moment', 'i need time to think',
-    'i need to stop for a moment', 'i am not ready to continue',
-    'let us take this slowly', 'can we stop here for now',
-
-    # Genuinely ambiguous
-    'all set', 'good to go', 'im good to go', 'i am good to go',
-]
-
 EXIT_RESPONSES = [
     # Direct exit commands
     'exit', 'e', 'quit', 'leave', 'end', 'stop',
@@ -1078,4 +1046,55 @@ from .response_followups import (
     YES_QUESTION_RESPONSES,
     NO_QUESTION_RESPONSES,
     EXIT_QUESTION_RESPONSES,
+)
+
+# Recovery ladder messages. The ladder returns a message key; the app
+# layer renders the text. Never mock the learner.
+RECOVERY_MESSAGES = {
+    'empty': "   ",
+    'too_long': "Max. limit is up to 10000 characters.",
+    'answer': "",
+    'thanks': "😄 Thanks for your message!",
+    'greeting': (
+        "\n🤖 Hey! I'm Pytalon — your Python assistant."
+        "\n   • Chat with me"
+        "\n   • Type 'help' for options"
+    ),
+    'gratitude': (
+        "\n🤖 You're welcome! What would you like to learn next?"
+        "\n   • Tell me a topic or type 'show topics'"
+    ),
+    'farewell': "\n👋 Goodbye! Come back whenever you need me.",
+    'help': (
+        "\n🤖 I can teach you Python basics!"
+        "\n   • Type 'show topics' for the full list"
+        "\n   • Or say 'teach me variables', 'teach me functions', ..."
+    ),
+    'near_topic': (
+        "\n🤖 Did you mean {topic}?"
+        "\n   • Type 'teach me {topic_lower}' or just say the topic name"
+        "\n   • Or type 'show topics' to browse everything"
+    ),
+    'casual_fallback': (
+        "\n🤖 No worries — I've got you. What's on your mind?"
+    ),
+    'steady_fallback': (
+        "\n🤖 Let's keep it simple. What's up? Type 'help' for options."
+    ),
+}
+
+# Clarifying questions for gibberish / unclear small talk. Varied wording.
+CLARIFY_QUESTIONS = (
+    "Could you say that another way, $name?",
+    "Hmm, I want to get this right — can you rephrase?",
+    "Want to try putting that differently?",
+    "I want to get this right — what did you mean?",
+    "Mind rephrasing that for me?",
+)
+
+# Natural varied fallbacks for small talk. Filled with name only.
+NATURAL_FALLBACKS = (
+    "Hmm, that's a new one for me, $name. Mind putting it another way?",
+    "Could you say that differently, $name?",
+    "I want to get this right — what did you mean, $name?",
 )

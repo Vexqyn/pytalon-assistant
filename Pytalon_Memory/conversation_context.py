@@ -30,6 +30,8 @@ class ConversationContext:
             "question_messages": 0,
             "casual_messages": 0,
         }
+        # Baseline for derived-counter persistence (no raw text)
+        self._persisted_style = {}
 
     # ------ HISTORY MANAGEMENT ------
 
@@ -109,12 +111,44 @@ class ConversationContext:
             if signal.get(key):
                 self.style[key + "_messages"] += 1
 
+        generation = signal.get("generation")
+        if generation:
+            key = "generation_" + generation
+            self.style[key] = self.style.get(key, 0) + 1
+
     def note_event(self, kind):
         """Count one behavior event (answer / practice) for the session pattern database."""
         try:
             self.style[kind] = self.style.get(kind, 0) + 1
         except Exception:
             pass
+
+    def get_behavior_delta(self):
+        """Counters accumulated since the last persist (derived patterns only)."""
+        delta = {}
+        for key, value in self.style.items():
+            is_counter = (
+                key in (
+                    "messages_total", "chars_total", "caps_messages",
+                    "emoji_messages", "question_messages", "casual_messages",
+                    "answer_yes", "answer_no", "answer_defer", "answer_exit",
+                    "practice_start", "practice_pass", "practice_fail",
+                )
+                or key.startswith("generation_")
+            )
+            if not is_counter:
+                continue
+            base = int(self._persisted_style.get(key, 0) or 0)
+            change = int(value or 0) - base
+            if change:
+                delta[key] = change
+        return delta
+
+    def mark_behavior_persisted(self):
+        """Remember the current counters as the new persist baseline."""
+        self._persisted_style = {
+            key: value for key, value in self.style.items() if isinstance(value, int)
+        }
 
     def get_behavior_snapshot(self):
         """Derived patterns for this session — no raw text, honoring the memory promise."""

@@ -30,6 +30,31 @@ from config import (
 
 from utils import smart_validators, _extract_keywords
 from Pytalon_Memory.conversation_context import context
+from static_database.validator_settings import (
+    MATCH_THRESHOLD,
+    EXAMPLES_MATCH_THRESHOLD,
+    YES_WORDS,
+    DECLINE_WORDS,
+)
+
+# Intents that are already answered inside the recovery layer. When one of
+# these comes back, the reply was already spoken — do not ask again.
+_CONVERSATION_ONLY_INTENTS = frozenset({
+    'small_talk',
+    'clarify',
+    'emoji',
+    'greeting',
+    'gratitude',
+    'farewell',
+    'general_question',
+    'confusion',
+    'uncertain',
+    'defer',
+    'clarification',
+    'repeat_request',
+    'practice_request',
+})
+
 
 
 # ==========================================================
@@ -107,9 +132,7 @@ _YES_CONTAIN_PHRASES = tuple(sorted(
 ))
 
 
-# Score thresholds for the match engine (the examples prompt is more forgiving)
-MATCH_THRESHOLD = 0.75
-EXAMPLES_MATCH_THRESHOLD = 0.65
+# Score thresholds come from static_database/validator_settings.py
 
 
 # ==========================================================
@@ -345,6 +368,16 @@ def _print_mixed_clarify():
     print("   • Type 'not now' if you want to pause")
 
 
+# True when the line sounds like a request to see saved memory/profile.
+def _wants_memory_report(text):
+    """Memory questions must be answered even if they contain a short word."""
+    lowered = (text or "").lower()
+    return any(
+        word in lowered
+        for word in ("remember", "memory", "recall", "saved", "profile", "stats")
+    )
+
+
 # Best smart_validators score of an answer against a phrase set
 def _best_similarity(user_text, phrase_set):
     """Highest smart_validators score of user_text against any phrase in phrase_set."""
@@ -429,8 +462,8 @@ def get_global_valid_input(prompt):
         if _teach_request_means_yes(normalized):
             return 'yes'
 
-        # Mid-prompt topic switch / memory — only when this is not a simple answer
-        if not _looks_like_simple_answer(normalized):
+        # Mid-prompt topic switch / memory — memory questions always get through
+        if not _looks_like_simple_answer(normalized) or _wants_memory_report(raw_input):
             from pytalon_body.intent_engine import detect_conversation_intent
 
             requested = detect_conversation_intent(raw_input)
@@ -478,6 +511,10 @@ def get_global_valid_input(prompt):
 
                 continue
 
+            if requested.get('intent') in _CONVERSATION_ONLY_INTENTS:
+                # Already answered by the recovery layer — no second reply.
+                continue
+
         # Score the answer against each set
         compare_text = normalized or raw_input
         best_yes = _best_similarity(compare_text, YES_SET)
@@ -495,8 +532,8 @@ def get_global_valid_input(prompt):
 
         # Clear decline with extra words: "nope right now", "nope right no"
         compare_words = set(compare_text.split())
-        explicit_yes_word = compare_words & {'yes', 'yeah', 'yep', 'yup', 'ok', 'okay', 'sure'}
-        if ('nope' in compare_words or 'nah' in compare_words) and not explicit_yes_word:
+        explicit_yes_word = compare_words & YES_WORDS
+        if compare_words & DECLINE_WORDS and not explicit_yes_word:
             return 'no'
 
         # Defer wins when it clearly beats the other answers
@@ -525,7 +562,7 @@ def get_global_valid_input(prompt):
         if best_exit >= threshold and best_exit > best_yes and best_exit > best_no:
             return 'exit'
 
-        print("🤔 I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
+        print("\n🤔 No worries — I want to get this right. Please answer with 'yes', 'no', or 'exit'.")
 
 
 # ==========================================================
@@ -557,7 +594,16 @@ def get_global_menu_choice(prompt, min_val=1, max_val=13):
         if choice in ('exit', 'e', 'quit', 'bye', 'leave') or _is_exit_command(choice_norm):
             return 'exit'
 
-        if choice and not choice.isdigit() and not _looks_like_simple_answer(choice):
+        # "show topics" / "topic menu" at the menu — friendly re-prompt
+        if 'topic' in choice_norm and any(
+            word in choice_norm for word in ('show', 'list', 'open', 'view', 'menu')
+        ):
+            print("\n🤖 Sure! Pick a topic number below, or type 'exit' to leave.")
+            continue
+
+        if choice and not choice.isdigit() and (
+            not _looks_like_simple_answer(choice) or _wants_memory_report(choice)
+        ):
             from pytalon_body.intent_engine import detect_conversation_intent
             memory_intent = detect_conversation_intent(choice)
 
@@ -574,6 +620,14 @@ def get_global_menu_choice(prompt, min_val=1, max_val=13):
                     "\nI only autosave name and progress on this computer. "
                     "Say \"what do you remember?\" to view them."
                 )
+                continue
+
+            if memory_intent.get('intent') == 'help_request':
+                print("\n🤖 Sure! Type a topic number below, or 'exit' to leave.")
+                continue
+
+            if memory_intent.get('intent') in _CONVERSATION_ONLY_INTENTS:
+                # Already answered by the recovery layer — no second reply.
                 continue
 
         if not choice:
@@ -648,7 +702,7 @@ def get_global_user_question_valid_input(prompt):
         if best_exit >= threshold:
             return 'exit'
 
-        print("🤔 I didn't quite get that. Please answer with 'yes', 'no', or 'exit'.")
+        print("\n🤔 No worries — I want to get this right. Please answer with 'yes', 'no', or 'exit'.")
 
 
 # ==========================================================
@@ -728,7 +782,7 @@ def get_global_examples_valid_input(prompt):
             if user_negated or best_no > best_yes:
                 return 'no'
 
-        print("🤔 I didn't quite get that. Please answer with 'yes' or 'no'.")
+        print("\n🤔 No worries — I want to get this right. Please answer with 'yes' or 'no'.")
 
 
 # ==========================================================

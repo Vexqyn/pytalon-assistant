@@ -4,7 +4,7 @@ Intermediate Python topics (7-13) for Pytalon.
 These are called from learning.py when the user selects topics 7-13.
 """
 
-from utils import print_global_separator, run_practice_session, _keyword_token_found
+from utils import print_global_separator, run_practice_session
 from validators import (
     get_global_valid_input,
     get_global_examples_valid_input,
@@ -82,44 +82,16 @@ def teach_type_conversion():
         "\n🔹 Want to practice with type conversion? (yes/no): "
     )
     if practice == 'yes':
-        def check_conversion_practice(code, output):
-            """Checks if conversion functions and type() are used properly."""
-            conversion_functions = ['int(', 'float(', 'str(', 'bool(']
-            found_functions = [func for func in conversion_functions if _keyword_token_found(func, code)]
-
-            if len(found_functions) < 2:
-                return False, (
-                    f"Use at least 2 type conversion functions! "
-                    f"Found: {found_functions if found_functions else 'none'}"
-                )
-            if not _keyword_token_found('print', code):
-                return False, "Use print() to show the converted values!"
-            if not _keyword_token_found('type(', code):
-                return False, "Use type() to show the data type before and after conversion!"
-            return True, ""
 
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Type Conversion",
-            instructions="Create a string variable 'num_str' with a number value. Convert it to int and float. Print the type before and after each conversion!",
-            expected_keywords=['num_str', 'int', 'float', 'type', 'print'],
-            example_code=(
-                "num_str = '42'\n"
-                "print(f'Original type: {type(num_str)}')\n"
-                "num_int = int(num_str)\n"
-                "print(f'After int(): {num_int}, Type: {type(num_int)}')\n"
-                "num_float = float(num_str)\n"
-                "print(f'After float(): {num_float}, Type: {type(num_float)}')"
-            ),
-            custom_check_function=check_conversion_practice,
-        )
+        practice_ok = run_practice_session("Type conversion")
         context.set_state("topic")
 
         if practice_ok:
             print("Great! You learned about type conversion!")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ============================================================
 # TOPIC 8: INPUT FUNCTION
@@ -171,37 +143,16 @@ def teach_input_function():
         "\n🔹 Want to practice with input function? (yes/no): "
     )
     if practice == 'yes':
-        def check_input_practice(code, output):
-            """Checks if input() is used properly."""
-            if not _keyword_token_found('input(', code):
-                return False, "You need to use the input() function!"
-            if not _keyword_token_found('print', code):
-                return False, "Use print() to display the gathered information!"
-            if not _keyword_token_found('=', code):
-                return False, "Store the input result in a variable!"
-            if len(code.split('\n')) < 2:
-                return False, "Ask for at least 2 pieces of information!"
-            return True, ""
 
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Input Function",
-            instructions="Write a program that asks for a user's name and age using input(). Then print a message using both values!",
-            expected_keywords=['input(', 'print'],
-            example_code=(
-                "name = input('Enter your name: ')\n"
-                "age = input('Enter your age: ')\n"
-                "print(f'Hello {name}, you are {age} years old!')"
-            ),
-            custom_check_function=check_input_practice,
-        )
+        practice_ok = run_practice_session("Input function")
         context.set_state("topic")
 
         if practice_ok:
             print("Great! You learned about the input function!")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ============================================================
 # TOPIC 9: COMMENTS IN PYTHON
@@ -252,44 +203,16 @@ def teach_comments():
         "\n🔹 Want to practice with comments? (yes/no): "
     )
     if practice == 'yes':
-        def check_comments_practice(code, output):
-            """Checks if comments are used properly."""
-            if '#' not in code:
-                return False, "Use at least one single-line comment with #!"
-            if 'print(' not in code:
-                return False, "Include actual Python code along with comments!"
-
-            code_lines = code.split('\n')
-            comment_lines = [
-                line for line in code_lines
-                if _keyword_token_found('#', line)
-            ]
-            if len(comment_lines) < 3:
-                return False, (
-                    f"Add at least 3 comment lines! You have {len(comment_lines)}."
-                )
-            return True, ""
 
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Comments",
-            instructions="Write a small Python program with at least 3 lines of code. Add comments explaining what each part does! Use both single-line (#) and inline comments.",
-            expected_keywords=['#', 'print'],
-            example_code=(
-                "# This program greets the user\n"
-                "name = 'Student'  # Store the name\n"
-                "# Print the greeting\n"
-                "print(f'Hello, {name}!')"
-            ),
-            custom_check_function=check_comments_practice,
-        )
+        practice_ok = run_practice_session("Comments in Python")
         context.set_state("topic")
 
         if practice_ok:
             print("Great! You learned about comments!")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ============================================================
 # TOPIC 10: STRINGS IN PYTHON
@@ -640,48 +563,16 @@ def teach_strings():
             "\n🔹 Want to practice with strings? (yes/no): "
         )
         if practice == 'yes':
-            def check_strings_practice(code, output):
-                """Checks if multiple string operations are used."""
-                if not _keyword_token_found('=', code):
-                    return False, "Create a string variable using '='!"
-                if not _keyword_token_found('print', code):
-                    return False, "Use print() to display results!"
-
-                string_operations = [
-                    'upper(', 'lower(', 'strip(', 'replace(', 'split(',
-                    'join(', '+', '*', '['
-                ]
-                found_operations = [op for op in string_operations if _keyword_token_found(op, code)]
-
-                if len(found_operations) < 3:
-                    return False, (
-                        f"Use at least 3 string operations/methods! "
-                        f"Found: {len(found_operations)}"
-                    )
-                return True, ""
 
             context.set_state("practice")
-            practice_ok = run_practice_session(
-                topic_name="Strings",
-                instructions="Create a string variable with your name. Use at least 3 string operations (e.g., upper(), lower(), concatenation with +, indexing with [], or slicing). Print each result!",
-                expected_keywords=['=', 'print'],
-                example_code=(
-                    "name = 'Python Learner'\n"
-                    "print(f'Original: {name}')\n"
-                    "print(f'Uppercase: {name.upper()}')\n"
-                    "print(f'First letter: {name[0]}')\n"
-                    "print(f'First 6 chars: {name[:6]}')\n"
-                    "print(f'Reversed: {name[::-1]}')"
-                ),
-                custom_check_function=check_strings_practice,
-            )
+            practice_ok = run_practice_session("Strings in Python")
             context.set_state("topic")
 
             if practice_ok:
                 print("Excellent! You've learned comprehensive string handling in Python!")
 
         elif practice in ('no', 'exit'):
-            print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+            print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ============================================================
 # TOPIC 11: DATA TYPES IN PYTHON
@@ -745,50 +636,16 @@ def teach_data_types():
         "\n🔹 Want to practice with data types? (yes/no): "
     )
     if practice == 'yes':
-        def check_datatypes_practice(code, output):
-            """Checks if type() is used and multiple data types are created."""
-            if not _keyword_token_found('type(', code):
-                return False, "Use type() to check the data type of variables!"
-            if not _keyword_token_found('=', code):
-                return False, "Create variables with different data types!"
-            if not _keyword_token_found('print', code):
-                return False, "Use print() to display the types!"
-
-            data_type_keywords = [
-                'int', 'float', 'str', 'bool', 'list', 'tuple', 'dict'
-            ]
-            found_types = [t for t in data_type_keywords if _keyword_token_found(t, code.lower())]
-
-            if len(found_types) < 3:
-                return False, (
-                    f"Create at least 3 different data types! Found: {found_types}"
-                )
-            return True, ""
 
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Data Types",
-            instructions="Create at least 4 variables of different data types (int, float, str, bool). Use type() to check and print each variable's type!",
-            expected_keywords=['type(', 'print'],
-            example_code=(
-                "age = 25\n"
-                "score = 95.5\n"
-                "name = 'Student'\n"
-                "is_active = True\n"
-                "print(f'age type: {type(age)}')\n"
-                "print(f'score type: {type(score)}')\n"
-                "print(f'name type: {type(name)}')\n"
-                "print(f'is_active type: {type(is_active)}')"
-            ),
-            custom_check_function=check_datatypes_practice,
-        )
+        practice_ok = run_practice_session("Data types in Python")
         context.set_state("topic")
 
         if practice_ok:
             print("Great! You've learned about different data types in Python!")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ============================================================
 # TOPIC 12: CONDITIONAL STATEMENTS
@@ -1317,48 +1174,16 @@ def teach_conditionals():
             "\n🔹 Want to practice with conditional statements? (yes/no): "
         )
         if practice == 'yes':
-            def check_conditionals_practice(code, output):
-                """Checks if if-elif-else structure and indentation are correct."""
-                if not _keyword_token_found('if ', code):
-                    return False, "You need an 'if' statement!"
-                if not _keyword_token_found('else', code):
-                    return False, "Use an 'else' block as well!"
-                if not _keyword_token_found('elif', code):
-                    return False, "Use an 'elif' block to check multiple conditions!"
-                if not _keyword_token_found('print(', code):
-                    return False, "Use print() in your conditional blocks!"
-
-                lines = code.split('\n')
-                indented_lines = [
-                    l for l in lines if l.startswith('    ') or l.startswith('\t')
-                ]
-                if len(indented_lines) < 2:
-                    return False, "Make sure to indent the code inside if/else blocks (4 spaces)!"
-                return True, ""
 
             context.set_state("practice")
-            practice_ok = run_practice_session(
-                topic_name="Conditional Statements",
-                instructions="Write a program that checks if a number is positive, negative, or zero. Use if-elif-else statements and print the result!",
-                expected_keywords=['if', 'elif', 'else', 'print'],
-                example_code=(
-                    "num = 10\n"
-                    "if num > 0:\n"
-                    "    print('Positive number')\n"
-                    "elif num < 0:\n"
-                    "    print('Negative number')\n"
-                    "else:\n"
-                    "    print('Zero')"
-                ),
-                custom_check_function=check_conditionals_practice,
-            )
+            practice_ok = run_practice_session("Conditional statements")
             context.set_state("topic")
 
             if practice_ok:
                 print("Excellent! You've learned comprehensive conditional statements in Python!")
 
         elif practice in ('no', 'exit'):
-            print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+            print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ============================================================
 # TOPIC 13: LISTS IN PYTHON
@@ -1830,44 +1655,16 @@ def teach_lists():
             "\n🔹 Want to practice with lists? (yes/no): "
         )
         if practice == 'yes':
-            def check_lists_practice(code, output):
-                """Checks if list operations are used properly."""
-                if '= [' not in code:
-                    return False, "Remember to put spaces around the = operator! Use: colors = ['red', 'blue']"
-                if not _keyword_token_found('print', code):
-                    return False, "Use print() to display results!"
-                list_methods = ['.append(', '.extend(', '.insert(', '.remove(', '.pop(', '.sort(', '.reverse(']
-                method_used = any(_keyword_token_found(m, code) for m in list_methods)
-                if not method_used:
-                    return False, "Use at least one list method (e.g., .append(), .remove(), .sort())!"
-                if _keyword_token_found('for', code) or _keyword_token_found('while', code):
-                    pass
-                return True, ""
 
             context.set_state("practice")
-            practice_ok = run_practice_session(
-                topic_name="Lists",
-                instructions="Create a list of your favorite colors. Add a new color using append(), remove one color, and sort the list. Print the list after each operation!",
-                expected_keywords=['=', 'print'],
-                example_code=(
-                    "colors = ['red', 'blue', 'green']\n"
-                    "print(f'Original: {colors}')\n"
-                    "colors.append('yellow')\n"
-                    "print(f'After append: {colors}')\n"
-                    "colors.remove('blue')\n"
-                    "print(f'After remove: {colors}')\n"
-                    "colors.sort()\n"
-                    "print(f'After sort: {colors}')"
-                ),
-                custom_check_function=check_lists_practice
-            )
+            practice_ok = run_practice_session("Lists in Python")
             context.set_state("topic")
 
             if practice_ok:
                 print("Excellent! You've learned how to work with lists in Python!")
 
         elif practice in ('no', 'exit'):
-            print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+            print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ============================================================
 # TOPIC DISPATCH (For learning.py)

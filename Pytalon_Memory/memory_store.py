@@ -12,73 +12,28 @@ import config
 # CONSTANTS — folder names and schema version
 # ============================================================
 
-# Code lives in Pytalon_Memory\ — learner data lives in Pytalon_Memory\store\
-MEMORY_FOLDER_NAME = "Pytalon_Memory"
-STORE_FOLDER_NAME = "store"
-PROFILE_FILE = "learner_profile.json"
-LONG_TERM_FILE = "long_term_memory.json"
-EXPORT_FILE = "memory_report.txt"
-SESSION_FOLDER_NAME = "session_snapshots"
-SCHEMA_VERSION = 1
+# Settings live in static_database/memory_settings.py
+from static_database.memory_settings import (
+    MEMORY_FOLDER_NAME,
+    STORE_FOLDER_NAME,
+    PROFILE_FILE,
+    LONG_TERM_FILE,
+    EXPORT_FILE,
+    SESSION_FOLDER_NAME,
+    SCHEMA_VERSION,
+    _BOX_STYLE_HINTS,
+    _PATH_ASK_HINTS,
+    _EXPORT_ASK_HINTS,
+    _EXPORT_OFFER_LINE,
+    _EXPORT_OFFER_EXAMPLE,
+    _RENAME_PREFIXES,
+    _RENAME_SKIP_WORDS,
+    _RENAME_UNCERTAIN_PHRASES,
+)
 
 # In-RAM cache so post-write summaries do not re-read disk
 _MEMORY_CACHE = {"profile": None, "long_term": None}
 _PROJECT_ROOT_CACHE = None
-
-# Words that mean "show me the structured box summary"
-_BOX_STYLE_HINTS = {
-    "stats",
-    "stat",
-    "report",
-    "dump",
-    "box",
-    "admin",
-    "full",
-    "fullreport",
-    "detailed",
-}
-
-# Words that mean "tell me where memory lives"
-_PATH_ASK_HINTS = {
-    "path",
-    "folder",
-    "location",
-    "where",
-    "directory",
-    "dir",
-}
-
-# Words that mean "write the report to a text file"
-_EXPORT_ASK_HINTS = {
-    "export",
-    "savefile",
-    "savetofile",
-    "writetofile",
-    "memory_report",
-    "memoryreport",
-    "reportfile",
-}
-
-# Human line shown when we offer export — learner just has to ask
-_EXPORT_OFFER_LINE = (
-    "   • You can export your own memory as a report — "
-    "just tell me and I will do it for you."
-)
-_EXPORT_OFFER_EXAMPLE = (
-    '   • Example: say "export memory" or "export my memory as a report".'
-)
-
-# Phrases that start a rename request ("call me Ahmed")
-_RENAME_PREFIXES = (
-    "call me ",
-    "name me ",
-    "rename me to ",
-    "rename me ",
-    "change my name to ",
-    "change my name ",
-    "my name is ",
-    "my name's ",
-)
 
 # ============================================================
 # PATH + SAFE JSON I/O
@@ -204,9 +159,8 @@ def ensure_learner_profile():
     """Return the permanent learner profile, asking only on first run."""
     profile = load_profile()
 
-    # Already met this learner — greet, don't ask again
+    # Already met this learner — build_welcome_summary handles the greeting
     if profile.get("profile_complete") and profile.get("name"):
-        print(f"\nWelcome back, {profile['display_name']}! Ready to continue.")
         return profile
 
     # First run: collect a friendly name, username optional
@@ -249,37 +203,12 @@ def try_extract_rename(user_text):
             if not rest:
                 return None
             # Not a rename: teaching phrases, questions and junk words
-            skip = {
-                "ready",
-                "fine",
-                "ok",
-                "okay",
-                "good",
-                "here",
-                "learning",
-                "done",
-                "confused",
-                "stuck",
-                "what",
-                "who",
-                "nothing",
-                "nobody",
-                "whatever",
-                "anything",
-                "someone",
-                "something",
-            }
-            if rest in skip:
+            if rest in _RENAME_SKIP_WORDS:
                 return None
             # Guard the permanent profile: a question is never a rename.
             if "?" in text:
                 return None
-            
-            # Guard: single-word responses that are clearly not a name
-            if len(rest.split()) == 1:
-                for word in ("not", "no", "maybe", "unsure", "dont", "don't"):
-                    if rest.strip() == word:
-                        return None
+
             cleaned = " ".join(rest.split())
 
             # Guard: must have at least one letter, and be 2-30 chars long
@@ -288,15 +217,7 @@ def try_extract_rename(user_text):
                 return None
             
             # Guard: Block common phrases that are clearly not a name
-            _uncertain_phrases = {
-                "not sure", "not sure about", "not sure man",
-                "dont know", "don't know", "do not know",
-                "no idea", "no ideas", "idk",
-                "not sure yet", "still deciding", "dunno",
-                "no name", "none", "nothing yet",
-                "i don't know", "i dont know",
-            }
-            if cleaned in _uncertain_phrases:
+            if cleaned in _RENAME_UNCERTAIN_PHRASES:
                 return None
             if not all(ch.isalpha() or ch in "'- " for ch in cleaned):
                 return None
@@ -455,6 +376,46 @@ def seed_context_from_memory(context):
 # SESSION SNAPSHOTS — optional per-exit JSON for offline review
 # ============================================================
 
+# Write one derived event to the repaired session journal (no raw chat text).
+def _record_journal_event(behavior_snapshot, session_row):
+    import importlib.util
+
+    module_path = os.path.join(memory_folder(), "pytalon memory.py")
+    if not os.path.isfile(module_path):
+        return
+
+    spec = importlib.util.spec_from_file_location("pytalon_memory_journal", module_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    snapshot = behavior_snapshot or {}
+    gen_counts = {
+        key[len("generation_"):]: int(value or 0)
+        for key, value in snapshot.items()
+        if key.startswith("generation_")
+    }
+    generation = None
+    if gen_counts and sum(gen_counts.values()) > 0:
+        generation = max(gen_counts, key=gen_counts.get)
+
+    touched = session_row.get("topics_touched") or []
+
+    journal = module.SessionJournal(memory_dir())
+    journal.record(
+        "session_end",
+        messages_total=int(snapshot.get("messages_total") or 0),
+        casual_messages=int(snapshot.get("casual_messages") or 0),
+        emoji_messages=int(snapshot.get("emoji_messages") or 0),
+        answer_yes=int(snapshot.get("answer_yes") or 0),
+        answer_no=int(snapshot.get("answer_no") or 0),
+        practice_pass=int(snapshot.get("practice_pass") or 0),
+        practice_fail=int(snapshot.get("practice_fail") or 0),
+        topic=touched[0] if touched else None,
+        state=session_row.get("last_state"),
+        generation=generation,
+    )
+
+
 # Record the end of a session, including the topics touched, the derived style patterns, and the last state, and write an optional dated snapshot file for offline review.
 def record_session_end(topics_touched=None, last_state="done", behavior_snapshot=None):
     """Bump session counters, merge derived style patterns, and write an optional dated snapshot file."""
@@ -518,6 +479,13 @@ def record_session_end(topics_touched=None, last_state="done", behavior_snapshot
             json.dump(payload, f, indent=2, ensure_ascii=False)
     except OSError:
         pass
+
+    # Derived session journal (patterns only, never raw chat text)
+    try:
+        _record_journal_event(behavior_snapshot, session_row)
+    except Exception:
+        pass
+
     return data
 
 # Check if there is new practice in the current session.
@@ -614,8 +582,6 @@ def build_welcome_summary():
             lines.append(
                 f"📌 So far: {len(topics)} topic(s) completed ({shown}{extra})."
             )
-        if next_topic:
-            lines.append(f"👉 Suggested next: {next_topic}")
         lines.append('💬 Ask me "what do you remember?" anytime for the full memory.')
         lines.append(_EXPORT_OFFER_LINE)
         return "\n".join(lines)

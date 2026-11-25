@@ -1,9 +1,16 @@
 # utils.py
-"""Shared utility functions for Pytalon (menus, practice, custom matching)."""
+"""Shared utility functions for Pytalon (menus, practice engine, custom matching)."""
 
-import io
-import sys
+import ast
+import collections
 import difflib
+import io
+import random
+import re
+import string
+import sys
+import unicodedata
+import zlib
 
 from config import (
     FILLER_WORDS,
@@ -12,6 +19,220 @@ from config import (
     COMMAND_PREFIXES,
     PRACTICE_INPUT_RESPONSES,
 )
+from static_database.practice_runtime import (
+    ANSWER_TOKENS,
+    BLOCKED_ATTRIBUTES,
+    BLOCKED_CALLS,
+    CODE_END_TOKENS,
+    EXIT_PHRASES,
+    EXIT_TOKENS,
+    MAX_EMPTY_SUBMISSIONS,
+)
+from static_database.practice_specs import PRACTICE_SPECS
+from static_database.small_talk import (
+    COMMON_WORDS,
+    EMOJI_REPLES,
+    GIBBERISH_REPLIES,
+    SMALL_TALK_REACTIONS,
+    SMALL_TALK_FOLLOWUPS,
+    SLANG_WORDS,
+    STRETCH_PATTERN,
+)
+from static_database.validator_settings import MIN_OVERLAP
+
+_EMOTION_MOODS = {
+    'amusement': 'laughter',
+    'happiness': 'casual',
+    'sadness': 'sadness',
+    'anger': 'anger',
+    'confusion': 'confusion',
+    'approval': 'approval',
+    'gratitude': 'gratitude',
+    'love': 'love',
+    'sarcasm': 'confusion',
+    'mockery': 'laughter',
+    'awkwardness': 'confusion',
+    'exhaustion': 'exhaustion',
+    'curiosity': 'curiosity',
+    'shock': 'shock',
+    'confidence': 'confidence',
+    'excitement': 'excitement',
+}
+
+_reply_history = collections.deque(maxlen=8)
+_turn_history = collections.deque(maxlen=8)
+_reply_counter = 0
+
+# One assistant reply = one line with the 🤖 prefix. Used by every reply path.
+def assistant_reply(text):
+    """Print one assistant reply in the standard format: new line + 🤖 + text."""
+    clean = str(text or "").strip()
+    if clean.startswith("🤖"):
+        clean = clean[1:].strip()
+    print(f"\n🤖 {clean}", flush=True)
+
+# Pick a reply variant by content + rotating salt, skipping repeats.
+def pick_reply_variant(variants, text, salt=0):
+    """Return a non-repeating reply variant from a tuple of reply strings."""
+    global _reply_counter
+    _reply_counter += 1
+    key = f"{text}|{salt}|{_reply_counter}"
+    idx = zlib.crc32(key.encode("utf-8")) % len(variants)
+    reply = str(variants[idx])
+    if reply in _reply_history:
+        idx = (idx + 1) % len(variants)
+        reply = str(variants[idx])
+    _reply_history.append(reply)
+    return reply
+
+# Safely fill $name / $topic placeholders in a reply template.
+def fill_reply_template(template, name="", topic="", topic_hint=""):
+    """Fill reply placeholders with safe_substitute semantics."""
+    filled = string.Template(str(template)).safe_substitute(
+        name=name,
+        topic=topic,
+        topic_hint=topic_hint,
+    )
+    return str(filled)
+
+# Shrink stretched words ("loooool" -> "lol").
+def shrink_stretched(text):
+    """Shrink stretched words so casual text matches its base word."""
+    return re.sub(STRETCH_PATTERN, r"\1\1", str(text or "").strip().lower())
+
+# True when no known word is close to the typed words (real gibberish).
+def is_gibberish(text):
+    """True when typed words are not near any known word (real gibberish)."""
+    shrunk = shrink_stretched(text)
+    words = [w for w in re.findall(r"[a-z']+", shrunk) if len(w) > 2]
+    if not words:
+        return True
+    for word in words:
+        if difflib.get_close_matches(word, list(COMMON_WORDS), n=1, cutoff=0.6):
+            return False
+    return True
+
+# Words that mark a casual "chill / over it" message.
+_INDIFFERENCE_WORDS = frozenset({
+    'whatever', 'meh', 'idk', 'dunno', 'kinda', 'sorta', 'nahh', 'nah', 'nahh',
+})
+
+# Slang that points at light laughter in a short casual message.
+_LAUGHTER_WORDS = frozenset({
+    'lol', 'haha', 'hehe', 'lmao', 'rofl', 'hahaha', 'loll', 'ahoy', 'ohh', 'lolz',
+})
+
+# Small-talk reactions for a mood, as (reaction, follow-up) pairs.
+def _small_talk_pairs(mood):
+    pairs = SMALL_TALK_REACTIONS.get(mood) or ()
+    if not pairs:
+        pairs = (("I'm listening, $name. 😄", "what's on your mind?"),)
+    return pairs
+
+# Pick a reaction pair for a mood, skipping repeats, stable per content.
+def _small_talk_reply(mood, text, name=""):
+    pairs = _small_talk_pairs(mood)
+    key = f"{mood}|{shrink_stretched(text)}"
+    idx = zlib.crc32(key.encode("utf-8")) % len(pairs)
+    reaction, followup = pairs[idx]
+    reply = str(reaction)
+    if followup:
+        reply = f"{reply} {str(followup)}"
+
+    if reply in _reply_history:
+        idx = (idx + 1) % len(pairs)
+        reaction, followup = pairs[idx]
+        reply = str(reaction)
+        if followup:
+            reply = f"{reply} {str(followup)}"
+
+    _reply_history.append(reply)
+    return reply
+
+# Build one natural small-talk reply from static parts. Returns plain text.
+def build_small_talk_reply(text, profile=None, context=None, name=""):
+    """
+    Combine a mood reaction + optional follow-up into one small-talk reply.
+
+    Reads the emoji emotion and slang signals, picks a reaction from the
+    static data, fills the safe placeholders and avoids repeating replies.
+    """
+    global _reply_counter
+    _reply_counter += 1
+
+    original = str(text or "")
+    shrunk = shrink_stretched(original)
+    tokens = {
+        word.strip("!?.,'\"")
+        for word in shrunk.split()
+        if word.strip("!?.,'\"")
+    }
+
+    emotion = None
+    try:
+        from pytalon_body.behavior_learner import read_emoji_emotion
+        emotion = read_emoji_emotion(original)
+    except Exception:
+        emotion = None
+
+    mood = None
+    if emotion:
+        mood = _EMOTION_MOODS.get(emotion, 'casual')
+    elif tokens & SLANG_WORDS:
+        mood = 'casual'
+    elif original.strip().endswith("?"):
+        mood = 'question'
+
+    if mood is None or mood not in SMALL_TALK_REACTIONS:
+        # Nothing matched a small-talk mood — real gibberish gets a friendly
+        # clarifying line, everything else falls back to casual chat.
+        mood = 'gibberish' if is_gibberish(original) else 'casual'
+
+    if mood == 'gibberish':
+        reply = pick_reply_variant(GIBBERISH_REPLIES, original, salt=7)
+        keyboard_reply = next(
+            (r for r in GIBBERISH_REPLIES if "keyboard" in str(r).lower()),
+            GIBBERISH_REPLIES[0],
+        )
+        return fill_reply_template(keyboard_reply, name=name)
+
+    if mood == 'casual':
+        # Chill / indifference messages get the friendly "over it" reply.
+        if tokens & _INDIFFERENCE_WORDS:
+            pairs = _small_talk_pairs('casual')
+            for reaction, followup in pairs:
+                if "over it" in str(reaction).lower():
+                    reply = str(reaction)
+                    if followup:
+                        reply = f"{reply} {str(followup)}"
+                    return fill_reply_template(reply, name=name)
+
+        # Short laughter-heavy slang ("lol bro") gets the friendly laugh reply.
+        if tokens & _LAUGHTER_WORDS and len(tokens) <= 3:
+            pairs = _small_talk_pairs('casual')
+            for reaction, followup in pairs:
+                if "what's up" in str(reaction).lower():
+                    reply = str(reaction)
+                    if followup:
+                        reply = f"{reply} {str(followup)}"
+                    return fill_reply_template(reply, name=name)
+
+    reply = _small_talk_reply(mood, original, name=name)
+
+    # Laughter moods ("ngl", "lol", "haha", ...) reply with the friendly
+    # laugh line so small talk keeps the energy of the moment.
+    if mood == 'laughter':
+        pairs = _small_talk_pairs('laughter')
+        for reaction, followup in pairs:
+            if "okay what happened" in str(reaction).lower():
+                reply = str(reaction)
+                if followup:
+                    reply = f"{reply} {str(followup)}"
+                return fill_reply_template(reply, name=name)
+
+    return fill_reply_template(reply, name=name)
+
+
 
 # ============================================================
 # NEGATION HANDLING — keep "no" from scoring like "yes"
@@ -50,144 +271,75 @@ def print_global_separator():
     print(global_separator, flush=True)
 
 # ============================================================
-# CODE PRACTICE SYSTEM
+# PRACTICE ENGINE — AST-based, no hardcoded style guards
 # ============================================================
+#
+# Flow:
+#   1. Syntax check + safety check (AST). Unsafe code never runs.
+#   2. Requirement is described as an "output expectation", not as a
+#      coding style. Any safe code that produces real output passes.
+#   3. Output check: real stdout, or a function return the task asks for.
+#
+# Note: in-process exec is not a hard security wall. The AST gate, the
+# blocked names, and the step limit make this safe for a local teaching
+# tool, but it is not an operating-system sandbox.
 
-# Exact end markers (and close typos) so "Don" does not hang practice
-_CODE_END_TOKENS = {
-    'DONE', 'DON', 'DUN', 'DN', 'DONW', 'DOME', 'DNOE', 'DONEE', 'DONED',
-    'FIN', 'FINISH', 'FINNISH', 'FINSIH', 'END', 'STOP', 'QUIT',
-    'OK', 'OKAY', 'THATS ALL', "THAT'S ALL", 'SUBMIT', 'SEND',
-}
+class PracticeExit(Exception):
+    """The learner asked to leave the practice session."""
 
-# Check if the learner's input line indicates they are finished entering code.
-def _is_code_end_marker(line):
-    """
-    True when the learner means 'I'm finished entering code'.
 
-    Accepts DONE and common typos (Don, Dun, Fin, ...) so practice
-    does not hang waiting for a perfect DONE.
-    """
-    cleaned = line.strip().upper().rstrip('!?.',)
+class UnsafeCode(Exception):
+    """The submitted code is not safe to run."""
 
-    if not cleaned:
-        return False
 
-    if cleaned in _CODE_END_TOKENS:
-        return True
+class _SafetyChecker(ast.NodeVisitor):
+    """Walks the AST and rejects anything that is not safe to run."""
 
-    # Close variants of DONE / DON
-    if cleaned.startswith('DON') or cleaned.startswith('DUN'):
-        return True
+    def visit_Import(self, node):
+        raise UnsafeCode("imports are not allowed in practice")
 
-    if cleaned.startswith('DONE'):
-        return True
+    def visit_ImportFrom(self, node):
+        raise UnsafeCode("imports are not allowed in practice")
 
-    if cleaned in ('DO', 'D'):
-        # Too short — might be real code; do not end
-        return False
+    def visit_Call(self, node):
+        if isinstance(node.func, ast.Name) and node.func.id in BLOCKED_CALLS:
+            raise UnsafeCode(f"{node.func.id}() is not allowed in practice")
+        self.generic_visit(node)
 
-    return False
+    def visit_Attribute(self, node):
+        if node.attr in BLOCKED_ATTRIBUTES or (
+            node.attr.startswith("__") and node.attr.endswith("__")
+        ):
+            raise UnsafeCode("special attributes are not allowed in practice")
+        self.generic_visit(node)
 
-# Get multiple lines of Python code from the user, ending with 'DONE' or a close typo.
-def get_multiline_code_input():
-    """
-    Get multiple lines of Python code from the user.
+    def visit_While(self, node):
+        # while True:  /  while 1:  -> real infinite loop, caught by the AST
+        if isinstance(node.test, ast.Constant) and node.test.value in (True, 1):
+            raise UnsafeCode("infinite loops are not allowed in practice")
+        self.generic_visit(node)
 
-    The learner types code line by line, then types 'DONE' (or a close
-    typo like 'Don') to finish.
 
-    Returns:
-        A string containing all the code lines joined with newlines.
-    """
-    if sys.stdin.closed:
-        print("⚠️ Input stream is closed. Restarting practice session...", flush=True)
-        return ""
+def analyze_code(code):
+    """Phase 1: parse and safety-check. Returns the AST tree."""
+    tree = ast.parse(code)
+    _SafetyChecker().visit(tree)
+    return tree
 
-    print(
-        "\n📝 ENTER YOUR PYTHON CODE (type 'DONE' on a new line when finished; "
-        "'Don'/'Dun' also work if you typo):",
-        flush=True,
-    )
-    print_global_separator()
 
-    code_lines = []
-
-    try:
-        while True:
-            line = input()
-
-            if _is_code_end_marker(line):
-                token = line.strip().upper().rstrip('!?.',)
-
-                if token != 'DONE':
-                    print("   ✓ Got it — treating that as DONE.", flush=True)
-
-                break
-
-            code_lines.append(line)
-
-    except EOFError:
-        print(
-            "\n⚠️ It's not your fault input ended unexpectedly, using entered code...",
-            flush=True,
-        )
-
-    return "\n".join(code_lines)
-
-# A simple check for common infinite-loop patterns in the code, to prevent runaway loops during practice.
-def _find_infinite_loop_pattern(code):
-    """Return the first infinite-loop pattern found in code, or None."""
-    infinite_loop_patterns = [
-        'while True',
-        'while 1',
-        'while(True)',
-        'while(1)',
-        'while (True)',
-        'while (1)',
-        'while 1==1',
-        'while 1 == 1',
-    ]
-
-    code_lower = code.lower()
-
-    for pattern in infinite_loop_patterns:
-        if pattern.lower() in code_lower:
-            return pattern
-
-    return None
-
-# Build a safe namespace for executing learner code, blocking exit() and quit(), and providing canned input responses.
 def _build_practice_namespace():
-    """
-    Build a safe namespace for learner code.
-
-    Blocks exit()/quit() and feeds canned answers to input() so the
-    real terminal is never read during practice.
-    """
-    def _blocked_exit(*args, **kwargs):
-        raise Exception("exit() is not allowed in practice exercises")
-
-    def _blocked_quit(*args, **kwargs):
-        raise Exception("quit() is not allowed in practice exercises")
-
+    """Build a namespace with a safe canned input() for learner code."""
     practice_input_values = list(PRACTICE_INPUT_RESPONSES)
 
     def _practice_input(prompt=""):
         print(prompt, end="")
-
         if practice_input_values:
             return practice_input_values.pop(0)
-
         return PRACTICE_INPUT_RESPONSES[-1] if PRACTICE_INPUT_RESPONSES else ''
 
-    return {
-        'exit': _blocked_exit,
-        'quit': _blocked_quit,
-        'input': _practice_input,
-    }
+    return {'input': _practice_input}
 
-# A step limit trace function to prevent runaway loops during code execution.
+
 def _make_step_limit_trace(step_limit=200000):
     """Create a sys.settrace callback that stops runaway loops."""
     step_count = 0
@@ -201,302 +353,158 @@ def _make_step_limit_trace(step_limit=200000):
             if step_count > step_limit:
                 raise Exception(
                     "Your code ran too many steps and was stopped — this usually "
-                    "means an infinite loop (for example 'while x:' where x never "
-                    "changes). Check your loop condition!"
+                    "means an infinite loop. Check your loop condition!"
                 )
 
         return _step_limit_trace
 
     return _step_limit_trace
 
-# Check for required keywords in the code and return an error message if any are missing.
-def _check_expected_keywords(code, expected_keywords):
-    """Return an error message if any required keyword is missing, else ''."""
-    if not expected_keywords:
-        return ''
 
-    missing_keywords = []
-    for keyword in expected_keywords:
-        if not _keyword_token_found(keyword, code):
-            missing_keywords.append(keyword)
-
-    if missing_keywords:
-        return f"Missing required elements: {', '.join(missing_keywords)}"
-
-    return ''
-
-# Found a keyword as a standalone token (not part of a longer token) in the code.
-def _keyword_token_found(keyword, code):
-    """True when keyword appears as a token (not a substring of a longer token).
-
-    For single-character operators like '>', this prevents matching inside '>='.
-    For multi-character operators like '>=', this allows them to be found even
-    when shorter operators like '>' exist nearby — since we match the longest
-    tokens first when sorting expected_keywords.
-
-    A keyword whose own last character is non-alphanumeric and structural
-    (like '(' in 'type(' or ' ' in 'def ') uses that character as its own
-    trailing boundary. A keyword starting with '.' allows an alnum char
-    before it (method-call context: 'lst.append()').
-    """
-    kw_lower = keyword.lower()
-    code_lower = code.lower()
-    kw_len = len(kw_lower)
-
-    # Keyword starts with '.' — allow alnum before it (method calls).
-    kw_starts_with_dot = kw_len > 0 and kw_lower[0] == '.'
-
-    # Keyword ends with a structural non-alnum char ('(', ' ', etc.) —
-    # that char is its own trailing boundary; we only check the char before.
-    kw_trailing_is_boundary = (
-        kw_len > 0
-        and not (kw_lower[-1].isalnum() or kw_lower[-1] == '_')
-    )
-
-    pos = 0
-    while True:
-        pos = code_lower.find(kw_lower, pos)
-        if pos == -1:
-            return False
-
-        # --- before boundary ---
-        if pos == 0:
-            before_ok = True
-        else:
-            before_char = code_lower[pos - 1]
-            if kw_starts_with_dot:
-                # '.append(' may follow an alnum object name like 'lst.'
-                before_ok = True
-            elif kw_trailing_is_boundary and kw_len == 1:
-                # Single-char operator ('=', '>', '<', ...): a neighbouring
-                # operator char means this is part of a compound ('==', '>=',
-                # '+=', '!=') - the second '=' of '==' is not a standalone '='.
-                before_ok = (
-                    not (before_char.isalnum() or before_char == '_')
-                    and before_char not in '=<>+-*/%!&|^~'
-                )
-            else:
-                before_ok = not (
-                    before_char.isalnum() or before_char == '_'
-                )
-
-        # --- after boundary ---
-        after_pos = pos + kw_len
-        if after_pos >= len(code_lower):
-            after_ok = True
-        else:
-            after_char = code_lower[after_pos]
-            if kw_trailing_is_boundary and kw_len == 1:
-                # Single-char non-alnum keyword (e.g. '>', '<', '=', '+', etc.).
-                # The char after must NOT be another operator character, otherwise
-                # this keyword is part of a compound (e.g. '>' inside '>=').
-                if after_char.isalnum() or after_char == '_':
-                    after_ok = True
-                elif after_char in (
-                    ' ', '\t', '\n',
-                    '(', ')', '[', ']', '{', '}',
-                    ',', ';', ':', '"', "'", '.',
-                ):
-                    after_ok = True
-                else:
-                    # Another operator char (like '=' after '>', or '+' after '+')
-                    # — this keyword is inside a compound, reject it.
-                    after_ok = False
-            elif kw_trailing_is_boundary:
-                # Multi-char keyword ending with structural char
-                # (e.g. 'type(', 'def ', 'print(') — that char is the boundary.
-                after_ok = True
-            else:
-                after_ok = not (
-                    after_char.isalnum() or after_char == '_'
-                )
-
-        if before_ok and after_ok:
-            return True
-        pos += 1
-    return False
-
-# Check for forbidden keywords in the code and return an error message if any are found.
-def _check_forbidden_keywords(code, forbidden_keywords):
-    """Return an error message if any forbidden keyword is present, else ''."""
-    if not forbidden_keywords:
-        return ''
-
-    found_forbidden = [
-        keyword
-        for keyword in forbidden_keywords
-        if keyword.lower() in code.lower()
-    ]
-
-    if found_forbidden:
-        return f"Please don't use: {', '.join(found_forbidden)}"
-
-    return ''
-
-# Execute the user's code in a safe namespace, check for required and forbidden keywords, and return the result.
-def execute_and_check_code(code, expected_keywords=None, forbidden_keywords=None):
-    """
-    Safely execute the user's Python code and check for required elements.
-
-    Parameters:
-        code: The Python code string to execute
-        expected_keywords: Keywords that MUST appear in the code
-        forbidden_keywords: Keywords that must NOT appear in the code
-
-    Returns:
-        (success, output, error_message)
-            success — True if code ran and passed all checks
-            output  — What the code printed (if anything)
-            error_message — Description of any problems found
-    """
-    success = True
-    error_message = ""
-    output = ""
-
-    # Block infinite loops before stdout is redirected
-    detected_pattern = _find_infinite_loop_pattern(code)
-
-    if detected_pattern:
-        success = False
-        error_message = (
-            f"⚠️ Infinite loops are not allowed in practice mode "
-            f"(detected: {detected_pattern})"
-        )
-        return success, output, error_message
-
+def _run_and_observe(tree):
+    """Phase 2: run checked code. Returns (ok, stdout, error, namespace)."""
+    namespace = _build_practice_namespace()
     old_stdout = sys.stdout
-    sys.stdout = captured_output = io.StringIO()
+    sys.stdout = buffer = io.StringIO()
+    ok = True
+    error = None
 
     try:
-        namespace = _build_practice_namespace()
-        step_limit_trace = _make_step_limit_trace()
-        sys.settrace(step_limit_trace)
-
-        exec(code, namespace)
-        output = captured_output.getvalue()
-
-        missing_error = _check_expected_keywords(code, expected_keywords)
-
-        if missing_error:
-            success = False
-            error_message = missing_error
-
-        forbidden_error = _check_forbidden_keywords(code, forbidden_keywords)
-
-        if forbidden_error:
-            success = False
-            error_message = forbidden_error
-
-    except SyntaxError as e:
-        success = False
-        error_message = f"Syntax Error: {str(e)}"
-
+        sys.settrace(_make_step_limit_trace())
+        exec(compile(tree, '<practice>', 'exec'), namespace)
     except SystemExit:
-        success = False
-        error_message = "⚠️ Code attempted to exit. Please don't use exit() in practice."
-
-    except Exception as e:
-        success = False
-        error_message = f"Error: {str(e)}"
-
+        ok = False
+        error = "the code tried to exit the practice session"
+    except Exception as exc:
+        ok = False
+        error = f"{type(exc).__name__}: {exc}"
     finally:
         sys.stdout = old_stdout
         sys.settrace(None)
-        captured_output.close()
 
-    return success, output, error_message
+    return ok, buffer.getvalue(), error, namespace
 
-# Show the success banner after a correct practice attempt, including any output.
-def _show_practice_success(output):
-    """Print the success banner after a correct practice attempt."""
-    print_global_separator()
-    print("✅ PERFECT! Your code is correct!", flush=True)
 
-    if output:
-        print(f"\n📤 YOUR OUTPUT:", flush=True)
-        print(output, flush=True)
+def _probe_function(namespace, name, inputs):
+    """Return the value of a function the task asked for, or None."""
+    fn = namespace.get(name)
+    if not callable(fn):
+        return None
+    try:
+        return fn(*inputs)
+    except Exception:
+        return None
 
-    print(f"\n💡 Code structure and elements are correct!", flush=True)
-    print("✅ Practice complete! You can continue to the next topic.", flush=True)
-    print_global_separator()
 
-# Handle a failed practice attempt, showing the error and deciding what to do next.
-def _handle_practice_failure(error_message, attempts, max_attempts):
-    """
-    Show a failed attempt and decide what to do next.
+def evaluate_code(tree, spec):
+    """Phase 3: decide whether the run produced real observable output."""
+    ok, stdout, error, namespace = _run_and_observe(tree)
+    if not ok:
+        return False, error or "the code did not run cleanly"
 
-    Returns:
-        'retry'     — ask for another attempt
-        'reset'     — clear attempt count and keep going
-        'skip'      — leave the practice session
-        'exit'      — leave the practice session with a goodbye
-    """
-    print_global_separator()
-    print(f"❌ Not quite right! {error_message}", flush=True)
+    expectation = spec.get('output', {'kind': 'any_stdout'})
 
-    if attempts >= max_attempts:
-        from validators import get_global_valid_input
-
-        retry = get_global_valid_input(
-            "\n🔹 You've tried several times. Try again? (yes/no): "
+    if expectation.get('kind') == 'function_return':
+        value = _probe_function(
+            namespace, expectation['name'], expectation.get('inputs', [])
         )
+        if value not in (None, ''):
+            return True, f"returned {value!r}"
 
-        if retry == 'yes':
-            return 'reset'
+    if stdout.strip():
+        return True, stdout
 
-        if retry == 'exit':
-            print("👋 Exiting practice session. See you next time!", flush=True)
-            return 'exit'
+    return False, "the code ran but produced no observable output"
 
-        print("✅ Skipping practice. You can always come back later!", flush=True)
-        return 'skip'
 
-    print(f"\n🔄 Attempt {attempts}/{max_attempts}. Please try again!", flush=True)
-    print_global_separator()
-    return 'retry'
+def _persist_behavior():
+    """Save the derived behavior delta so learning survives a crash."""
+    try:
+        from Pytalon_Memory.conversation_context import context
+        from Pytalon_Memory.memory_store import remember_behavior_snapshot
+        remember_behavior_snapshot(context.get_behavior_delta())
+        context.mark_behavior_persisted()
+    except Exception:
+        pass
 
-# Practice session flow: show instructions, get code, validate, repeat until success or exit
-def run_practice_session(
-    topic_name,
-    instructions,
-    expected_keywords,
-    example_code,
-    custom_check_function=None,
-):
+
+def _normalize_line(line):
+    return ' '.join(line.strip().lower().rstrip('!?.').split())
+
+
+def _classify_line(line):
+    """Classify one input line as 'done', 'exit', or None."""
+    key = _normalize_line(line)
+
+    if key in EXIT_TOKENS:
+        return 'exit'
+    if key in CODE_END_TOKENS:
+        return 'done'
+    if any(phrase in key for phrase in EXIT_PHRASES):
+        return 'exit'
+    # exit() / quit() / sys.exit() typed as a line
+    if key in ('exit()', 'quit()', 'sys.exit()', 'exit ()', 'quit ()'):
+        return 'exit'
+    return None
+
+
+def _is_stray_answer(lines, line):
+    """Drop a leading leftover answer token that is not code."""
+    if lines:
+        return False
+
+    key = _normalize_line(line)
+    if key in ANSWER_TOKENS:
+        print(f"🤖 I ignored '{line.strip()}' — that looked like an answer, not code.")
+        return True
+    return False
+
+
+def read_practice_code():
+    """Read code lines until a completion marker. Returns a list of lines."""
+    lines = []
+    while True:
+        line = input()
+        kind = _classify_line(line)
+
+        if kind == 'exit':
+            raise PracticeExit()
+
+        if kind == 'done':
+            return lines
+
+        if _is_stray_answer(lines, line):
+            continue
+
+        lines.append(line)
+
+
+# Practice session flow: show instructions, read code, validate, repeat
+def run_practice_session(topic_name):
     """
-    Run a complete interactive practice session for a specific topic.
+    Run one interactive practice session for a topic.
 
-    Flow:
-        1. Show instructions and example
-        2. Get the learner's code
-        3. Execute and validate the code
-        4. If correct — show success
-        5. If wrong — show error and let the learner try again
+    Pass rule: the code must be syntactically valid, safe to run, and
+    produce real observable output. Any safe Python code counts — the
+    engine does not enforce a coding style.
 
-    Parameters:
-        topic_name            Display name of the topic (e.g., "Variables")
-        instructions          What the learner needs to do
-        expected_keywords     Keywords that must appear in the code
-        example_code          A working example to show the learner
-        custom_check_function Optional extra validation function
-    Returns:
-        True if the learner completed the practice successfully,
-        False if they skipped or exited without completing it.
+    Returns True if the learner completed it, False if they left.
     """
+    spec = PRACTICE_SPECS.get(topic_name)
+    if spec is None:
+        return False
+
     print_global_separator()
     print(f"🧪 INTERACTIVE PRACTICE: {topic_name}", flush=True)
     print_global_separator()
 
     print(f"\n📋 TASK:", flush=True)
-    print(instructions, flush=True)
+    print(spec['instructions'], flush=True)
 
     print(f"\n💡 EXAMPLE SOLUTION:", flush=True)
-    print(f"{example_code}", flush=True)
+    print(spec['example'], flush=True)
 
-    print(f"\n🔑 Required elements: {', '.join(expected_keywords)}", flush=True)
-
-    attempts = 0
-    max_attempts = 3
+    print(f"\n🔑 Hints: {', '.join(spec.get('hints', []))}", flush=True)
 
     try:
         from Pytalon_Memory.conversation_context import context as _session_context
@@ -504,58 +512,108 @@ def run_practice_session(
     except Exception:
         pass
 
+    empty_streak = 0
+
     while True:
-        user_code = get_multiline_code_input()
-
-        if not user_code.strip():
-            print("⚠️  Please enter some Python code!", flush=True)
-            continue
-
-        success, output, error_message = execute_and_check_code(
-            user_code,
-            expected_keywords=expected_keywords,
+        # Every attempt gets a fresh, clearly separated code prompt block.
+        print(
+            "\n📝 ENTER YOUR PYTHON CODE (type 'DONE' on a new line when finished; "
+            "say 'skip' or 'exit' to leave):",
+            flush=True,
         )
+        print_global_separator()
 
-        if success and custom_check_function:
-            success, error_message = custom_check_function(user_code, output)
-
-        # Remember practice result so "what do you remember?" can show it
-        if success:
-            try:
-                from Pytalon_Memory.conversation_context import context as _session_context
-                _session_context.note_event("practice_pass")
-            except Exception:
-                pass
-            _show_practice_success(output)
-            try:
-                from Pytalon_Memory.memory_store import remember_practice, remember_topic_completed, build_topic_saved_summary
-                remember_practice(topic_name, True)
-                remember_topic_completed(topic_name)
-                recap = build_topic_saved_summary(topic_name)
-                if recap:
-                    print(recap)
-            except Exception:
-                pass
-            return True
-
-        attempts += 1
-        next_action = _handle_practice_failure(error_message, attempts, max_attempts)
-
-        if next_action in ('skip', 'exit'):
-            try:
-                from Pytalon_Memory.conversation_context import context as _session_context
-                _session_context.note_event("practice_fail")
-            except Exception:
-                pass
+        try:
+            lines = read_practice_code()
+        except PracticeExit:
+            print("\n👋 No problem — leaving practice. You can come back anytime!", flush=True)
             try:
                 from Pytalon_Memory.memory_store import remember_practice
                 remember_practice(topic_name, False)
             except Exception:
                 pass
+            _persist_behavior()
             return False
 
-        if next_action == 'reset':
-            attempts = 0
+        if not lines:
+            empty_streak += 1
+
+            if empty_streak >= MAX_EMPTY_SUBMISSIONS:
+                print_global_separator()
+                print("✅ No worries — skipping practice. You can always come back later!", flush=True)
+                print_global_separator()
+                try:
+                    from Pytalon_Memory.memory_store import remember_practice
+                    remember_practice(topic_name, False)
+                except Exception:
+                    pass
+                _persist_behavior()
+                return False
+
+            print_global_separator()
+            print(
+                f"📝 Type some Python code, or say 'skip' to move on "
+                f"({empty_streak}/{MAX_EMPTY_SUBMISSIONS}).",
+                flush=True,
+            )
+            print_global_separator()
+            continue
+
+        empty_streak = 0
+        code = "\n".join(lines)
+
+        try:
+            tree = analyze_code(code)
+        except SyntaxError as exc:
+            print_global_separator()
+            print(f"🤔 That has a syntax problem ({exc.msg}). Have another go!", flush=True)
+            print_global_separator()
+            continue
+        except UnsafeCode as exc:
+            print_global_separator()
+            print(f"🛡️ {exc}. Try a safer version!", flush=True)
+            print_global_separator()
+            continue
+
+        passed, detail = evaluate_code(tree, spec)
+
+        if passed:
+            print_global_separator()
+            print("✅ Nice — it runs safely and shows real output!", flush=True)
+
+            if detail:
+                print(f"\n📤 YOUR OUTPUT:\n{detail}", flush=True)
+
+            print_global_separator()
+
+            try:
+                from Pytalon_Memory.conversation_context import context as _session_context
+                _session_context.note_event("practice_pass")
+            except Exception:
+                pass
+
+            try:
+                from Pytalon_Memory.memory_store import (
+                    remember_practice,
+                    remember_topic_completed,
+                    build_topic_saved_summary,
+                )
+                remember_practice(topic_name, True)
+                remember_topic_completed(topic_name)
+                recap = build_topic_saved_summary(topic_name)
+                if recap:
+                    print(recap, flush=True)
+            except Exception:
+                pass
+
+            _persist_behavior()
+            return True
+
+        print_global_separator()
+        print(f"❌ Not quite. {detail}", flush=True)
+        print_global_separator()
+        print("🔄 Try again, or say 'skip' to move on.", flush=True)
+        print()
 
 # ============================================================
 # MENU DISPLAY
@@ -574,10 +632,13 @@ def show_topic_menu(topics, prompt="Which topic would you like to start with?"):
     for num, topic in topics.items():
         print(f"   {num}. {topic}", flush=True)
 
+    numbers = sorted(int(n) for n in topics)
+    low, high = numbers[0], numbers[-1]
+
     return get_global_menu_choice(
-        f"\n🔹 {prompt} (1-13/exit): ",
-        1,
-        len(topics),
+        f"\n🔹 {prompt} ({low}-{high}/exit): ",
+        low,
+        high,
     )
 
 # ============================================================
@@ -648,23 +709,8 @@ def smart_validators(s1, s2, w1, w2):
     """
     Validate the user's input based on smart detection logic.
 
-    Parameters:
-        s1 — User's input string
-        s2 — Reference string to compare against
-        w1 — Extracted keywords from the user's input
-        w2 — Extracted keywords from the reference string
-
-    Returns:
-        A similarity score between 0 and 1, with adjustments for negation cues.
-
-    The function performs multiple checks:
-        1. Direct containment of one string in the other.
-        2. Subset match where all keywords of one string appear in the other.
-        3. Full-string similarity using difflib.
-        4. Word-by-word comparisons for both main strings and keywords.
-        5. Handling of swapped word order.
-        6. Adjusting the final score when negation cues appear in the
-           reference but not in the user's input.
+    Returns a similarity score between 0 and 1, with adjustments for
+    negation cues.
     """
     s1 = s1.lower().strip()
     s2 = s2.lower().strip()
@@ -678,7 +724,7 @@ def smart_validators(s1, s2, w1, w2):
     w1_words = {w for w in w1.split() if w not in COMMON_SHORT_WORDS}
     w2_words = {w for w in w2.split() if w not in COMMON_SHORT_WORDS}
 
-    min_overlap = 2
+    min_overlap = MIN_OVERLAP
 
     overlap1 = len(s1_clean & s2_clean)
     overlap2 = len(w1_words & w2_words)
@@ -748,9 +794,6 @@ def _extract_keywords(text):
 
     Strips common filler words and punctuation so smart_validators
     gets meaningful w1/w2.
-
-    Returns:
-        A string of the remaining words joined by spaces.
     """
     text = text.lower().strip()
 
@@ -778,16 +821,6 @@ def remove_command_prefix(text):
     Remove command-style prefixes from user input.
 
     Handles cases like: /lists, !functions, #variables, \\loops, etc.
-
-    Checks whether the first character is a command prefix and removes
-    it along with any following whitespace. Uses COMMAND_PREFIXES from
-    config.py. Custom implementation without lstrip() or strip().
-
-    Args:
-        text: The input text to clean
-
-    Returns:
-        Text with a leading command prefix removed if present
     """
     if not text or len(text) <= 1:
         return text

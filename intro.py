@@ -3,39 +3,23 @@
 
 import sys
 
+from utils import assistant_reply
+
 # Loaded when the opening loop runs (keeps import light for startup)
 detect_conversation_intent = None
 show_topic_menu = None
 last_response_patterns = None
 identity_patterns = None
 
-# ----- Constants (single source for version / intro text) -----
-NAME = "Pytalon"
-VERSION = "2.3"
-CATEGORY = "Major Release (Stable Version)"
-DESCRIPTION = (
-    "A Python Assistant developed to guide you with "
-    "Python programming and learning."
+# ----- Constants (static data lives in static_database/app_identity.py) -----
+from static_database.app_identity import (
+    NAME,
+    VERSION,
+    CATEGORY,
+    DESCRIPTION,
+    TOPICS,
+    TOPIC_NAME_TO_NUMBER,
 )
-
-TOPICS = {
-    '1': 'Hello World',
-    '2': 'Functions',
-    '3': 'Variables',
-    '4': 'Relational operators',
-    '5': 'Assignment operators',
-    '6': 'Logical operators',
-    '7': 'Type conversion',
-    '8': 'Input function',
-    '9': 'Comments in Python',
-    '10': 'Strings in Python',
-    '11': 'Data types in Python',
-    '12': 'Conditional statements',
-    '13': 'Lists in Python',
-}
-
-# Reverse lookup: topic name → number
-TOPIC_NAME_TO_NUMBER = {topic_name: number for number, topic_name in TOPICS.items()}
 
 # ============================================================
 # INTRODUCTION
@@ -75,7 +59,7 @@ def _print_generic_clarification(context):
 
 def _reply_and_remember(context, message):
     """Print a Pytalon reply and store it in conversation history."""
-    print(message)
+    assistant_reply(message)
     context.add_message_to_history('Pytalon', message)
 
 def _dispatch_intent(context, user_response, intent, state):
@@ -158,7 +142,8 @@ def _dispatch_intent(context, user_response, intent, state):
         context.set_last_question(user_response)
         _reply_and_remember(
             context,
-            "\n🤖 Great question! We'll explore that as we learn. Let's get started!",
+            "\n🤖 Good question. I can help with Python basics — "
+            "type 'show topics' or ask about a specific concept.",
         )
         return 'continue'
 
@@ -214,14 +199,28 @@ def _dispatch_intent(context, user_response, intent, state):
 
         return 'continue'
 
-    if intent_name in ('help_request', 'practice_request'):
-        if intent.get('is_beginner'):
-            print("\n😊 Great! I'd love to help you get started with Python.")
-            print("Here are the topics I can walk you through:")
-        else:
-            print("\n🤖 Sure thing! Let me show you the available topics.")
+    if intent_name == 'help_request':
+        print("\n🤖 I'm Pytalon — a customizable assistant. I can:")
+        print("   • Chat with you about anything")
+        print("   • Remember your progress and profile (type 'what do you remember?')")
+        print("   • Teach Python as a plugin when you ask (type 'show topics')")
+        print("   • Adapt to your style as we talk")
+        return 'continue'
 
-        return 'break'
+    if intent_name == 'practice_request':
+        print("\n🤖 Pick a topic to practice — type 'show topics' or a topic name.")
+        return 'continue'
+
+    # Recovery-handled conversation intents (small talk, clarify, emoji, ...)
+    # arrive here with a structured recovery payload — render it once.
+    try:
+        from pytalon_body.intent_engine import render_recovery
+        recovery = intent.get('recovery') or {}
+        if recovery.get('text') or recovery.get('kind'):
+            _reply_and_remember(context, render_recovery(recovery))
+            return 'continue'
+    except Exception:
+        pass
 
     print(
         "\n🤖 I'm not sure how to help with that yet. "
@@ -292,7 +291,7 @@ def get_initial_topic_choice(context):
         from pytalon_body.behavior_learner import session_opening_line
         opening_prompt = "\n" + session_opening_line()
     except Exception:
-        opening_prompt = "\nHi there! 😄 What's on your mind? Ask me anything or pick a topic to start!"
+        opening_prompt = "\nHi there! 😄 What's on your mind? Type 'help' for options."
     print(opening_prompt)
 
     context.set_state("menu")
@@ -342,14 +341,20 @@ def get_initial_topic_choice(context):
             state['retry_count'] = 0
             continue
 
-        intent = detect_conversation_intent(user_response)
+        try:
+            from pytalon_body.behavior_learner import get_style_profile
+            profile = get_style_profile()
+        except Exception:
+            profile = None
+
+        intent = detect_conversation_intent(user_response, profile)
 
         if intent['intent'] in ['empty', 'unrecognized']:
             state['retry_count'] += 1
 
             if state['retry_count'] >= max_retries:
-                print("\n🤖 No worries! Let me show you what I can teach you instead:")
-                break
+                print("\n🤖 No worries! Ask me anything, or type 'help' to see options.")
+                state['retry_count'] = 0
 
             continue
 

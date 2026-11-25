@@ -1,7 +1,7 @@
 # topics_basic.py
 """Teaching functions for basic Python topics (1-6)."""
 
-from utils import print_global_separator, run_practice_session, _keyword_token_found
+from utils import print_global_separator, run_practice_session
 from validators import get_global_valid_input, get_global_examples_valid_input
 from Pytalon_Memory.conversation_context import context
 
@@ -63,19 +63,14 @@ def teach_hello_world():
     practice = get_global_valid_input("\n🔹 Want to practice with Hello World? (yes/no): ")
     if practice == 'yes':
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Hello World",
-            instructions="Write a Python program that prints 'Hello, World!'",
-            expected_keywords=['print', 'Hello'],
-            example_code="print('Hello, World!')"
-        )
+        practice_ok = run_practice_session("Hello World")
         context.set_state("topic")
 
         if practice_ok:
             print("Awesome! You've learned how to print text in Python.")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ------ Topic 2: Functions ------
 def teach_functions():
@@ -132,43 +127,16 @@ def teach_functions():
     # practice session for functions
     practice = get_global_valid_input("\n🔹 Want to practice with functions? (yes/no): ")
     if practice == 'yes':
-        def check_function_practice(code, output):
-            """Checks if the code has proper function structure"""
-            if not _keyword_token_found('def ', code):
-                return False, "You need to define a function using 'def' keyword!"
-            if not _keyword_token_found('print', code):
-                return False, "You should use print() to show the result!"
-            if not _keyword_token_found('return', code):
-                return False, "Remember to use 'return' to send back a value!"
-            if 'greet' not in code:
-                return False, "Make sure your function is named 'greet'!"
-            
-            # Check only the def line for empty parentheses
-            def_line = None
-            for line in code.split('\n'):
-                if line.strip().startswith('def '):
-                    def_line = line.strip()
-                    break
-            if def_line and '()' in def_line:
-                return False, "Your function should have parameters in the parentheses!"
-            
-            return True, ""
 
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Functions",
-            instructions="Create a function called 'greet' that takes a 'name' parameter and returns a greeting message. Then call it with your name!",
-            expected_keywords=['def', 'greet', 'return'],
-            example_code="def greet(name):\n    return f'Hello, {name}!'\n    \nprint(greet('YourName'))",
-            custom_check_function=check_function_practice
-        )
+        practice_ok = run_practice_session("Functions")
         context.set_state("topic")
 
         if practice_ok:
             print("Awesome! You've learned about functions and how to create and use them.")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ------ Topic 3: Variables ------
 def teach_variables():
@@ -228,33 +196,16 @@ def teach_variables():
     # Practice session for variables
     practice = get_global_valid_input("\n🔹 Want to practice with variables? (yes/no): ")
     if practice == 'yes':
-        def check_variables_practice(code, output):
-            """Checks if the code has proper variable structure"""
-            if '=' not in code:
-                return False, "You need to use the assignment operator '=' to create variables!"
-            if not _keyword_token_found('name', code.lower()):
-                return False, "Create a variable called 'name'!"
-            if not _keyword_token_found('age', code.lower()):
-                return False, "Create a variable called 'age'!"
-            if 'print' not in code:
-                return False, "Use print() to display your variables!"
-            return True, ""
 
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Variables",
-            instructions="Create three variables: 'name' (your name as string), 'age' (your age as number), and 'hobby' (your hobby as string). Then print all of them!",
-            expected_keywords=['name', 'age', 'hobby', 'print'],
-            example_code="name = 'John'\nage = 20\nhobby = 'Coding'\nprint(f'Name: {name}, Age: {age}, Hobby: {hobby}')",
-            custom_check_function=check_variables_practice
-        )
+        practice_ok = run_practice_session("Variables")
         context.set_state("topic")
 
         if practice_ok:
             print("Great job! You've learned about variables and their types.")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ------ Topic 4: Relational Operators ------
 def teach_relational_operators():
@@ -313,31 +264,16 @@ def teach_relational_operators():
     # practice session for relational operators
     practice = get_global_valid_input("\n🔹 Want to practice with relational operators? (yes/no): ")
     if practice == 'yes':
-        def check_relational_practice(code, output):
-            """Checks if at least 2 different comparison operators are used"""
-            all_operators = ['==', '!=', '>=', '<=', '>', '<']
-            found_operators = [op for op in all_operators if _keyword_token_found(op, code)]
-            if len(found_operators) < 2:
-                return False, f"Use at least 2 different relational operators! Found: {found_operators if found_operators else 'none'}"
-            if 'print' not in code:
-                return False, "Use print() to display the comparison results!"
-            return True, ""
 
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Relational Operators",
-            instructions="Create two number variables (a and b) and use at least 2 different relational operators (==, !=, >, <, >=, <=) to compare them. Print each comparison result!",
-            expected_keywords=['=', 'print'],
-            example_code="a = 10\nb = 5\nprint(f'a > b: {a > b}')\nprint(f'a == b: {a == b}')\nprint(f'a >= b: {a >= b}')",
-            custom_check_function=check_relational_practice
-        )
+        practice_ok = run_practice_session("Relational operators")
         context.set_state("topic")
 
         if practice_ok:
             print("Great! You've learned about relational operators and how to compare values.")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ------ Topic 5: Assignment Operators ------
 def teach_assignment_operators():
@@ -382,31 +318,16 @@ def teach_assignment_operators():
     # Practice session for assignment operators
     practice = get_global_valid_input("\n🔹 Want to practice with assignment operators? (yes/no): ")
     if practice == 'yes':
-        def check_assignment_practice(code, output):
-            """Checks if at least 2 compound assignment operators are used"""
-            compound_operators = ['+=', '-=', '*=', '/=', '%=', '//=', '**=']
-            found_operators = [op for op in compound_operators if _keyword_token_found(op, code)]
-            if len(found_operators) < 2:
-                return False, f"Use at least 2 compound assignment operators! Found: {found_operators if found_operators else 'none'}"
-            if 'print' not in code:
-                return False, "Use print() to show the results!"
-            return True, ""
 
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Assignment Operators",
-            instructions="Create a variable x with an initial value. Then use at least 2 compound assignment operators (+=, -=, *=, /=, etc.) and print x after each operation!",
-            expected_keywords=['x', '=', 'print'],
-            example_code="x = 10\nprint(f'Initial x: {x}')\nx += 5\nprint(f'After x += 5: {x}')\nx *= 2\nprint(f'After x *= 2: {x}')",
-            custom_check_function=check_assignment_practice
-        )
+        practice_ok = run_practice_session("Assignment operators")
         context.set_state("topic")
 
         if practice_ok:
             print("Great! You learned about assignment operators!")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # ------ Topic 6: Logical Operators ------
 def teach_logical_operators():
@@ -454,33 +375,16 @@ def teach_logical_operators():
     # Practice session for logical operators
     practice = get_global_valid_input("\n🔹 Want to practice with logical operators? (yes/no): ")
     if practice == 'yes':
-        def check_logical_practice(code, output):
-            """Checks if at least one logical operator is used"""
-            logical_operators = ['and', 'or', 'not']
-            found_operators = [op for op in logical_operators if _keyword_token_found(op, code)]
-            if len(found_operators) < 1:
-                return False, "Use at least one logical operator (and/or/not)!"
-            if 'print' not in code:
-                return False, "Use print() to show the results!"
-            if '=' not in code:
-                return False, "Create variables with values!"
-            return True, ""
 
         context.set_state("practice")
-        practice_ok = run_practice_session(
-            topic_name="Logical Operators",
-            instructions="Create two boolean variables (e.g., is_raining, has_umbrella). Use logical operators (and/or/not) to make decisions and print the results!",
-            expected_keywords=['=', 'print'],
-            example_code="is_raining = True\nhas_umbrella = False\nprint(f'Should I go out? {not is_raining or has_umbrella}')",
-            custom_check_function=check_logical_practice
-        )
+        practice_ok = run_practice_session("Logical operators")
         context.set_state("topic")
 
         if practice_ok:
             print("Great! You learned about logical operators!")
 
     elif practice in ('no', 'exit'):
-        print("\n✅ No problem — skipping practice for now. You can always come back to it later!")
+        print("\n✅ No worries — skipping practice. You can always come back later!")
 
 # Map topic names to functions
 BASIC_TOPICS = {

@@ -4,9 +4,10 @@ Created by: M Qasim Farooqi
 Role: BS IT Student | Python Developer · AI Prompt Strategist · Game Systems Analyst | I build, analyze & create. Founder of Vexqyn
 Version: 2.3
 Category: Major Release (Stable Version)
-Purpose:It's a fully customizable, plugin-powered Python terminal assistant built to adapt to you. 
-   - Extend, configure, and shape it your way. Dependency-free, rule-based, transparent, and local-first. 
-   - No AI, no cloud, no black boxes & MIT-licensed. 
+Purpose: It's a fully customizable, plugin-powered Python terminal assistant built to adapt to you.
+ 
+   - Extend, configure, and shape it your way. Dependency-free & rule-based. 
+   - Transparent, and local-first & Non-AI, no cloud, no black boxes & MIT-licensed. 
    - Learn Python through hands-on practice tailored to your pace and learning style as plugin.
 """
 
@@ -184,16 +185,16 @@ def print_farewell_message():
 
         new_practice = has_new_practice_this_session()
         if new_practice:
-            print("Congratulations! You've completed the Python basics tutorial 🐍 You learned what you wanted!")
-            print("Keep practicing to enhance your skills. 🥷")
+            print("Nice work practicing this session! 🐍 Keep it up.")
         else:
-            print("Thanks for stopping by! You can come back anytime to learn more. 🐍")
+            print("Thanks for stopping by! You can come back anytime. 🐍")
         print_global_separator()
         remember_session_end(
             topics_touched=context.get_learned_topics(),
             last_state="done",
-            behavior_snapshot=context.get_behavior_snapshot(),
+            behavior_snapshot=context.get_behavior_delta(),
         )
+        context.mark_behavior_persisted()
         goodbye = format_memory_summary("goodbye")
         if goodbye:
             print(goodbye)
@@ -231,8 +232,9 @@ def main():
                 remember_session_end(
                     topics_touched=context.get_learned_topics(),
                     last_state="exit",
-                    behavior_snapshot=context.get_behavior_snapshot(),
+                    behavior_snapshot=context.get_behavior_delta(),
                 )
+                context.mark_behavior_persisted()
                 goodbye = format_memory_summary("goodbye")
 
                 if goodbye:
@@ -254,8 +256,9 @@ def main():
             remember_session_end(
                 topics_touched=context.get_learned_topics(),
                 last_state="interrupted",
-                behavior_snapshot=context.get_behavior_snapshot(),
+                behavior_snapshot=context.get_behavior_delta(),
             )
+            context.mark_behavior_persisted()
             goodbye = format_memory_summary("goodbye")
             if goodbye:
                 print(goodbye)
