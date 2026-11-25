@@ -88,6 +88,8 @@ Stay tuned. More announcements are coming.
 — Acubura  
 Creator of Pytalon & Vexqyn GitHub Organization.
 
+<img width="1920" height="1080" alt="Pytalon Development Massive Announcement" src="https://github.com/user-attachments/assets/41d01809-800c-4328-b29e-2600fecc179f" />
+
 ---
 
 ## ✨ What is Pytalon?
